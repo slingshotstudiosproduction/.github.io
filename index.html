@@ -1,479 +1,313 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Slingshot Studios — Film · Music · Performance</title>
-<meta name="description" content="Slingshot Studios is a multidisciplinary production studio working across film, music, and actor-focused content." />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Slingshot Studios</title>
+<meta name="description" content="An independent film collective based in Paris."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
-
-/* ============================================================
-   TOKENS
-   ============================================================ */
-:root {
-  --bg:      #0b0b0b;
-  --bg-2:    #111110;
-  --bg-card: #141412;
-  --fg:      #f0ede8;
-  --fg-dim:  #9e9990;
-  --fg-mute: #5c5852;
-  --line:    rgba(255,255,255,0.07);
-  --lineH:   rgba(255,255,255,0.13);
-  --maxw:    1440px;
-  --g:       clamp(20px,4vw,56px);
-  --sans:    "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  --r:       3px;
+/* ── tokens ───────────────────────────────────────────── */
+:root{
+  --bg:#0b0b0b; --bg2:#111110; --bgc:#141412;
+  --fg:#f0ede8; --fd:#9e9990; --fm:#5c5852;
+  --ln:rgba(255,255,255,.07); --lh:rgba(255,255,255,.13);
+  --g:clamp(20px,4vw,56px); --maxw:1440px;
+  --f:"DM Sans",-apple-system,BlinkMacSystemFont,sans-serif; --r:3px;
 }
-body.day {
-  --bg:      #f4f1ec;
-  --bg-2:    #ece9e3;
-  --bg-card: #e5e2dc;
-  --fg:      #111110;
-  --fg-dim:  #4a4742;
-  --fg-mute: #8a8680;
-  --line:    rgba(0,0,0,0.07);
-  --lineH:   rgba(0,0,0,0.14);
+body.day{
+  --bg:#f4f1ec; --bg2:#ece9e3; --bgc:#e5e2dc;
+  --fg:#111110; --fd:#4a4742; --fm:#8a8680;
+  --ln:rgba(0,0,0,.07); --lh:rgba(0,0,0,.14);
 }
+/* ── base ─────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-weight:300;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .7s,color .7s}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:#d9b27c;color:#111}
+body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:1;background-image:radial-gradient(rgba(128,128,128,.05) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:overlay}
+#gc{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--g)}
+section{position:relative;z-index:2}
+.block{padding:96px 0}
+@media(max-width:720px){.block{padding:68px 0}}
 
-/* ============================================================
-   BASE
-   ============================================================ */
-*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
-html { scroll-behavior:smooth }
-body {
-  background:var(--bg); color:var(--fg);
-  font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.55;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden;
-  transition:background .7s, color .7s;
-}
-img { max-width:100%; display:block }
-a { color:inherit; text-decoration:none }
-button { font:inherit; color:inherit; background:none; border:0; cursor:pointer }
-::selection { background:#d9b27c; color:#111 }
-
-body::before {
-  content:""; pointer-events:none;
-  position:fixed; inset:0; z-index:1;
-  background-image:radial-gradient(rgba(128,128,128,.055) 1px, transparent 1px);
-  background-size:3px 3px; mix-blend-mode:overlay;
-}
-
-#gc { position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none }
-
-.wrap { width:100%; max-width:var(--maxw); margin:0 auto; padding:0 var(--g) }
-section { position:relative; z-index:2 }
-.block { padding:100px 0 }
-@media(max-width:720px){ .block { padding:72px 0 } }
-
-/* ============================================================
-   NAV
-   ============================================================ */
-.nav {
-  position:fixed; top:0; left:0; right:0; z-index:80;
-  padding:16px 0;
-  backdrop-filter:blur(18px) saturate(150%);
-  -webkit-backdrop-filter:blur(18px) saturate(150%);
-  background:color-mix(in srgb, var(--bg) 72%, transparent);
-  border-bottom:1px solid var(--line);
-  transition:background .4s, border-color .4s;
-}
-.nav.top { background:transparent; border-bottom-color:transparent }
-.nav .wrap { display:flex; align-items:center; justify-content:space-between; gap:20px }
-
-.brand { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:500; letter-spacing:.01em }
-.bm { width:22px; height:22px; flex-shrink:0 }
-.bm svg { width:100%; height:100% }
-
-.menu {
-  display:flex; gap:22px;
-  font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-dim);
-}
-.menu a { transition:color .2s }
-.menu a:hover { color:var(--fg) }
-
-.nav-r { display:flex; align-items:center; gap:14px }
-.lang { display:flex; gap:2px; font-size:11px; letter-spacing:.12em; color:var(--fg-mute) }
-.lang button { padding:5px 7px; border-radius:2px; transition:color .2s }
-.lang button.on { color:var(--fg) }
-.lang button:hover { color:var(--fg) }
-.lang .sep { padding:5px 0 }
-
-.mode-btn {
-  width:30px; height:30px; border-radius:50%;
-  border:1px solid var(--lineH);
-  display:flex; align-items:center; justify-content:center;
-  font-size:13px; transition:background .2s;
-}
-.mode-btn:hover { background:var(--line) }
-
-.tog { display:none }
+/* ── nav ──────────────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;padding:15px 0;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--ln);transition:background .4s,border-color .4s}
+.nav.top{background:transparent;border-bottom-color:transparent}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
+.bm{width:22px;height:22px;flex-shrink:0}
+.bm img,.bm svg{width:100%;height:100%;object-fit:contain}
+.menu{display:flex;gap:20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fd)}
+.menu a{transition:color .2s}.menu a:hover{color:var(--fg)}
+.nav-r{display:flex;align-items:center;gap:12px}
+.lang{display:flex;gap:2px;font-size:11px;letter-spacing:.12em;color:var(--fm)}
+.lang button{padding:5px 7px;border-radius:2px;transition:color .2s}
+.lang button.on{color:var(--fg)}.lang button:hover{color:var(--fg)}
+.lang .sep{padding:5px 0}
+.mode-btn{width:29px;height:29px;border-radius:50%;border:1px solid var(--lh);display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .2s}
+.mode-btn:hover{background:var(--ln)}
+.tog{display:none}
 @media(max-width:860px){
-  .menu { display:none }
-  .menu.open {
-    display:flex; flex-direction:column; gap:16px;
-    position:absolute; left:0; right:0; top:100%;
-    padding:22px var(--g);
-    background:color-mix(in srgb, var(--bg) 96%, transparent);
-    border-bottom:1px solid var(--line);
-    backdrop-filter:blur(20px);
-  }
-  .tog {
-    display:inline-flex; align-items:center; justify-content:center;
-    width:32px; height:32px; border:1px solid var(--lineH); border-radius:var(--r);
-  }
-  .tog span { display:block; width:14px; height:1px; background:var(--fg); position:relative }
-  .tog span::before,.tog span::after { content:""; position:absolute; left:0; right:0; height:1px; background:var(--fg) }
-  .tog span::before { top:-5px }
-  .tog span::after  { top:5px }
+  .menu{display:none}
+  .menu.open{display:flex;flex-direction:column;gap:14px;position:absolute;left:0;right:0;top:100%;padding:20px var(--g);background:color-mix(in srgb,var(--bg) 96%,transparent);border-bottom:1px solid var(--ln);backdrop-filter:blur(20px)}
+  .tog{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid var(--lh);border-radius:var(--r)}
+  .tog span{display:block;width:14px;height:1px;background:var(--fg);position:relative}
+  .tog span::before,.tog span::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--fg)}
+  .tog span::before{top:-5px}.tog span::after{top:5px}
 }
 
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero {
-  min-height:100vh; position:relative; overflow:hidden;
-  display:flex; flex-direction:column; justify-content:flex-end; padding-bottom:60px;
+/* ── hero ─────────────────────────────────────────────── */
+.hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56px}
+/* desktop: video bg */
+.hero-vid{position:absolute;inset:0;z-index:0}
+.hero-vid iframe{width:100%;height:100%;border:0;pointer-events:none}
+.hero-vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.28) 0%,rgba(0,0,0,.04) 35%,rgba(0,0,0,.7) 100%)}
+/* mobile: hide video entirely, show gradient bg */
+@media(max-width:760px){
+  .hero-vid{display:none}
+  .hero{background:linear-gradient(160deg,#0f0d0b 0%,#0b0b0b 100%)}
 }
-.hero-vid {
-  position:absolute; inset:0; z-index:0;
-}
-.hero-vid iframe { width:100%; height:100%; border:0; pointer-events:none }
-.hero-vid::after {
-  content:""; position:absolute; inset:0;
-  background:linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,.05) 40%, rgba(0,0,0,.72) 100%);
-}
-.hero-content { position:relative; z-index:3; padding-top:140px }
+.hero-content{position:relative;z-index:3;padding-top:130px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
+/* push kicker below any letterbox bars — adds safe top offset */
+@media(max-width:760px){.hero-content{padding-top:110px}}
+.hero h1{font-weight:300;font-size:clamp(40px,7.5vw,112px);line-height:.97;letter-spacing:-.03em;margin:0 0 18px;max-width:13ch;color:#fff;white-space:pre-line}
+.hero h1 em{font-style:italic;opacity:.5}
+.hero .lede{max-width:44ch;font-size:clamp(14px,1.1vw,16px);color:rgba(255,255,255,.5);margin:0 0 32px;font-weight:300}
+.ctas{display:flex;gap:9px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 17px;border:1px solid rgba(255,255,255,.28);border-radius:var(--r);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:400;color:#fff;transition:background .3s,border-color .3s}
+.btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.45)}
+.btn.fill{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.36)}
+.btn.fill:hover{background:rgba(255,255,255,.22)}
+.scroll-hint{position:absolute;bottom:24px;right:var(--g);z-index:4;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:8px}
+.scroll-hint::before{content:"";display:block;width:1px;height:26px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.3))}
 
-.kicker {
-  display:inline-flex; align-items:center; gap:10px;
-  font-size:10px; letter-spacing:.32em; text-transform:uppercase;
-  color:rgba(255,255,255,.5); margin-bottom:18px;
-}
-.hero h1 {
-  font-weight:300; font-size:clamp(42px,8vw,118px);
-  line-height:.97; letter-spacing:-.03em;
-  margin:0 0 20px; max-width:13ch; color:#fff;
-}
-.hero h1 em { font-style:italic; opacity:.5 }
-.hero .lede { max-width:46ch; font-size:clamp(14px,1.1vw,17px); color:rgba(255,255,255,.52); margin:0 0 36px; font-weight:300 }
-.ctas { display:flex; gap:10px; flex-wrap:wrap }
+/* ── section head ─────────────────────────────────────── */
+.sh{margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--ln);display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.sh-l{flex:1 1 auto}
+.sn{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--fm);margin-bottom:9px}
+.sh h2{font-weight:300;font-size:clamp(24px,3.5vw,48px);line-height:1.05;letter-spacing:-.02em}
+.sh .lead{color:var(--fd);font-size:13px;max-width:36ch;flex:0 1 300px;padding-bottom:2px}
 
-.btn {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:11px 18px; border:1px solid rgba(255,255,255,.28); border-radius:var(--r);
-  font-size:11px; letter-spacing:.15em; text-transform:uppercase; font-weight:400; color:#fff;
-  transition:background .3s, border-color .3s;
-}
-.btn:hover { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.45) }
-.btn.fill { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.38) }
-.btn.fill:hover { background:rgba(255,255,255,.22) }
+/* ── reveal ───────────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.6,.2,1)}
+.rv.in{opacity:1;transform:none}
 
-.scroll-hint {
-  position:absolute; bottom:26px; right:var(--g); z-index:4;
-  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
-  color:rgba(255,255,255,.32);
-  display:flex; align-items:center; gap:8px;
-}
-.scroll-hint::before {
-  content:""; display:block; width:1px; height:28px;
-  background:linear-gradient(to bottom, transparent, rgba(255,255,255,.32));
-}
+/* ── subsection label ─────────────────────────────────── */
+.sub-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin-bottom:16px}
 
-/* ============================================================
-   SECTION HEADERS
-   ============================================================ */
-.sh {
-  margin-bottom:44px; padding-bottom:18px; border-bottom:1px solid var(--line);
-  display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;
+/* ── film grid ────────────────────────────────────────── */
+.films{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.films{grid-template-columns:1fr}}
+.films + .collab-head{margin-top:48px}
+.collab-head{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin-bottom:16px;padding-top:0}
+.fc{border-radius:var(--r);background:var(--bgc);overflow:hidden}
+.fc.feat{grid-column:1/-1}
+/* film embed: regular iframe */
+.fe{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
+.fe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* film embed: YouTube hover preview (no controls until click) */
+.fe.yt-hover{cursor:pointer}
+.fe.yt-hover .yt-thumb{position:absolute;inset:0;background:center/cover no-repeat;z-index:2;transition:opacity .35s}
+.fe.yt-hover.active .yt-thumb{opacity:0}
+.fe.yt-hover iframe{z-index:1}
+.fe .ft{position:absolute;inset:0;background:center/cover no-repeat;z-index:1}
+.play-over{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
+.play-over svg{width:52px;height:52px;opacity:.65;transition:opacity .2s}
+.fe.yt-hover:hover .play-over svg{opacity:.9}
+.fe.yt-hover.active .play-over{opacity:0;pointer-events:none}
+.fi{padding:16px 18px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.ft-name{font-size:15px;font-weight:400;margin-bottom:2px}
+.ft-meta{font-size:12px;color:var(--fd);letter-spacing:.03em}
+.badge{flex-shrink:0;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fm);border:1px solid var(--lh);padding:3px 9px;border-radius:20px;white-space:nowrap;margin-top:2px}
+
+/* ── music player ─────────────────────────────────────── */
+.music-player{margin-top:48px;border-top:1px solid var(--ln)}
+.track-row{display:flex;align-items:center;gap:12px;padding:11px 6px;border-bottom:1px solid var(--ln);transition:background .2s;border-radius:2px;cursor:pointer}
+.track-row:hover,.track-row.active{background:var(--ln)}
+.track-num{font-size:11px;color:var(--fm);width:20px;flex-shrink:0;font-variant-numeric:tabular-nums;text-align:right}
+.track-info{flex:1;min-width:0}
+.track-title{font-size:14px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track-sub{font-size:11px;color:var(--fd)}
+.track-dur{font-size:12px;color:var(--fm);flex-shrink:0;font-variant-numeric:tabular-nums;min-width:3ch;text-align:right}
+.track-play{width:30px;height:30px;border-radius:50%;background:var(--lh);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .2s}
+.track-play:hover{transform:scale(1.1)}
+.track-play svg{width:10px;height:10px;fill:var(--fg)}
+/* expanded player bar */
+.player-bar{
+  display:none;padding:14px 16px 16px;background:var(--bg2);
+  border-bottom:1px solid var(--ln);
 }
-.sh-l { flex:1 1 auto }
-.sn { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--fg-mute); margin-bottom:10px }
-.sh h2 { font-weight:300; font-size:clamp(26px,3.8vw,50px); line-height:1.05; letter-spacing:-.02em }
-.sh .lead { color:var(--fg-dim); font-size:13px; max-width:38ch; flex:0 1 320px; padding-bottom:3px }
-
-/* ============================================================
-   REVEAL
-   ============================================================ */
-.rv { opacity:0; transform:translateY(16px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.6,.2,1) }
-.rv.in { opacity:1; transform:none }
-
-/* ============================================================
-   FILMS
-   ============================================================ */
-.films { display:grid; grid-template-columns:1fr 1fr; gap:18px }
-@media(max-width:680px){ .films { grid-template-columns:1fr } }
-
-.fc { border-radius:var(--r); background:var(--bg-card); overflow:hidden }
-.fc.feat { grid-column:1/-1 }
-
-.fe { position:relative; aspect-ratio:16/9; background:#000; overflow:hidden }
-.fe iframe { position:absolute; inset:0; width:100%; height:100%; border:0 }
-.ft { position:absolute; inset:0; background:center/cover no-repeat; z-index:1; transition:opacity .4s }
-
-.fi { padding:18px 20px 20px; display:flex; align-items:flex-start; justify-content:space-between; gap:14px }
-.ft-name { font-size:16px; font-weight:400; margin-bottom:3px }
-.ft-meta { font-size:12px; color:var(--fg-dim); letter-spacing:.03em }
-.badge {
-  flex-shrink:0; font-size:10px; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--fg-mute); border:1px solid var(--lineH);
-  padding:3px 9px; border-radius:20px; white-space:nowrap; margin-top:2px;
+.player-bar.open{display:block}
+.player-controls{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.pb-btn{width:36px;height:36px;border-radius:50%;background:var(--lh);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.pb-btn:hover{background:var(--lh)}
+.pb-btn svg{fill:var(--fg)}
+.pb-btn.main{width:42px;height:42px;background:var(--fg)}
+.pb-btn.main svg{fill:var(--bg)}
+.pb-time{font-size:12px;color:var(--fd);font-variant-numeric:tabular-nums;min-width:34px}
+/* seek bar with gradient cursor */
+.seek-wrap{flex:1;position:relative;height:28px;display:flex;align-items:center;cursor:pointer}
+.seek-track{position:absolute;left:0;right:0;height:2px;background:var(--lh);border-radius:2px;overflow:visible}
+.seek-fill{height:100%;background:var(--fg);border-radius:2px;width:0%;position:relative;pointer-events:none}
+.seek-thumb{
+  position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#fff,var(--fg));
+  box-shadow:0 0 6px rgba(255,255,255,.25);
+  pointer-events:none;
 }
+.player-title{font-size:13px;font-weight:400;color:var(--fg)}
+.player-sub{font-size:11px;color:var(--fd)}
 
-/* ============================================================
-   MUSIC LIST
-   ============================================================ */
-.ml-head {
-  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
-  color:var(--fg-mute); margin:52px 0 0; padding-bottom:0;
-}
-.ml { border-top:1px solid var(--line); margin-top:14px }
-.mr {
-  display:flex; align-items:center; justify-content:space-between; gap:14px;
-  padding:14px 0; border-bottom:1px solid var(--line); font-size:14px;
-  transition:background .2s; padding-left:4px; padding-right:4px;
-  border-radius:2px;
-}
-.mr:hover { background:var(--line) }
-.mr-l { display:flex; align-items:center; gap:12px }
-.mn { font-size:11px; color:var(--fg-mute); width:20px }
-.mt { font-weight:400 }
-.mp { font-size:12px; color:var(--fg-dim) }
-.md { font-size:12px; color:var(--fg-mute) }
-.pb {
-  width:32px; height:32px; border-radius:50%; background:var(--lineH);
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  transition:background .2s, transform .2s;
-}
-.pb:hover { transform:scale(1.1) }
-.pb svg { width:11px; height:11px; fill:var(--fg) }
-
-/* ============================================================
-   CAROUSEL
-   ============================================================ */
-.car {
-  display:flex; gap:14px; overflow-x:auto;
-  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-  scrollbar-width:none; padding-bottom:2px;
-}
-.car::-webkit-scrollbar { display:none }
-.ci {
-  flex:0 0 calc(33.333% - 10px); scroll-snap-align:start;
-  border-radius:var(--r); overflow:hidden; background:var(--bg-card);
-}
-@media(max-width:700px){ .ci { flex:0 0 82% } }
-
+/* ── carousel ─────────────────────────────────────────── */
+.car-wrap{position:relative}
+.car{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.car::-webkit-scrollbar{display:none}
+.ci{flex:0 0 calc(33.333% - 10px);scroll-snap-align:start;border-radius:var(--r);overflow:hidden;background:var(--bgc)}
+@media(max-width:700px){.ci{flex:0 0 82%}}
 /* headshot */
-.hc { aspect-ratio:2/3; position:relative; overflow:hidden }
-.hc img { width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.6,.2,1) }
-.hc:hover img { transform:scale(1.03) }
-.hov {
-  position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,.5) 0%, transparent 50%);
-  opacity:0; transition:opacity .3s;
-  display:flex; align-items:flex-end; padding:16px;
-}
-.hc:hover .hov { opacity:1 }
-.hov span { font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.7) }
-
+.hc{aspect-ratio:2/3;position:relative;overflow:hidden}
+.hc img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.6,.2,1)}
+.hc:hover img{transform:scale(1.03)}
+.hov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.48) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:14px}
+.hc:hover .hov{opacity:1}
+.hov span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 /* reel */
-.rc { aspect-ratio:9/16; position:relative; overflow:hidden; cursor:pointer }
-.rc video { width:100%; height:100%; object-fit:cover }
-.rth { position:absolute; inset:0; background:var(--bg-card) center/cover no-repeat; transition:opacity .4s }
-.rc.play .rth { opacity:0; pointer-events:none }
-.rl {
-  position:absolute; bottom:0; left:0; right:0; padding:12px 14px;
-  background:linear-gradient(to top, rgba(0,0,0,.62), transparent);
-  font-size:11px; color:rgba(255,255,255,.72); letter-spacing:.04em;
-}
-.rpi { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; transition:opacity .3s }
-.rpi svg { width:42px; height:42px; opacity:.6 }
-.rc.play .rpi { opacity:0 }
+.rc{aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer}
+.rc video{width:100%;height:100%;object-fit:cover}
+.rth{position:absolute;inset:0;background:var(--bgc) center/cover no-repeat;transition:opacity .4s}
+.rc.playing .rth{opacity:0;pointer-events:none}
+.rl{position:absolute;bottom:0;left:0;right:0;padding:11px 13px;background:linear-gradient(to top,rgba(0,0,0,.6),transparent);font-size:11px;color:rgba(255,255,255,.72);letter-spacing:.04em}
+.rpi{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
+.rpi svg{width:40px;height:40px;opacity:.6}
+.rc.playing .rpi{opacity:0}
+/* arrows */
+.car-arrows{display:flex;gap:7px;margin-top:13px;justify-content:flex-end}
+.car-arrows button{width:32px;height:32px;border-radius:50%;border:1px solid var(--lh);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.car-arrows button:hover{background:var(--ln)}
+.car-arrows button svg{width:12px;height:12px;stroke:var(--fg);fill:none;stroke-width:1.6}
+/* ig strip */
+.ig-row{display:flex;align-items:center;gap:11px;margin-top:16px;font-size:12px;color:var(--fd)}
+.ig-row a{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--lh);padding:7px 12px;border-radius:20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s}
+.ig-row a:hover{background:var(--ln)}
+.ig-row svg{width:13px;height:13px;fill:var(--fd)}
 
-.car-arrows { display:flex; gap:7px; margin-top:14px; justify-content:flex-end }
-.car-arrows button {
-  width:34px; height:34px; border-radius:50%; border:1px solid var(--lineH);
-  display:flex; align-items:center; justify-content:center; transition:background .2s;
-}
-.car-arrows button:hover { background:var(--line) }
-.car-arrows button svg { width:13px; height:13px; stroke:var(--fg); fill:none; stroke-width:1.5 }
+/* ── services ─────────────────────────────────────────── */
+.svcs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ln)}
+@media(max-width:980px){.svcs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.svcs{grid-template-columns:1fr}}
+.sv{background:var(--bg);padding:38px 28px 36px;transition:background .4s}
+.sv:hover{background:var(--bg2)}
+.sv-n{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin-bottom:11px}
+.sv h3{font-size:20px;font-weight:400;margin-bottom:11px;line-height:1.15}
+.sv p{font-size:13px;color:var(--fd);margin-bottom:20px;max-width:30ch}
+.sv ul{list-style:none}
+.sv ul li{padding:8px 0;border-top:1px solid var(--ln);font-size:13px;letter-spacing:.03em}
 
-.ig-row {
-  display:flex; align-items:center; gap:12px; margin-top:18px;
-  font-size:12px; color:var(--fg-dim);
+/* ── posters ──────────────────────────────────────────── */
+/* desktop: 3-up grid; mobile: carousel */
+.poster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:700px){
+  .poster-grid{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  .poster-grid::-webkit-scrollbar{display:none}
+  .poster-grid .pc{flex:0 0 78%;scroll-snap-align:start}
 }
-.ig-row a {
-  display:inline-flex; align-items:center; gap:7px;
-  border:1px solid var(--lineH); padding:7px 13px; border-radius:20px;
-  font-size:10px; letter-spacing:.1em; text-transform:uppercase;
-  transition:background .2s;
-}
-.ig-row a:hover { background:var(--line) }
-.ig-row svg { width:13px; height:13px; fill:var(--fg-dim) }
+.pc{position:relative;overflow:hidden;border-radius:var(--r);aspect-ratio:2/3;background:var(--bgc)}
+.pc img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.6,.2,1),filter .5s}
+.pc:hover img{transform:scale(1.03);filter:brightness(.8)}
+.pc-cap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 55%);opacity:0;transition:opacity .3s}
+.pc:hover .pc-cap{opacity:1}
+.pc-cap h4{font-size:14px;font-weight:400;color:#fff;text-align:center}
+.pc-cap span{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
 
-/* ============================================================
-   SERVICES GRID
-   ============================================================ */
-.svcs { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line) }
-@media(max-width:980px){ .svcs { grid-template-columns:repeat(2,1fr) } }
-@media(max-width:540px){ .svcs { grid-template-columns:1fr } }
-.sv { background:var(--bg); padding:40px 30px 38px; transition:background .4s }
-.sv:hover { background:var(--bg-2) }
-.sv-n { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--fg-mute); margin-bottom:12px }
-.sv h3 { font-size:21px; font-weight:400; margin-bottom:12px; line-height:1.15 }
-.sv p { font-size:13px; color:var(--fg-dim); margin-bottom:22px; max-width:32ch }
-.sv ul { list-style:none }
-.sv ul li { padding:9px 0; border-top:1px solid var(--line); font-size:13px; letter-spacing:.03em }
+/* ── about ────────────────────────────────────────────── */
+.ag{display:grid;grid-template-columns:5fr 7fr;gap:56px}
+@media(max-width:840px){.ag{grid-template-columns:1fr;gap:24px}}
+.al{font-size:clamp(18px,2vw,25px);font-weight:300;line-height:1.42;letter-spacing:-.01em}
+.ab p{color:var(--fd);font-size:14px;margin-bottom:12px;max-width:50ch}
+.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:48px}
+@media(max-width:840px){.tg{grid-template-columns:repeat(2,1fr)}}
+.av{aspect-ratio:1;border-radius:var(--r);background:var(--bgc);position:relative;overflow:hidden;margin-bottom:10px}
+.av img{width:100%;height:100%;object-fit:cover}
+.av::after{content:attr(data-i);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:300;color:var(--fm)}
+.av.has-photo::after{display:none}
+.tm h4{font-size:15px;font-weight:400;margin-bottom:2px}
+.tm small{font-size:12px;color:var(--fd)}
 
-/* ============================================================
-   POSTERS
-   ============================================================ */
-.pg { display:grid; grid-template-columns:repeat(3,1fr); gap:14px }
-@media(max-width:680px){ .pg { grid-template-columns:1fr; gap:10px } }
+/* ── contact ──────────────────────────────────────────── */
+.cl{display:grid;grid-template-columns:5fr 7fr;gap:56px}
+@media(max-width:840px){.cl{grid-template-columns:1fr;gap:32px}}
+.ci-info p{color:var(--fd);font-size:14px;margin-bottom:20px;max-width:34ch}
+.cline{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--ln);font-size:14px}
+.cline:first-of-type{border-top:1px solid var(--ln)}
+.clabel{flex:0 0 90px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fm);padding-top:2px}
+.cline a:hover{opacity:.7}
+form{display:grid;gap:14px}
+form .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:680px){form .row{grid-template-columns:1fr}}
+label{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fm);margin-bottom:6px}
+input,textarea,select{width:100%;background:transparent;border:0;border-bottom:1px solid var(--lh);padding:8px 0 10px;color:var(--fg);font-family:inherit;font-size:14px;font-weight:300;transition:border-color .3s}
+input:focus,textarea:focus,select:focus{outline:none;border-bottom-color:var(--fg)}
+textarea{min-height:105px;resize:vertical}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--fm) 50%),linear-gradient(135deg,var(--fm) 50%,transparent 50%);background-position:calc(100% - 13px) 14px,calc(100% - 7px) 14px;background-size:5px 5px;background-repeat:no-repeat}
+.sub-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:4px}
+.sub-row .cs{font-size:11px;color:var(--fm);max-width:34ch}
+form button[type=submit]{padding:10px 17px;border:1px solid var(--fg);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;transition:background .3s,color .3s}
+form button[type=submit]:hover{background:var(--fg);color:var(--bg)}
 
-.pc { position:relative; overflow:hidden; border-radius:var(--r); aspect-ratio:2/3; background:var(--bg-card) }
-.pc img { width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.6,.2,1), filter .5s }
-.pc:hover img { transform:scale(1.03); filter:brightness(.8) }
-.pc-cap {
-  position:absolute; inset:0;
-  display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:20px;
-  background:linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 55%);
-  opacity:0; transition:opacity .3s;
-}
-.pc:hover .pc-cap { opacity:1 }
-.pc-cap h4 { font-size:14px; font-weight:400; color:#fff; text-align:center }
-.pc-cap span { font-size:10px; color:rgba(255,255,255,.5); letter-spacing:.1em; text-transform:uppercase; margin-top:3px }
+/* ── marquee ──────────────────────────────────────────── */
+.mq{padding:48px 0;overflow:hidden;position:relative;z-index:2;border-top:1px solid var(--ln)}
+.mq-t{display:flex;gap:48px;white-space:nowrap;font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);animation:mq 32s linear infinite;will-change:transform}
+.mq-t span{display:inline-flex;align-items:center;gap:48px}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;opacity:.35}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ============================================================
-   ABOUT
-   ============================================================ */
-.ag { display:grid; grid-template-columns:5fr 7fr; gap:60px }
-@media(max-width:840px){ .ag { grid-template-columns:1fr; gap:28px } }
-.al { font-size:clamp(19px,2.1vw,26px); font-weight:300; line-height:1.42; letter-spacing:-.01em }
-.ab p { color:var(--fg-dim); font-size:14px; margin-bottom:13px; max-width:50ch }
+/* ── footer ───────────────────────────────────────────── */
+footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-top:1px solid var(--ln);color:var(--fm);font-size:13px}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+@media(max-width:840px){.fg{grid-template-columns:1fr 1fr;gap:22px}.fb{grid-column:1/-1}}
+.fg h5{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fd);margin-bottom:11px;font-weight:400}
+.fg ul{list-style:none}.fg ul li{margin-bottom:8px}.fg ul li a:hover{color:var(--fg)}
+.fb p{color:var(--fd);margin-top:9px;font-size:13px;max-width:28ch}
+.fb-name{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
+.foot-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:20px;border-top:1px solid var(--ln);font-size:12px}
 
-.tg { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:52px }
-@media(max-width:840px){ .tg { grid-template-columns:repeat(2,1fr) } }
-.av { aspect-ratio:1; border-radius:var(--r); background:var(--bg-card); position:relative; overflow:hidden; margin-bottom:12px }
-.av::after {
-  content:attr(data-i); position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  font-size:36px; font-weight:300; color:var(--fg-mute);
-}
-.tm h4 { font-size:15px; font-weight:400; margin-bottom:2px }
-.tm small { font-size:12px; color:var(--fg-dim) }
+/* ── cookie ───────────────────────────────────────────── */
+.ck{position:fixed;left:12px;right:12px;bottom:12px;z-index:100;background:var(--bg2);border:1px solid var(--lh);padding:13px 17px;border-radius:var(--r);display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:580px;margin:0 auto;font-size:12px;color:var(--fd);box-shadow:0 16px 52px rgba(0,0,0,.36)}
+.ck button{padding:7px 13px;border:1px solid var(--fg);font-size:10px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;transition:background .3s,color .3s}
+.ck button:hover{background:var(--fg);color:var(--bg)}
+.ck.gone{display:none}
 
-/* ============================================================
-   CONTACT
-   ============================================================ */
-.cl { display:grid; grid-template-columns:5fr 7fr; gap:60px }
-@media(max-width:840px){ .cl { grid-template-columns:1fr; gap:36px } }
-.ci-info p { color:var(--fg-dim); font-size:14px; margin-bottom:22px; max-width:34ch }
-.cline { display:flex; gap:14px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); font-size:14px }
-.cline:first-of-type { border-top:1px solid var(--line) }
-.clabel { flex:0 0 100px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--fg-mute) }
-.cline a:hover { opacity:.7 }
-
-form { display:grid; gap:15px }
-form .row { display:grid; grid-template-columns:1fr 1fr; gap:15px }
-@media(max-width:680px){ form .row { grid-template-columns:1fr } }
-label { display:block; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--fg-mute); margin-bottom:6px }
-input,textarea,select {
-  width:100%; background:transparent; border:0;
-  border-bottom:1px solid var(--lineH); padding:8px 0 10px;
-  color:var(--fg); font-family:inherit; font-size:14px; font-weight:300;
-  transition:border-color .3s;
-}
-input:focus,textarea:focus,select:focus { outline:none; border-bottom-color:var(--fg) }
-textarea { min-height:110px; resize:vertical }
-select {
-  appearance:none;
-  background-image:linear-gradient(45deg,transparent 50%,var(--fg-mute) 50%),linear-gradient(135deg,var(--fg-mute) 50%,transparent 50%);
-  background-position:calc(100% - 13px) 14px,calc(100% - 7px) 14px; background-size:5px 5px; background-repeat:no-repeat;
-}
-.sub-row { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-top:6px }
-.sub-row .cs { font-size:11px; color:var(--fg-mute); max-width:36ch }
-form button[type=submit] {
-  padding:11px 18px; border:1px solid var(--fg);
-  font-size:10px; letter-spacing:.16em; text-transform:uppercase; font-weight:400;
-  transition:background .3s, color .3s;
-}
-form button[type=submit]:hover { background:var(--fg); color:var(--bg) }
-
-/* ============================================================
-   MARQUEE
-   ============================================================ */
-.mq { padding:52px 0; overflow:hidden; position:relative; z-index:2; border-top:1px solid var(--line) }
-.mq-t {
-  display:flex; gap:52px; white-space:nowrap;
-  font-size:clamp(30px,5.5vw,76px); font-weight:300; letter-spacing:-.02em;
-  color:var(--fg-mute); animation:mq 34s linear infinite; will-change:transform;
-}
-.mq-t span { display:inline-flex; align-items:center; gap:52px }
-.dot { width:7px; height:7px; border-radius:50%; background:currentColor; display:inline-block; opacity:.38 }
-@keyframes mq { from { transform:translateX(0) } to { transform:translateX(-50%) } }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer {
-  position:relative; z-index:2; margin-top:72px;
-  padding:52px 0 32px; border-top:1px solid var(--line);
-  color:var(--fg-mute); font-size:13px;
-}
-.fg { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:36px; margin-bottom:44px }
-@media(max-width:840px){ .fg { grid-template-columns:1fr 1fr; gap:24px } .fb { grid-column:1/-1 } }
-.fg h5 { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--fg-dim); margin-bottom:12px; font-weight:400 }
-.fg ul { list-style:none }
-.fg ul li { margin-bottom:8px }
-.fg ul li a:hover { color:var(--fg) }
-.fb p { color:var(--fg-dim); margin-top:10px; font-size:13px; max-width:28ch }
-.fb-name { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:500 }
-.foot-bot {
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
-  padding-top:22px; border-top:1px solid var(--line); font-size:12px;
-}
-
-/* ============================================================
-   COOKIE
-   ============================================================ */
-.ck {
-  position:fixed; left:14px; right:14px; bottom:14px; z-index:100;
-  background:var(--bg-2); border:1px solid var(--lineH);
-  padding:14px 18px; border-radius:var(--r);
-  display:flex; align-items:center; justify-content:space-between; gap:14px;
-  max-width:600px; margin:0 auto; font-size:12px; color:var(--fg-dim);
-  box-shadow:0 18px 56px rgba(0,0,0,.38);
-}
-.ck button { padding:8px 14px; border:1px solid var(--fg); font-size:10px; letter-spacing:.16em; text-transform:uppercase; white-space:nowrap; flex-shrink:0; transition:background .3s,color .3s }
-.ck button:hover { background:var(--fg); color:var(--bg) }
-.ck.gone { display:none }
-
+/* ── util ─────────────────────────────────────────────── */
+.mt-section{margin-top:48px}
 </style>
 </head>
 <body>
 
 <canvas id="gc"></canvas>
 
-<!-- ===== NAV ===== -->
+<!-- shells — JS fills everything from content.json -->
 <header class="nav top" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top">
-      <span class="bm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 21L21 3"/><path d="M15 3L21 3L21 9"/><circle cx="7" cy="17" r="2"/></svg></span>
-      Slingshot Studios
+    <a class="brand" href="#top" id="brand-link">
+      <span class="bm" id="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M3 21L21 3"/><path d="M15 3L21 3L21 9"/><circle cx="7" cy="17" r="2"/>
+        </svg>
+      </span>
+      <span id="brand-name">Slingshot Studios</span>
     </a>
-    <nav class="menu" id="menu">
-      <a href="#production" data-i18n="nav.prod">Production</a>
-      <a href="#actors"     data-i18n="nav.act">Actors</a>
-      <a href="#post"       data-i18n="nav.post">Post & Sound</a>
-      <a href="#design"     data-i18n="nav.des">Design</a>
-      <a href="#about"      data-i18n="nav.stu">Studio</a>
-      <a href="#contact"    data-i18n="nav.con">Contact</a>
-    </nav>
+    <nav class="menu" id="menu"></nav>
     <div class="nav-r">
-      <div class="lang" role="group">
+      <div class="lang" role="group" id="langSwitcher">
         <button data-lang="en" class="on">EN</button><span class="sep">·</span>
         <button data-lang="de">DE</button><span class="sep">·</span>
         <button data-lang="fr">FR</button><span class="sep">·</span>
@@ -485,715 +319,894 @@ footer {
   </div>
 </header>
 
-<!-- ===== HERO ===== -->
+<!-- hero -->
 <section class="hero" id="top">
-  <!-- SWAP: YouTube ID below -->
-  <div class="hero-vid">
-    <iframe src="https://www.youtube.com/embed/u2neuNec6wk?autoplay=1&mute=1&controls=0&loop=1&playlist=u2neuNec6wk&rel=0&playsinline=1&modestbranding=1" title="Parasomnia" allow="autoplay; fullscreen" allowfullscreen></iframe>
-  </div>
-  <div class="hero-content wrap">
-    <div class="kicker" data-i18n="hero.kick">A European indie studio</div>
-    <h1><span data-i18n="hero.h1a">Stories</span><br><em data-i18n="hero.h1b">launched forward.</em></h1>
-    <p class="lede" data-i18n="hero.lede">Film · Music · Actor Services. Based in Paris.</p>
-    <div class="ctas">
-      <a class="btn fill" href="#production" data-i18n="hero.c1">See the work</a>
-      <a class="btn"      href="#actors"     data-i18n="hero.c2">For actors</a>
-      <a class="btn"      href="#contact"    data-i18n="hero.c3">Start a project</a>
-    </div>
-  </div>
-  <div class="scroll-hint" data-i18n="hero.scroll">Scroll</div>
+  <div class="hero-vid" id="heroVid"></div>
+  <div class="hero-content wrap" id="heroContent"></div>
+  <div class="scroll-hint" id="scrollHint">Scroll</div>
 </section>
 
-<!-- ===== PRODUCTION ===== -->
-<section class="block" id="production">
-  <div class="wrap">
-    <div class="sh rv">
-      <div class="sh-l">
-        <div class="sn">01 / <span data-i18n="sec.prod">Production</span></div>
-        <h2 data-i18n="prod.h2">Films we made.</h2>
-      </div>
-      <p class="lead" data-i18n="prod.sub">Narrative shorts, music videos, and music for film and games. All produced independently in Europe.</p>
-    </div>
+<!-- dynamic sections inserted here by JS -->
+<main id="main"></main>
 
-    <div class="films rv">
-      <!-- Parasomnia — FEATURED. SWAP YouTube ID below -->
-      <div class="fc feat" data-ch="220" data-cs="14" data-cl="24">
-        <div class="fe">
-          <iframe src="https://www.youtube.com/embed/u2neuNec6wk?rel=0&modestbranding=1" title="Parasomnia" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="fi">
-          <div>
-            <div class="ft-name">Parasomnia</div>
-            <div class="ft-meta" data-i18n="para.m">Direction · Score · Edit · Post · Fully self-produced</div>
-          </div>
-          <span class="badge" data-i18n="para.b">Short film</span>
-        </div>
-      </div>
-
-      <!-- Pupille — SWAP YouTube ID below -->
-      <div class="fc" data-ch="195" data-cs="18" data-cl="28">
-        <div class="fe">
-          <iframe src="https://www.youtube.com/embed/p1dqCUHj17M?rel=0&modestbranding=1" title="Pupille" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="fi">
-          <div>
-            <div class="ft-name">Pupille</div>
-            <div class="ft-meta" data-i18n="pup.m">DOP · 1st AC · Original score</div>
-          </div>
-          <span class="badge" data-i18n="pup.b">Short film</span>
-        </div>
-      </div>
-
-      <!-- The Love Ritual — no public link, thumbnail placeholder -->
-      <div class="fc" data-ch="355" data-cs="48" data-cl="30">
-        <div class="fe" style="background:#18050a">
-          <div class="ft" style="background-image:url('assets/film_loveritual_still.jpg')"></div>
-        </div>
-        <div class="fi">
-          <div>
-            <div class="ft-name">The Love Ritual</div>
-            <div class="ft-meta" data-i18n="lr.m">Direction · Score · Post</div>
-          </div>
-          <span class="badge">Cannes</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Music for Film & Games -->
-    <div class="rv">
-      <p class="ml-head" data-i18n="mus.head">Music for Film & Games</p>
-      <div class="ml">
-        <div class="mr" data-ch="220" data-cs="14" data-cl="24">
-          <div class="mr-l"><span class="mn">01</span><div><div class="mt">Parasomnia</div><div class="mp" data-i18n="mus.sc">Original score</div></div></div>
-          <span class="md">2:14</span>
-          <button class="pb" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg></button>
-        </div>
-        <div class="mr" data-ch="30" data-cs="42" data-cl="34">
-          <div class="mr-l"><span class="mn">02</span><div><div class="mt">Jeanne D'Arc</div><div class="mp" data-i18n="mus.sc">Original score</div></div></div>
-          <span class="md">3:02</span>
-          <button class="pb" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg></button>
-        </div>
-        <div class="mr" data-ch="195" data-cs="18" data-cl="28">
-          <div class="mr-l"><span class="mn">03</span><div><div class="mt">Pupille</div><div class="mp" data-i18n="mus.sc">Original score</div></div></div>
-          <span class="md">1:58</span>
-          <button class="pb" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg></button>
-        </div>
-        <div class="mr">
-          <div class="mr-l"><span class="mn">04</span><div><div class="mt">Diver's Fortune</div><div class="mp" data-i18n="mus.gm">Game score</div></div></div>
-          <span class="md">4:17</span>
-          <button class="pb" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg></button>
-        </div>
-        <div class="mr" data-ch="355" data-cs="48" data-cl="30">
-          <div class="mr-l"><span class="mn">05</span><div><div class="mt">The Love Ritual</div><div class="mp" data-i18n="mus.sc">Original score</div></div></div>
-          <span class="md">2:41</span>
-          <button class="pb" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- marquee -->
-<div class="mq" aria-hidden="true">
-  <div class="mq-t">
-    <span>Film <i class="dot"></i> Music <i class="dot"></i> Actor Services <i class="dot"></i> Post &amp; Sound <i class="dot"></i> Design <i class="dot"></i></span>
-    <span>Film <i class="dot"></i> Music <i class="dot"></i> Actor Services <i class="dot"></i> Post &amp; Sound <i class="dot"></i> Design <i class="dot"></i></span>
-  </div>
-</div>
-
-<!-- ===== ACTORS ===== -->
-<section class="block" id="actors">
-  <div class="wrap">
-    <div class="sh rv">
-      <div class="sh-l">
-        <div class="sn">02 / <span data-i18n="sec.act">Actor Services</span></div>
-        <h2 data-i18n="act.h2">For emerging actors.</h2>
-      </div>
-      <p class="lead" data-i18n="act.sub">Headshots and demo reel scenes — directed with a film sensibility, not a package mentality.</p>
-    </div>
-
-    <!-- Headshots -->
-    <div class="rv">
-      <p style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-mute);margin-bottom:18px" data-i18n="act.hs">Headshots</p>
-      <div class="car" id="hsCar">
-        <!-- SWAP: assets/headshot_1.jpg, headshot_2.jpg, headshot_3.jpg -->
-        <div class="ci">
-          <div class="hc" data-ch="28" data-cs="18" data-cl="34">
-            <img src="assets/headshot_1.jpg" alt="Headshot 1" loading="lazy" crossorigin="anonymous">
-            <div class="hov"><span data-i18n="hs.v">View full</span></div>
-          </div>
-        </div>
-        <div class="ci">
-          <div class="hc" data-ch="24" data-cs="15" data-cl="32">
-            <img src="assets/headshot_2.jpg" alt="Headshot 2" loading="lazy" crossorigin="anonymous">
-            <div class="hov"><span data-i18n="hs.v">View full</span></div>
-          </div>
-        </div>
-        <div class="ci">
-          <div class="hc" data-ch="32" data-cs="14" data-cl="36">
-            <img src="assets/headshot_3.jpg" alt="Headshot 3" loading="lazy" crossorigin="anonymous">
-            <div class="hov"><span data-i18n="hs.v">View full</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="car-arrows">
-        <button onclick="scrollCar('hsCar',-1)"><svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg></button>
-        <button onclick="scrollCar('hsCar',1)"><svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg></button>
-      </div>
-      <div class="ig-row">
-        <span data-i18n="hs.ig">More headshots on Instagram</span>
-        <a href="https://www.instagram.com/sling.shot.photos/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.069 1.645.069 4.851s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.645.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-          @sling.shot.photos
-        </a>
-      </div>
-    </div>
-
-    <!-- Demo Reels -->
-    <div class="rv" style="margin-top:52px">
-      <p style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-mute);margin-bottom:18px" data-i18n="act.reel">Demo Reel Scenes</p>
-      <div class="car" id="reelCar">
-        <!-- SWAP: assets/reel_1.mp4, reel_2.mp4, reel_3.mp4 + thumb jpgs -->
-        <div class="ci">
-          <div class="rc">
-            <video src="assets/reel_1.mp4" muted playsinline loop preload="none" poster="assets/reel_1_thumb.jpg"></video>
-            <div class="rth" style="background-image:url('assets/reel_1_thumb.jpg')"></div>
-            <div class="rl">Liia + Masha</div>
-            <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
-          </div>
-        </div>
-        <div class="ci">
-          <div class="rc">
-            <video src="assets/reel_2.mp4" muted playsinline loop preload="none" poster="assets/reel_2_thumb.jpg"></video>
-            <div class="rth" style="background-image:url('assets/reel_2_thumb.jpg')"></div>
-            <div class="rl">Sim + Masha</div>
-            <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
-          </div>
-        </div>
-        <div class="ci">
-          <div class="rc">
-            <video src="assets/reel_3.mp4" muted playsinline loop preload="none" poster="assets/reel_3_thumb.jpg"></video>
-            <div class="rth" style="background-image:url('assets/reel_3_thumb.jpg')"></div>
-            <div class="rl">Sim + Noée</div>
-            <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
-          </div>
-        </div>
-      </div>
-      <div class="car-arrows">
-        <button onclick="scrollCar('reelCar',-1)"><svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg></button>
-        <button onclick="scrollCar('reelCar',1)"><svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== POST & SOUND ===== -->
-<section class="block" id="post">
-  <div class="wrap">
-    <div class="sh rv">
-      <div class="sh-l">
-        <div class="sn">03 / <span data-i18n="sec.post">Post & Sound</span></div>
-        <h2 data-i18n="post.h2">From assembly to final mix.</h2>
-      </div>
-      <p class="lead" data-i18n="post.sub">Editing, colour, sound design, and original music. Post-production that protects the intent of the shoot.</p>
-    </div>
-    <div class="svcs rv">
-      <div class="sv">
-        <div class="sv-n" data-i18n="sv1.n">Edit</div>
-        <h3 data-i18n="sv1.h">Assembly & Edit</h3>
-        <p data-i18n="sv1.p">From first cut to locked picture. Narrative, documentary, short-form.</p>
-        <ul>
-          <li data-i18n="sv1.l1">First assembly</li>
-          <li data-i18n="sv1.l2">Narrative edit</li>
-          <li data-i18n="sv1.l3">Demo reel edit</li>
-        </ul>
-      </div>
-      <div class="sv">
-        <div class="sv-n" data-i18n="sv2.n">Colour</div>
-        <h3 data-i18n="sv2.h">Colour Grading</h3>
-        <p data-i18n="sv2.p">Cinematic grading that serves the image rather than overwriting it.</p>
-        <ul>
-          <li data-i18n="sv2.l1">Colour grading</li>
-          <li data-i18n="sv2.l2">LUT creation</li>
-          <li data-i18n="sv2.l3">HDR delivery</li>
-        </ul>
-      </div>
-      <div class="sv">
-        <div class="sv-n" data-i18n="sv3.n">Sound</div>
-        <h3 data-i18n="sv3.h">Sound Design & Mix</h3>
-        <p data-i18n="sv3.p">Sound design, dialogue edit, and final mix for film and game audio.</p>
-        <ul>
-          <li data-i18n="sv3.l1">Sound design</li>
-          <li data-i18n="sv3.l2">Dialogue edit</li>
-          <li data-i18n="sv3.l3">Final mix</li>
-        </ul>
-      </div>
-      <div class="sv">
-        <div class="sv-n" data-i18n="sv4.n">Music</div>
-        <h3 data-i18n="sv4.h">Original Score</h3>
-        <p data-i18n="sv4.p">Original music for film, short-form content, and games — composed and produced in-house.</p>
-        <ul>
-          <li data-i18n="sv4.l1">Film score</li>
-          <li data-i18n="sv4.l2">Game audio</li>
-          <li data-i18n="sv4.l3">Sound branding</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== DESIGN ===== -->
-<section class="block" id="design">
-  <div class="wrap">
-    <div class="sh rv">
-      <div class="sh-l">
-        <div class="sn">04 / <span data-i18n="sec.des">Design</span></div>
-        <h2 data-i18n="des.h2">Poster design.</h2>
-      </div>
-      <p class="lead" data-i18n="des.sub">Film poster design rooted in the image — key art that communicates the world of a film before you press play.</p>
-    </div>
-    <div class="pg rv">
-      <!-- SWAP: assets/poster_parasomnia.jpg, poster_loveritual.jpg, poster_peopleplaces.jpg -->
-      <div class="pc" data-ch="220" data-cs="12" data-cl="22">
-        <img src="assets/poster_parasomnia.jpg"   alt="Parasomnia poster" loading="lazy" crossorigin="anonymous">
-        <div class="pc-cap"><h4>Parasomnia</h4><span data-i18n="des.pd">Poster design</span></div>
-      </div>
-      <div class="pc" data-ch="355" data-cs="52" data-cl="28">
-        <img src="assets/poster_loveritual.jpg"   alt="The Love Ritual poster" loading="lazy" crossorigin="anonymous">
-        <div class="pc-cap"><h4>The Love Ritual</h4><span data-i18n="des.pd">Poster design</span></div>
-      </div>
-      <div class="pc" data-ch="34" data-cs="38" data-cl="36">
-        <img src="assets/poster_peopleplaces.jpg" alt="People Places and Things poster" loading="lazy" crossorigin="anonymous">
-        <div class="pc-cap"><h4>People, Places &amp; Things</h4><span data-i18n="des.pd">Poster design</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== ABOUT ===== -->
-<section class="block" id="about">
-  <div class="wrap">
-    <div class="sh rv">
-      <div class="sh-l">
-        <div class="sn">05 / <span data-i18n="sec.stu">Studio</span></div>
-        <h2 data-i18n="stu.h2">A small team in close focus.</h2>
-      </div>
-    </div>
-    <div class="ag">
-      <div class="rv">
-        <p class="al" data-i18n="stu.lead">Slingshot Studios is a multidisciplinary production studio working across film, music, and actor-focused content.</p>
-      </div>
-      <div class="ab rv">
-        <p data-i18n="stu.p1">Independent by choice. Fewer projects means more attention to the details that matter — framing, rhythm, sound. The things that make a film worth rewatching.</p>
-        <p data-i18n="stu.p2">Based in Paris. Founded in 2025. We take on a limited number of projects each year, working closely with directors, actors, and musicians.</p>
-        <p data-i18n="stu.p3">Four pillars: Film production, Actor services, Post and Sound, and Design. All under one roof, by the same people.</p>
-      </div>
-    </div>
-    <div class="tg rv">
-      <div class="tm"><div class="av" data-i="N"></div><h4>Noée</h4><small data-i18n="tm.1">Direction · Performance</small></div>
-      <div class="tm"><div class="av" data-i="S"></div><h4>Simeon</h4><small data-i18n="tm.2">Post · Sound · Score</small></div>
-      <div class="tm"><div class="av" data-i="A"></div><h4>Aylin</h4><small data-i18n="tm.3">Producing · Casting</small></div>
-      <div class="tm"><div class="av" data-i="F"></div><h4>Fleur</h4><small data-i18n="tm.4">Image · Design</small></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CONTACT ===== -->
-<section class="block" id="contact">
-  <div class="wrap">
-    <div class="sh rv">
-      <div class="sh-l">
-        <div class="sn">06 / <span data-i18n="sec.con">Contact</span></div>
-        <h2 data-i18n="con.h2">Let's make something.</h2>
-      </div>
-      <p class="lead" data-i18n="con.sub">A short brief is enough to get started.</p>
-    </div>
-    <div class="cl">
-      <div class="rv">
-        <p class="ci-info" data-i18n="con.p">We reply within a few working days. For urgent enquiries, email directly.</p>
-        <div class="cline"><span class="clabel">Email</span><a href="mailto:hello@slingshot.studio">hello@slingshot.studio</a></div>
-        <div class="cline"><span class="clabel">Instagram</span><a href="https://www.instagram.com/slingshot.studios.productions/" target="_blank" rel="noopener">@slingshot.studios.productions</a></div>
-        <div class="cline"><span class="clabel" data-i18n="con.based">Based</span><span>Paris</span></div>
-        <div class="cline"><span class="clabel" data-i18n="con.hl">Hours</span><span data-i18n="con.hv">Any day, by appointment. We're filmmakers — what's a weekend?</span></div>
-      </div>
-      <form class="rv" id="cf" novalidate>
-        <div class="row">
-          <div><label for="fn" data-i18n="fm.name">Name</label><input id="fn" name="name" type="text" autocomplete="name" required></div>
-          <div><label for="fe" data-i18n="fm.email">Email</label><input id="fe" name="email" type="email" autocomplete="email" required></div>
-        </div>
-        <div>
-          <label for="fc" data-i18n="fm.cat">I'm enquiring about</label>
-          <select id="fc" name="category">
-            <option data-i18n="fm.c1">Actor services</option>
-            <option data-i18n="fm.c2">Production</option>
-            <option data-i18n="fm.c3">Post & Sound</option>
-            <option data-i18n="fm.c4">Design</option>
-            <option data-i18n="fm.c5">Something else</option>
-          </select>
-        </div>
-        <div><label for="fm" data-i18n="fm.msg">Message</label><textarea id="fm" name="message" required></textarea></div>
-        <div class="sub-row">
-          <span class="cs" data-i18n="fm.cs">We don't share your details.</span>
-          <button type="submit" data-i18n="fm.send">Send</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
 <footer>
   <div class="wrap">
-    <div class="fg">
-      <div class="fb">
-        <div class="fb-name">
-          <span class="bm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 21L21 3"/><path d="M15 3L21 3L21 9"/><circle cx="7" cy="17" r="2"/></svg></span>
-          Slingshot Studios
-        </div>
-        <p data-i18n="ft.tag">Film · Music · Actor Services · Design. Based in Paris.</p>
-      </div>
-      <div>
-        <h5 data-i18n="ft.work">Work</h5>
-        <ul>
-          <li><a href="#production" data-i18n="nav.prod">Production</a></li>
-          <li><a href="#actors"     data-i18n="nav.act">Actors</a></li>
-          <li><a href="#post"       data-i18n="nav.post">Post & Sound</a></li>
-          <li><a href="#design"     data-i18n="nav.des">Design</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 data-i18n="ft.connect">Connect</h5>
-        <ul>
-          <li><a href="mailto:hello@slingshot.studio">hello@slingshot.studio</a></li>
-          <li><a href="https://www.instagram.com/slingshot.studios.productions/" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="https://vimeo.com" target="_blank" rel="noopener">Vimeo</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 data-i18n="ft.legal">Legal</h5>
-        <ul>
-          <li><a href="privacy.html"  data-i18n="ft.priv">Privacy</a></li>
-          <li><a href="legal.html"    data-i18n="ft.ln">Legal notice</a></li>
-          <li><a href="cookies.html"  data-i18n="ft.ck">Cookies</a></li>
-        </ul>
-      </div>
-    </div>
+    <div class="fg" id="footGrid"></div>
     <div class="foot-bot">
       <span>© <span id="yr"></span> Slingshot Studios</span>
-      <span data-i18n="ft.made">Made in Europe.</span>
+      <span id="footMade"></span>
     </div>
   </div>
 </footer>
 
-<div class="ck" id="ck">
-  <span data-i18n="ck.msg">Minimal cookies, no cross-site tracking.</span>
-  <button id="ckOk" data-i18n="ck.ok">OK</button>
+<div class="ck gone" id="ck">
+  <span id="ckMsg"></span>
+  <button id="ckOk"></button>
 </div>
 
-<!-- ===================================================
-     SCRIPTS
-     =================================================== -->
+<!-- hidden audio element -->
+<audio id="audioEl" preload="none"></audio>
+
 <script>
 'use strict';
 
-document.getElementById('yr').textContent = new Date().getFullYear();
+/* ═══════════════════════════════════════════════════════════
+   LOAD content.json THEN BOOT
+   ═══════════════════════════════════════════════════════════ */
+fetch('content.json')
+  .then(r => r.json())
+  .then(boot)
+  .catch(err => {
+    console.error('Could not load content.json:', err);
+    document.getElementById('main').innerHTML =
+      '<div style="padding:60px;color:#f00;font-family:monospace">Error loading content.json — make sure it is in the same folder as index.html.<br><br>' + err + '</div>';
+  });
 
-/* ── day / night ─────────────────────────────────────── */
-const body = document.body;
+/* ═══════════════════════════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════════════════════════ */
+function boot(C) {
+  // expose globally for gradient sampler
+  window._C = C;
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  document.title = C.site.title + ' — Film · Music · Performance';
+
+  setupMeta(C);
+  setupDayNight();
+  setupNav(C);
+  setupHero(C);
+  buildSections(C);
+  setupFooter(C);
+  setupCookie(C);
+  setupReveal();
+  setupGradient();
+}
+
+/* ── meta ─────────────────────────────────────────────── */
+function setupMeta(C) {
+  document.querySelector('meta[name="description"]').content = C.site.description;
+  // logo
+  const mark = document.getElementById('logo-mark');
+  if (C.logo && C.logo.file) {
+    mark.innerHTML = `<img src="assets/${C.logo.file}" alt="${C.site.title} logo">`;
+  }
+}
+
+/* ── day/night ────────────────────────────────────────── */
 let isDay = false;
-const modeBtn = document.getElementById('modeBtn');
-function setMode(d) {
-  isDay = d;
-  body.classList.toggle('day', d);
-  modeBtn.textContent = d ? '☾' : '☀';
-  try { sessionStorage.setItem('ss.day', d?'1':'0'); } catch(_) {}
+function setupDayNight() {
+  const btn = document.getElementById('modeBtn');
+  function apply(d) {
+    isDay = d;
+    document.body.classList.toggle('day', d);
+    btn.textContent = d ? '☾' : '☀';
+    try { sessionStorage.setItem('ss.day', d ? '1' : '0'); } catch(_) {}
+  }
+  try {
+    const s = sessionStorage.getItem('ss.day');
+    if (s !== null) { apply(s === '1'); }
+    else { const h = new Date().getHours(); apply(h >= 7 && h < 20); }
+  } catch(_) { apply(false); }
+  btn.addEventListener('click', () => apply(!isDay));
 }
-(function(){
-  try { const s = sessionStorage.getItem('ss.day'); if (s !== null) { setMode(s==='1'); return; } } catch(_) {}
-  const h = new Date().getHours();
-  setMode(h >= 7 && h < 20);
-})();
-modeBtn.addEventListener('click', () => setMode(!isDay));
 
-/* ── nav ─────────────────────────────────────────────── */
-const navEl = document.getElementById('nav');
-function ons() { navEl.classList.toggle('top', window.scrollY < 40); }
-ons(); window.addEventListener('scroll', ons, { passive:true });
-const menuEl = document.getElementById('menu');
-document.getElementById('tog').addEventListener('click', () => menuEl.classList.toggle('open'));
-menuEl.addEventListener('click', e => { if (e.target.tagName==='A') menuEl.classList.remove('open'); });
+/* ── nav ──────────────────────────────────────────────── */
+function setupNav(C) {
+  const nav = C.nav;
+  const sectionOrder = C.sectionOrder;
+  const menuEl = document.getElementById('menu');
 
-/* ── reveal ──────────────────────────────────────────── */
-const rio = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } }); }, { threshold:0.09 });
-document.querySelectorAll('.rv').forEach(el => rio.observe(el));
+  // build nav links from section order
+  const labels = {
+    production: nav.production,
+    actors:     nav.actors,
+    post:       nav.post,
+    design:     nav.design,
+    about:      nav.about,
+    contact:    nav.contact
+  };
+  sectionOrder.forEach(key => {
+    const a = document.createElement('a');
+    a.href = '#' + key;
+    a.textContent = labels[key] || key;
+    menuEl.appendChild(a);
+  });
 
-/* ── cookie ──────────────────────────────────────────── */
-const ckEl = document.getElementById('ck');
-try { if (sessionStorage.getItem('ss.ck')==='ok') ckEl.classList.add('gone'); } catch(_) {}
-document.getElementById('ckOk').addEventListener('click', () => { ckEl.classList.add('gone'); try { sessionStorage.setItem('ss.ck','ok'); } catch(_) {} });
+  const navEl = document.getElementById('nav');
+  function ons() { navEl.classList.toggle('top', window.scrollY < 40); }
+  ons(); window.addEventListener('scroll', ons, {passive:true});
 
-/* ── form ────────────────────────────────────────────── */
-document.getElementById('cf').addEventListener('submit', ev => {
-  ev.preventDefault();
-  const f = ev.currentTarget;
-  const n=f.name.value.trim(), em=f.email.value.trim(), cat=f.category.value, msg=f.message.value.trim();
-  if (!n||!em||!msg) return;
-  window.location.href = `mailto:hello@slingshot.studio?subject=${encodeURIComponent('['+cat+'] from '+n)}&body=${encodeURIComponent(msg+'\n\nFrom: '+n+' <'+em+'>\nCategory: '+cat)}`;
-});
+  document.getElementById('tog').addEventListener('click', () => menuEl.classList.toggle('open'));
+  menuEl.addEventListener('click', e => { if (e.target.tagName === 'A') menuEl.classList.remove('open'); });
+}
 
-/* ── carousel ────────────────────────────────────────── */
+/* ── hero ─────────────────────────────────────────────── */
+function setupHero(C) {
+  const h = C.hero;
+  const headline = h.headline_options[0].replace(/\n/g, '\n');
+
+  // video — desktop only (CSS hides on mobile)
+  const vid = document.getElementById('heroVid');
+  if (h.hero_video_youtube_id) {
+    vid.innerHTML = `<iframe src="https://www.youtube.com/embed/${h.hero_video_youtube_id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${h.hero_video_youtube_id}&rel=0&playsinline=1&modestbranding=1" title="Hero" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  }
+
+  document.getElementById('heroContent').innerHTML = `
+    <div class="kicker">${h.kicker}</div>
+    <h1>${headline}</h1>
+    <p class="lede">${h.tagline}</p>
+    <div class="ctas">
+      <a class="btn fill" href="#production">${h.cta_work}</a>
+      <a class="btn" href="#actors">${h.cta_actors}</a>
+      <a class="btn" href="#contact">${h.cta_contact}</a>
+    </div>`;
+  document.getElementById('scrollHint').textContent = h.scroll_hint;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUILD ALL SECTIONS
+   ═══════════════════════════════════════════════════════════ */
+function buildSections(C) {
+  const main = document.getElementById('main');
+  let num = 1;
+
+  const builders = {
+    production: () => buildProduction(C, num++),
+    actors:     () => buildActors(C, num++),
+    post:       () => buildPost(C, num++),
+    design:     () => buildDesign(C, num++),
+    about:      () => buildAbout(C, num++),
+    contact:    () => buildContact(C, num++)
+  };
+
+  C.sectionOrder.forEach(key => {
+    if (builders[key]) {
+      const node = builders[key]();
+      if (node) main.appendChild(node);
+      // marquee after production
+      if (key === 'production') main.appendChild(buildMarquee(C));
+    }
+  });
+}
+
+function secNum(n) {
+  return String(n).padStart(2,'0');
+}
+
+/* ── production ───────────────────────────────────────── */
+function buildProduction(C, n) {
+  const F = C.films;
+  const M = C.music;
+  const own   = F.items.filter(f => f.type === 'own');
+  const collab = F.items.filter(f => f.type === 'collab');
+
+  const sec = el('section', 'block rv', 'production');
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / ${escHtml(C.nav.production)}</div>
+        <h2>${escHtml(F.section_heading)}</h2>
+      </div>
+      <p class="lead">${escHtml(F.section_sub)}</p>
+    </div>
+
+    <p class="sub-label rv">${escHtml(F.section_label_own)}</p>
+    <div class="films rv" id="filmsOwn"></div>
+
+    ${collab.length ? `<p class="collab-head rv">${escHtml(F.section_label_collab)}</p>
+    <div class="films rv" id="filmsCollab"></div>` : ''}
+
+    <div class="rv" id="musicSection"></div>
+  </div>`;
+
+  // own films
+  const ownGrid = sec.querySelector('#filmsOwn');
+  own.forEach((f, i) => ownGrid.appendChild(filmCard(f, i === 0 && own.length === 1)));
+
+  // collab films
+  const collabGrid = sec.querySelector('#filmsCollab');
+  if (collabGrid) collab.forEach(f => collabGrid.appendChild(filmCard(f, false)));
+
+  // music
+  sec.querySelector('#musicSection').innerHTML = buildMusicHTML(M);
+  return sec;
+}
+
+function filmCard(f, featured) {
+  const card = el('div', 'fc' + (featured ? ' feat' : ''));
+  if (f['data-ch']) card.dataset.ch = f['data-ch'];
+
+  let embedHTML = '';
+  if (f.youtube_id) {
+    // hover preview: thumbnail shown, iframe behind; click to activate with sound
+    const thumb = `https://img.youtube.com/vi/${f.youtube_id}/maxresdefault.jpg`;
+    embedHTML = `
+      <div class="fe yt-hover" data-ytid="${f.youtube_id}" data-thumb="${thumb}">
+        <div class="yt-thumb" style="background-image:url('${thumb}')"></div>
+        <iframe src="" data-src="https://www.youtube.com/embed/${f.youtube_id}?rel=0&modestbranding=1&enablejsapi=1" title="${escHtml(f.title)}" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
+        <div class="play-over">
+          <svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="25" stroke="white" stroke-opacity=".45"/><polygon points="21,16 41,26 21,36" fill="white" fill-opacity=".85"/></svg>
+        </div>
+      </div>`;
+  } else if (f.still) {
+    embedHTML = `<div class="fe"><div class="ft" style="background-image:url('assets/${f.still}')"></div></div>`;
+  } else {
+    embedHTML = `<div class="fe" style="background:#0a0a0a"></div>`;
+  }
+
+  card.innerHTML = `${embedHTML}
+    <div class="fi">
+      <div>
+        <div class="ft-name">${escHtml(f.title)}</div>
+        <div class="ft-meta">${escHtml(f.credits)}</div>
+      </div>
+      <span class="badge">${escHtml(f.badge)}</span>
+    </div>`;
+  return card;
+}
+
+/* ── music player ─────────────────────────────────────── */
+function buildMusicHTML(M) {
+  const rows = M.items.map((t, i) => `
+    <div class="track-row" data-idx="${i}" tabindex="0" role="button" aria-label="Play ${escHtml(t.title)}">
+      <span class="track-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="track-info">
+        <div class="track-title">${escHtml(t.title)}</div>
+        <div class="track-sub">${escHtml(t.subtitle)}</div>
+      </div>
+      <span class="track-dur">${escHtml(t.duration)}</span>
+      <button class="track-play" tabindex="-1" aria-hidden="true">
+        <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
+      </button>
+    </div>`).join('');
+
+  return `
+    <p class="sub-label" style="margin-top:48px">${escHtml(M.section_label)}</p>
+    <div class="music-player">
+      <div class="player-bar" id="playerBar">
+        <div style="margin-bottom:8px">
+          <div class="player-title" id="playerTitle"></div>
+          <div class="player-sub" id="playerSub"></div>
+        </div>
+        <div class="player-controls">
+          <button class="pb-btn" id="pbPrev" title="Previous"><svg viewBox="0 0 16 16" width="14" height="14"><polygon points="14,2 4,8 14,14" fill="currentColor"/><rect x="1" y="2" width="2" height="12" fill="currentColor"/></svg></button>
+          <button class="pb-btn main" id="pbPlay" title="Play/Pause"><svg id="pbIcon" viewBox="0 0 16 16" width="16" height="16"><polygon id="playIcon" points="4,2 14,8 4,14"/></svg></button>
+          <button class="pb-btn" id="pbNext" title="Next"><svg viewBox="0 0 16 16" width="14" height="14"><polygon points="2,2 12,8 2,14" fill="currentColor"/><rect x="13" y="2" width="2" height="12" fill="currentColor"/></svg></button>
+          <span class="pb-time" id="pbElapsed">0:00</span>
+          <div class="seek-wrap" id="seekWrap">
+            <div class="seek-track">
+              <div class="seek-fill" id="seekFill">
+                <div class="seek-thumb"></div>
+              </div>
+            </div>
+          </div>
+          <span class="pb-time" id="pbTotal">0:00</span>
+        </div>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+/* ── actors ───────────────────────────────────────────── */
+function buildActors(C, n) {
+  const A = C.actors;
+  const sec = el('section', 'block', 'actors');
+
+  // headshots carousel
+  const hsCIs = A.headshots.map(h => `
+    <div class="ci">
+      <div class="hc" data-file="assets/${h.file}">
+        <img src="assets/${h.file}" alt="${escHtml(h.alt)}" loading="lazy" crossorigin="anonymous">
+        <div class="hov"><span>View full</span></div>
+      </div>
+    </div>`).join('');
+
+  // reels carousel
+  const reelCIs = A.reels.map(r => `
+    <div class="ci">
+      <div class="rc">
+        <video src="assets/${r.file}" muted playsinline loop preload="none" poster="assets/${r.thumb}"></video>
+        <div class="rth" style="background-image:url('assets/${r.thumb}')"></div>
+        <div class="rl">${escHtml(r.label)}</div>
+        <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
+      </div>
+    </div>`).join('');
+
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / ${escHtml(C.nav.actors)}</div>
+        <h2>${escHtml(A.section_heading)}</h2>
+      </div>
+      <p class="lead">${escHtml(A.section_sub)}</p>
+    </div>
+
+    <div class="rv">
+      <p class="sub-label">${escHtml(A.headshots_label)}</p>
+      <div class="car-wrap">
+        <div class="car" id="hsCar">${hsCIs}</div>
+        <div class="car-arrows">
+          <button onclick="scrollCar('hsCar',-1)"><svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg></button>
+          <button onclick="scrollCar('hsCar',1)"><svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg></button>
+        </div>
+      </div>
+      <div class="ig-row">
+        <span>${escHtml(A.ig_label)}</span>
+        <a href="${escHtml(A.ig_url)}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.069 1.645.069 4.851s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.645.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          ${escHtml(A.ig_handle)}
+        </a>
+      </div>
+    </div>
+
+    <div class="rv mt-section">
+      <p class="sub-label">${escHtml(A.reels_label)}</p>
+      <div class="car-wrap">
+        <div class="car" id="reelCar">${reelCIs}</div>
+        <div class="car-arrows">
+          <button onclick="scrollCar('reelCar',-1)"><svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg></button>
+          <button onclick="scrollCar('reelCar',1)"><svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  return sec;
+}
+
+/* ── post ─────────────────────────────────────────────── */
+function buildPost(C, n) {
+  const P = C.post;
+  const sec = el('section', 'block', 'post');
+  const svcs = P.services.map(s => `
+    <div class="sv">
+      <div class="sv-n">${escHtml(s.label)}</div>
+      <h3>${escHtml(s.title)}</h3>
+      <p>${escHtml(s.body)}</p>
+      <ul>${s.list.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>
+    </div>`).join('');
+
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / ${escHtml(C.nav.post)}</div>
+        <h2>${escHtml(P.section_heading)}</h2>
+      </div>
+      <p class="lead">${escHtml(P.section_sub)}</p>
+    </div>
+    <div class="svcs rv">${svcs}</div>
+  </div>`;
+  return sec;
+}
+
+/* ── design ───────────────────────────────────────────── */
+function buildDesign(C, n) {
+  const D = C.design;
+  const sec = el('section', 'block', 'design');
+  const posters = D.posters.map(p => `
+    <div class="pc" data-file="assets/${p.file}">
+      <img src="assets/${p.file}" alt="${escHtml(p.title)}" loading="lazy" crossorigin="anonymous">
+      <div class="pc-cap">
+        <h4>${escHtml(p.title)}</h4>
+        <span>${escHtml(p.credit)}</span>
+      </div>
+    </div>`).join('');
+
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / ${escHtml(C.nav.design)}</div>
+        <h2>${escHtml(D.section_heading)}</h2>
+      </div>
+      <p class="lead">${escHtml(D.section_sub)}</p>
+    </div>
+    <div class="poster-grid rv">${posters}</div>
+  </div>`;
+  return sec;
+}
+
+/* ── about ────────────────────────────────────────────── */
+function buildAbout(C, n) {
+  const A = C.about;
+  const sec = el('section', 'block', 'about');
+  const teamHTML = A.team.map(m => {
+    const hasPhoto = m.photo ? ' has-photo' : '';
+    const imgTag = m.photo ? `<img src="assets/${m.photo}" alt="${escHtml(m.name)}">` : '';
+    return `<div class="tm">
+      <div class="av${hasPhoto}" data-i="${escHtml(m.initial)}">${imgTag}</div>
+      <h4>${escHtml(m.name)}</h4>
+      <small>${escHtml(m.role)}</small>
+    </div>`;
+  }).join('');
+
+  const bodyHTML = A.body.map(p => `<p>${escHtml(p)}</p>`).join('');
+
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / ${escHtml(C.nav.about)}</div>
+        <h2>${escHtml(A.section_heading)}</h2>
+      </div>
+    </div>
+    <div class="ag">
+      <div class="rv"><p class="al">${escHtml(A.lead)}</p></div>
+      <div class="ab rv">${bodyHTML}</div>
+    </div>
+    <div class="tg rv">${teamHTML}</div>
+  </div>`;
+  return sec;
+}
+
+/* ── contact ──────────────────────────────────────────── */
+function buildContact(C, n) {
+  const K = C.contact;
+  const sec = el('section', 'block', 'contact');
+  const catOpts = K.form_categories.map(c => `<option>${escHtml(c)}</option>`).join('');
+
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / ${escHtml(C.nav.contact)}</div>
+        <h2>${escHtml(K.section_heading)}</h2>
+      </div>
+      <p class="lead">${escHtml(K.section_sub)}</p>
+    </div>
+    <div class="cl">
+      <div class="rv">
+        <p class="ci-info">${escHtml(K.intro)}</p>
+        <div class="cline"><span class="clabel">Email</span><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></div>
+        <div class="cline"><span class="clabel">Instagram</span><a href="${escHtml(K.instagram)}" target="_blank" rel="noopener">${escHtml(K.instagram_handle)}</a></div>
+        <div class="cline"><span class="clabel">Based</span><span>${escHtml(K.based)}</span></div>
+        <div class="cline"><span class="clabel">Hours</span><span>${escHtml(K.hours)}</span></div>
+      </div>
+      <form class="rv" id="cf" novalidate>
+        <div class="row">
+          <div><label for="fn">Name</label><input id="fn" name="name" type="text" autocomplete="name" required></div>
+          <div><label for="fe">Email</label><input id="fe" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div><label for="fc">I'm enquiring about</label>
+          <select id="fc" name="category">${catOpts}</select></div>
+        <div><label for="fm">Message</label><textarea id="fm" name="message" required></textarea></div>
+        <div class="sub-row">
+          <span class="cs">${escHtml(K.form_consent)}</span>
+          <button type="submit">${escHtml(K.form_submit)}</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+
+  // form handler
+  sec.querySelector('#cf').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const f = ev.currentTarget;
+    const n=f.name.value.trim(), em=f.email.value.trim(), cat=f.category.value, msg=f.message.value.trim();
+    if (!n||!em||!msg) return;
+    window.location.href = `mailto:${K.email}?subject=${encodeURIComponent('['+cat+'] from '+n)}&body=${encodeURIComponent(msg+'\n\nFrom: '+n+' <'+em+'>\nCategory: '+cat)}`;
+  });
+  return sec;
+}
+
+/* ── marquee ──────────────────────────────────────────── */
+function buildMarquee(C) {
+  const words = ['Film', 'Music', 'Actor Services', 'Post & Sound', 'Design'];
+  const inner = words.map(w => `${w} <i class="dot"></i>`).join(' ');
+  const d = document.createElement('div');
+  d.className = 'mq';
+  d.setAttribute('aria-hidden','true');
+  d.innerHTML = `<div class="mq-t"><span>${inner}</span><span>${inner}</span></div>`;
+  return d;
+}
+
+/* ── footer ───────────────────────────────────────────── */
+function setupFooter(C) {
+  const F = C.footer;
+  const K = C.contact;
+  const nav = C.nav;
+  document.getElementById('footMade').textContent = F.made;
+  document.getElementById('footGrid').innerHTML = `
+    <div class="fb">
+      <div class="fb-name">
+        <span class="bm" style="width:20px;height:20px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M3 21L21 3"/><path d="M15 3L21 3L21 9"/><circle cx="7" cy="17" r="2"/>
+          </svg>
+        </span>
+        Slingshot Studios
+      </div>
+      <p>${escHtml(F.tagline)}</p>
+    </div>
+    <div>
+      <h5>Work</h5>
+      <ul>
+        <li><a href="#production">${escHtml(nav.production)}</a></li>
+        <li><a href="#actors">${escHtml(nav.actors)}</a></li>
+        <li><a href="#post">${escHtml(nav.post)}</a></li>
+        <li><a href="#design">${escHtml(nav.design)}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></li>
+        <li><a href="${escHtml(K.instagram)}" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="${escHtml(F.vimeo)}" target="_blank" rel="noopener">Vimeo</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="${escHtml(F.privacy)}">Privacy</a></li>
+        <li><a href="${escHtml(F.legal)}">Legal notice</a></li>
+        <li><a href="${escHtml(F.cookies)}">Cookies</a></li>
+      </ul>
+    </div>`;
+}
+
+/* ── cookie ───────────────────────────────────────────── */
+function setupCookie(C) {
+  const ck = C.cookie_banner;
+  const ckEl = document.getElementById('ck');
+  document.getElementById('ckMsg').textContent = ck.message;
+  const btn = document.getElementById('ckOk');
+  btn.textContent = ck.button;
+  try { if (sessionStorage.getItem('ss.ck') === 'ok') ckEl.classList.add('gone'); else ckEl.classList.remove('gone'); } catch(_) {}
+  btn.addEventListener('click', () => { ckEl.classList.add('gone'); try { sessionStorage.setItem('ss.ck','ok'); } catch(_) {} });
+}
+
+/* ── reveal ───────────────────────────────────────────── */
+function setupReveal() {
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.08});
+  // observe after DOM is built
+  setTimeout(() => document.querySelectorAll('.rv').forEach(el => io.observe(el)), 100);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MUSIC PLAYER
+   ═══════════════════════════════════════════════════════════ */
+function setupMusicPlayer(C) {
+  const tracks = C.music.items;
+  const audio = document.getElementById('audioEl');
+  const bar   = document.getElementById('playerBar');
+  if (!bar) return;
+
+  let currentIdx = -1;
+  let isPlaying = false;
+
+  const pbPlay = document.getElementById('pbPlay');
+  const pbPrev = document.getElementById('pbPrev');
+  const pbNext = document.getElementById('pbNext');
+  const pbElapsed = document.getElementById('pbElapsed');
+  const pbTotal   = document.getElementById('pbTotal');
+  const seekFill  = document.getElementById('seekFill');
+  const seekWrap  = document.getElementById('seekWrap');
+  const playerTitle = document.getElementById('playerTitle');
+  const playerSub   = document.getElementById('playerSub');
+
+  function fmtTime(s) {
+    if (!isFinite(s)) return '0:00';
+    const m = Math.floor(s/60), ss = Math.floor(s%60);
+    return m + ':' + String(ss).padStart(2,'0');
+  }
+
+  function loadTrack(idx) {
+    const t = tracks[idx];
+    currentIdx = idx;
+    audio.src = 'assets/' + t.file;
+    audio.load();
+    playerTitle.textContent = t.title;
+    playerSub.textContent   = t.subtitle;
+    // highlight active row
+    document.querySelectorAll('.track-row').forEach((r, i) => r.classList.toggle('active', i === idx));
+    bar.classList.add('open');
+    if (t.startAt && t.startAt > 0) {
+      audio.addEventListener('canplay', function seek() {
+        audio.currentTime = t.startAt;
+        audio.removeEventListener('canplay', seek);
+      }, {once:true});
+    }
+    return t;
+  }
+
+  function play(idx) {
+    loadTrack(idx);
+    audio.play().then(() => { isPlaying = true; updatePlayBtn(); }).catch(() => {});
+  }
+
+  function updatePlayBtn() {
+    const icon = document.getElementById('playIcon');
+    if (icon) {
+      if (isPlaying) icon.setAttribute('points','4,2 7,2 7,14 4,14 M9,2 12,2 12,14 9,14');
+      else icon.setAttribute('points','4,2 14,8 4,14');
+    }
+  }
+
+  // track row click
+  document.addEventListener('click', e => {
+    const row = e.target.closest('.track-row');
+    if (!row) return;
+    const idx = parseInt(row.dataset.idx);
+    if (idx === currentIdx && isPlaying) {
+      audio.pause(); isPlaying = false; updatePlayBtn();
+    } else {
+      play(idx);
+    }
+  });
+
+  pbPlay.addEventListener('click', () => {
+    if (currentIdx < 0) { play(0); return; }
+    if (isPlaying) { audio.pause(); isPlaying = false; }
+    else { audio.play().then(() => { isPlaying = true; }); }
+    updatePlayBtn();
+  });
+  pbPrev.addEventListener('click', () => play((currentIdx - 1 + tracks.length) % tracks.length));
+  pbNext.addEventListener('click', () => play((currentIdx + 1) % tracks.length));
+
+  audio.addEventListener('ended', () => play((currentIdx + 1) % tracks.length));
+  audio.addEventListener('timeupdate', () => {
+    const dur = audio.duration || 0;
+    const cur = audio.currentTime || 0;
+    const pct = dur > 0 ? (cur / dur) * 100 : 0;
+    seekFill.style.width = pct + '%';
+    pbElapsed.textContent = fmtTime(cur);
+    pbTotal.textContent   = fmtTime(dur);
+  });
+
+  // seek — click or drag
+  function seekTo(e) {
+    const rect = seekWrap.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    if (audio.duration) audio.currentTime = pct * audio.duration;
+  }
+  let dragging = false;
+  seekWrap.addEventListener('mousedown', e => { dragging = true; seekTo(e); });
+  window.addEventListener('mousemove', e => { if (dragging) seekTo(e); });
+  window.addEventListener('mouseup', () => { dragging = false; });
+  seekWrap.addEventListener('touchstart', e => seekTo(e.touches[0]), {passive:true});
+  seekWrap.addEventListener('touchmove', e => seekTo(e.touches[0]), {passive:true});
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FILM CARD INTERACTIONS (hover preview)
+   ═══════════════════════════════════════════════════════════ */
+function setupFilmCards() {
+  document.querySelectorAll('.fe.yt-hover').forEach(fe => {
+    const iframe = fe.querySelector('iframe');
+    const ytid = fe.dataset.ytid;
+    let loaded = false;
+
+    function activate() {
+      if (!loaded) {
+        iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=0&rel=0&modestbranding=1`;
+        loaded = true;
+      }
+      fe.classList.add('active');
+    }
+
+    fe.addEventListener('click', activate);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REEL HOVER PLAY
+   ═══════════════════════════════════════════════════════════ */
+function setupReels() {
+  document.querySelectorAll('.rc').forEach(card => {
+    const vid = card.querySelector('video');
+    if (!vid) return;
+    const play  = () => { card.classList.add('playing');  vid.play().catch(()=>{}); };
+    const pause = () => { card.classList.remove('playing'); vid.pause(); };
+    card.addEventListener('mouseenter', play);
+    card.addEventListener('mouseleave', pause);
+    card.addEventListener('touchstart', () => card.classList.contains('playing') ? pause() : play(), {passive:true});
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CAROUSEL
+   ═══════════════════════════════════════════════════════════ */
 function scrollCar(id, dir) {
-  const el = document.getElementById(id);
-  const item = el.querySelector('.ci');
-  if (item) el.scrollBy({ left: dir*(item.offsetWidth+14), behavior:'smooth' });
+  const car = document.getElementById(id);
+  if (!car) return;
+  const item = car.querySelector('.ci');
+  if (!item) return;
+  const w = item.offsetWidth + 14;
+  const maxScroll = car.scrollWidth - car.clientWidth;
+  let next = car.scrollLeft + dir * w;
+  // loop
+  if (next > maxScroll + 10) next = 0;
+  if (next < -10) next = maxScroll;
+  car.scrollTo({left: next, behavior:'smooth'});
 }
+window.scrollCar = scrollCar; // expose for inline onclick
 
-/* ── reel hover play ─────────────────────────────────── */
-document.querySelectorAll('.rc').forEach(card => {
-  const vid = card.querySelector('video');
-  if (!vid) return;
-  const play  = () => { card.classList.add('play');  vid.play().catch(()=>{}); };
-  const pause = () => { card.classList.remove('play'); vid.pause(); };
-  card.addEventListener('mouseenter', play);
-  card.addEventListener('mouseleave', pause);
-  card.addEventListener('touchstart', () => card.classList.contains('play') ? pause() : play(), { passive:true });
-});
-
-/* ── play btn pulse ──────────────────────────────────── */
-document.querySelectorAll('.pb').forEach(b => b.addEventListener('click', () => b.animate([{transform:'scale(1)'},{transform:'scale(.86)'},{transform:'scale(1)'}], {duration:200,easing:'ease-out'})));
-
-/* ══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════
    ADAPTIVE GRADIENT CANVAS
-   
-   Three canvas orbs:
-   1. Follows mouse position with ~10s latency
-   2. Counter-position orb with complementary color
-   3. Slow autonomous drift at bottom
-   
-   Colors shift when elements with data-ch/cs/cl enter
-   viewport. For loaded images, pixel-samples the actual
-   dominant color via a temporary 8x8 canvas.
-   Day mode multiplies alpha for visibility in light theme.
-   ══════════════════════════════════════════════════════ */
-(function(){
+   Samples dominant hsl from images as they load/intersect.
+   No color assumptions baked in — pure sampling.
+   ═══════════════════════════════════════════════════════════ */
+function setupGradient() {
   const cv = document.getElementById('gc');
-  const cx = cv.getContext('2d');
+  const ctx = cv.getContext('2d');
   let W, H;
   function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
   resize(); window.addEventListener('resize', resize, {passive:true});
 
+  // mouse
   let mx=0.5, my=0.38;
   window.addEventListener('mousemove', e=>{mx=e.clientX/innerWidth;my=e.clientY/innerHeight;},{passive:true});
   window.addEventListener('touchmove', e=>{if(e.touches[0]){mx=e.touches[0].clientX/innerWidth;my=e.touches[0].clientY/innerHeight;}},{passive:true});
 
-  // current cursor position (slow lerp)
+  // current cursor (slow lerp)
   let px=0.5, py=0.38;
-  const PL = 0.007; // ~10s lag
+  const PL=0.007;
 
-  // color state — target and current for both orbs
-  let th1=20,ts1=62,tl1=40, ch1=20,cs1=62,cl1=40;
-  let th2=40,ts2=38,tl2=50, ch2=40,cs2=38,cl2=50;
-  const CL = 0.004; // ~25s color shift
+  // color state — no defaults baked in, starts at neutral
+  // will be overwritten as soon as first image is sampled
+  let th1=0, ts1=0, tl1=20;
+  let th2=0, ts2=0, tl2=20;
+  let ch1=0, cs1=0, cl1=20;
+  let ch2=0, cs2=0, cl2=20;
+  const CL=0.003;
+  let hasColor = false;
 
   function rgbToHsl(r,g,b){
     r/=255;g/=255;b/=255;
     const max=Math.max(r,g,b),min=Math.min(r,g,b);
-    let h=0,s,l=(max+min)/2;
+    let hh=0,ss=0,ll=(max+min)/2;
     if(max!==min){
-      const d=max-min; s=l>0.5?d/(2-max-min):d/(max+min);
-      switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break;}
-    } else {s=0;}
-    return [h*360,s*100,l*100];
-  }
-
-  function sampleEl(el){
-    const h=parseInt(el.dataset.ch)||20, s=parseInt(el.dataset.cs)||50, l=parseInt(el.dataset.cl)||35;
-    const img=el.tagName==='IMG'?el:el.querySelector('img[crossorigin]');
-    if(img&&img.complete&&img.naturalWidth>0){
-      try{
-        const t=document.createElement('canvas'); t.width=8;t.height=8;
-        const tc=t.getContext('2d'); tc.drawImage(img,0,0,8,8);
-        const d=tc.getImageData(0,0,8,8).data;
-        let r=0,g=0,b=0,n=d.length/4;
-        for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];}
-        const hsl=rgbToHsl(r/n,g/n,b/n);
-        th1=hsl[0]; ts1=hsl[1]; tl1=hsl[2];
-        th2=(hsl[0]+28)%360; ts2=hsl[1]*0.7; tl2=hsl[2];
-        return;
-      }catch(_){}
+      const d=max-min;
+      ss=ll>0.5?d/(2-max-min):d/(max+min);
+      switch(max){
+        case r:hh=((g-b)/d+(g<b?6:0))/6;break;
+        case g:hh=((b-r)/d+2)/6;break;
+        case b:hh=((r-g)/d+4)/6;break;
+      }
     }
-    th1=h; ts1=s; tl1=l;
-    th2=(h+28)%360; ts2=s*0.7; tl2=l;
+    return[hh*360,ss*100,ll*100];
   }
 
-  // watch color-hinted elements
-  const cio = new IntersectionObserver(es=>{
-    es.forEach(e=>{if(e.isIntersecting) sampleEl(e.target);});
-  },{threshold:0.25});
-  document.querySelectorAll('[data-ch]').forEach(el=>cio.observe(el));
-  // re-sample when images load
-  document.querySelectorAll('img[crossorigin]').forEach(img=>{
-    img.addEventListener('load',()=>{const p=img.closest('[data-ch]');if(p)sampleEl(p);});
-  });
+  function sampleImg(img){
+    try{
+      const t=document.createElement('canvas');
+      t.width=12;t.height=12;
+      const tc=t.getContext('2d');
+      tc.drawImage(img,0,0,12,12);
+      const d=tc.getImageData(0,0,12,12).data;
+      let r=0,g=0,b=0,n=d.length/4;
+      for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];}
+      const hsl=rgbToHsl(r/n,g/n,b/n);
+      th1=hsl[0]; ts1=Math.min(hsl[1]*1.4,80); tl1=hsl[2];
+      th2=(hsl[0]+22)%360; ts2=hsl[1]*0.65; tl2=hsl[2];
+      hasColor=true;
+    }catch(_){}
+  }
 
-  let t=0;
+  // watch all images with crossorigin for sampling
+  function watchImage(img){
+    if(img.complete&&img.naturalWidth>0){ sampleImg(img); return; }
+    img.addEventListener('load',()=>sampleImg(img),{once:true});
+  }
+
+  // intersect: sample when image scrolls into view
+  const cio=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const img=e.target.tagName==='IMG'?e.target:e.target.querySelector('img[crossorigin]');
+        if(img) sampleImg(img);
+      }
+    });
+  },{threshold:0.2});
+
+  // hook up after sections build
+  setTimeout(()=>{
+    document.querySelectorAll('img[crossorigin]').forEach(img=>{
+      watchImage(img);
+      cio.observe(img.closest('.hc,.pc,[data-file]')||img);
+    });
+  },200);
+
   function lerpH(a,b,f){const d=((b-a+540)%360)-180;return(a+d*f+360)%360;}
 
+  let t=0;
   function draw(ts){
     t=ts*0.00007;
     px+=(mx-px)*PL; py+=(my-py)*PL;
-
     ch1=lerpH(ch1,th1,CL); cs1+=(ts1-cs1)*CL; cl1+=(tl1-cl1)*CL;
     ch2=lerpH(ch2,th2,CL); cs2+=(ts2-cs2)*CL; cl2+=(tl2-cl2)*CL;
 
-    const dm = isDay ? 1.85 : 1.0;
+    // day mode = more visible; no color = subtle neutral
+    const dm=isDay?1.9:1.0;
+    const base=hasColor?0.15:0.05;
 
-    cx.clearRect(0,0,W,H);
+    ctx.clearRect(0,0,W,H);
 
-    // orb 1 — cursor
-    const o1x=px+Math.sin(t*.65)*.07, o1y=py+Math.cos(t*.45)*.055;
-    const g1=cx.createRadialGradient(o1x*W,o1y*H,0,o1x*W,o1y*H,Math.max(W,H)*.62);
-    g1.addColorStop(0,  `hsla(${ch1},${cs1}%,${cl1}%,${(.16*dm).toFixed(3)})`);
-    g1.addColorStop(.5, `hsla(${ch1},${cs1}%,${cl1}%,${(.05*dm).toFixed(3)})`);
+    // orb 1 — cursor zone
+    const o1x=px+Math.sin(t*.6)*.07, o1y=py+Math.cos(t*.42)*.055;
+    const g1=ctx.createRadialGradient(o1x*W,o1y*H,0,o1x*W,o1y*H,Math.max(W,H)*.62);
+    g1.addColorStop(0,  `hsla(${ch1},${cs1}%,${cl1}%,${(base*dm).toFixed(3)})`);
+    g1.addColorStop(.5, `hsla(${ch1},${cs1}%,${cl1}%,${(base*.3*dm).toFixed(3)})`);
     g1.addColorStop(1,  'hsla(0,0%,0%,0)');
-    cx.fillStyle=g1; cx.fillRect(0,0,W,H);
+    ctx.fillStyle=g1;ctx.fillRect(0,0,W,H);
 
-    // orb 2 — opposite
-    const o2x=1-px+Math.sin(t*.32)*.055, o2y=1-py+Math.cos(t*.48)*.045;
-    const g2=cx.createRadialGradient(o2x*W,o2y*H,0,o2x*W,o2y*H,Math.max(W,H)*.55);
-    g2.addColorStop(0,  `hsla(${ch2},${cs2}%,${cl2}%,${(.10*dm).toFixed(3)})`);
-    g2.addColorStop(.5, `hsla(${ch2},${cs2}%,${cl2}%,${(.03*dm).toFixed(3)})`);
+    // orb 2 — opposite corner
+    const o2x=1-px+Math.sin(t*.3)*.055, o2y=1-py+Math.cos(t*.5)*.045;
+    const g2=ctx.createRadialGradient(o2x*W,o2y*H,0,o2x*W,o2y*H,Math.max(W,H)*.52);
+    g2.addColorStop(0,  `hsla(${ch2},${cs2}%,${cl2}%,${(base*.7*dm).toFixed(3)})`);
+    g2.addColorStop(.5, `hsla(${ch2},${cs2}%,${cl2}%,${(base*.2*dm).toFixed(3)})`);
     g2.addColorStop(1,  'hsla(0,0%,0%,0)');
-    cx.fillStyle=g2; cx.fillRect(0,0,W,H);
+    ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
 
-    // orb 3 — autonomous bottom drift
-    const o3x=.5+Math.sin(t*.24)*.26, o3y=.72+Math.cos(t*.17)*.11;
+    // orb 3 — slow autonomous drift
+    const o3x=.5+Math.sin(t*.22)*.28, o3y=.72+Math.cos(t*.16)*.12;
     const h3=(ch1+180)%360;
-    const g3=cx.createRadialGradient(o3x*W,o3y*H,0,o3x*W,o3y*H,Math.max(W,H)*.38);
-    g3.addColorStop(0,  `hsla(${h3},22%,24%,${(.07*dm).toFixed(3)})`);
+    const g3=ctx.createRadialGradient(o3x*W,o3y*H,0,o3x*W,o3y*H,Math.max(W,H)*.38);
+    g3.addColorStop(0,  `hsla(${h3},20%,22%,${(.06*dm).toFixed(3)})`);
     g3.addColorStop(1,  'hsla(0,0%,0%,0)');
-    cx.fillStyle=g3; cx.fillRect(0,0,W,H);
+    ctx.fillStyle=g3;ctx.fillRect(0,0,W,H);
 
     requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);
-})();
-
-/* ══════════════════════════════════════════════════════
-   i18n
-   ══════════════════════════════════════════════════════ */
-const I18N = {
-en:{
-"nav.prod":"Production","nav.act":"Actors","nav.post":"Post & Sound","nav.des":"Design","nav.stu":"Studio","nav.con":"Contact",
-"hero.kick":"A European indie studio","hero.h1a":"Stories","hero.h1b":"launched forward.","hero.lede":"Film · Music · Actor Services. Based in Paris.","hero.c1":"See the work","hero.c2":"For actors","hero.c3":"Start a project","hero.scroll":"Scroll",
-"sec.prod":"Production","sec.act":"Actor Services","sec.post":"Post & Sound","sec.des":"Design","sec.stu":"Studio","sec.con":"Contact",
-"prod.h2":"Films we made.","prod.sub":"Narrative shorts, music videos, and music for film and games. All produced independently in Europe.",
-"para.m":"Direction · Score · Edit · Post · Fully self-produced","para.b":"Short film",
-"pup.m":"DOP · 1st AC · Original score","pup.b":"Short film",
-"lr.m":"Direction · Score · Post",
-"mus.head":"Music for Film & Games","mus.sc":"Original score","mus.gm":"Game score",
-"act.h2":"For emerging actors.","act.sub":"Headshots and demo reel scenes — directed with a film sensibility, not a package mentality.",
-"act.hs":"Headshots","act.reel":"Demo Reel Scenes","hs.v":"View full","hs.ig":"More headshots on Instagram",
-"post.h2":"From assembly to final mix.","post.sub":"Editing, colour, sound design, and original music. Post-production that protects the intent of the shoot.",
-"sv1.n":"Edit","sv1.h":"Assembly & Edit","sv1.p":"From first cut to locked picture. Narrative, documentary, short-form.","sv1.l1":"First assembly","sv1.l2":"Narrative edit","sv1.l3":"Demo reel edit",
-"sv2.n":"Colour","sv2.h":"Colour Grading","sv2.p":"Cinematic grading that serves the image rather than overwriting it.","sv2.l1":"Colour grading","sv2.l2":"LUT creation","sv2.l3":"HDR delivery",
-"sv3.n":"Sound","sv3.h":"Sound Design & Mix","sv3.p":"Sound design, dialogue edit, and final mix for film and game audio.","sv3.l1":"Sound design","sv3.l2":"Dialogue edit","sv3.l3":"Final mix",
-"sv4.n":"Music","sv4.h":"Original Score","sv4.p":"Original music for film, short-form content, and games — composed and produced in-house.","sv4.l1":"Film score","sv4.l2":"Game audio","sv4.l3":"Sound branding",
-"des.h2":"Poster design.","des.sub":"Film poster design rooted in the image — key art that communicates the world of a film before you press play.","des.pd":"Poster design",
-"stu.h2":"A small team in close focus.","stu.lead":"Slingshot Studios is a multidisciplinary production studio working across film, music, and actor-focused content.",
-"stu.p1":"Independent by choice. Fewer projects means more attention to the details that matter — framing, rhythm, sound. The things that make a film worth rewatching.",
-"stu.p2":"Based in Paris. Founded in 2025. We take on a limited number of projects each year, working closely with directors, actors, and musicians.",
-"stu.p3":"Four pillars: Film production, Actor services, Post and Sound, and Design. All under one roof, by the same people.",
-"tm.1":"Direction · Performance","tm.2":"Post · Sound · Score","tm.3":"Producing · Casting","tm.4":"Image · Design",
-"con.h2":"Let's make something.","con.sub":"A short brief is enough to get started.","con.p":"We reply within a few working days. For urgent enquiries, email directly.",
-"con.based":"Based","con.hl":"Hours","con.hv":"Any day, by appointment. We're filmmakers — what's a weekend?",
-"fm.name":"Name","fm.email":"Email","fm.cat":"I'm enquiring about","fm.msg":"Message","fm.send":"Send","fm.cs":"We don't share your details.","fm.c1":"Actor services","fm.c2":"Production","fm.c3":"Post & Sound","fm.c4":"Design","fm.c5":"Something else",
-"ft.tag":"Film · Music · Actor Services · Design. Based in Paris.","ft.work":"Work","ft.connect":"Connect","ft.legal":"Legal","ft.priv":"Privacy","ft.ln":"Legal notice","ft.ck":"Cookies","ft.made":"Made in Europe.",
-"ck.msg":"Minimal cookies, no cross-site tracking.","ck.ok":"OK"
-},
-de:{
-"nav.prod":"Produktion","nav.act":"Schauspieler","nav.post":"Post & Sound","nav.des":"Design","nav.stu":"Studio","nav.con":"Kontakt",
-"hero.kick":"Ein europäisches Indie-Studio","hero.h1a":"Geschichten","hero.h1b":"mit Schwung erzählt.","hero.lede":"Film · Musik · Schauspieler-Services. Ansässig in Paris.","hero.c1":"Arbeiten ansehen","hero.c2":"Für Schauspieler","hero.c3":"Projekt starten","hero.scroll":"Scrollen",
-"sec.prod":"Produktion","sec.act":"Schauspieler-Services","sec.post":"Post & Sound","sec.des":"Design","sec.stu":"Studio","sec.con":"Kontakt",
-"prod.h2":"Filme, die wir gemacht haben.","prod.sub":"Kurzfilme, Musikvideos und Musik für Film und Spiele. Alles unabhängig in Europa produziert.",
-"para.m":"Regie · Musik · Schnitt · Post · Vollständig selbst produziert","para.b":"Kurzfilm","pup.m":"DOP · 1st AC · Originalmusik","pup.b":"Kurzfilm","lr.m":"Regie · Musik · Post",
-"mus.head":"Musik für Film & Spiele","mus.sc":"Originalmusik","mus.gm":"Spielemusik",
-"act.h2":"Für aufstrebende Schauspieler.","act.sub":"Headshots und Demo-Reel-Szenen — mit filmischem Blick, nicht als Pauschalpaket.","act.hs":"Headshots","act.reel":"Demo-Reel-Szenen","hs.v":"Vollbild","hs.ig":"Mehr Headshots auf Instagram",
-"post.h2":"Vom Assembly bis zum finalen Mix.","post.sub":"Schnitt, Color, Sounddesign und Originalmusik. Post-Production, die den Geist des Drehs bewahrt.",
-"sv1.n":"Schnitt","sv1.h":"Assembly & Schnitt","sv1.p":"Vom ersten Schnitt bis zum finalen Bild.","sv1.l1":"Erster Schnitt","sv1.l2":"Narrativer Schnitt","sv1.l3":"Demo-Reel-Schnitt",
-"sv2.n":"Color","sv2.h":"Color Grading","sv2.p":"Kinematografisches Grading, das das Bild ergänzt.","sv2.l1":"Color Grading","sv2.l2":"LUT-Erstellung","sv2.l3":"HDR-Lieferung",
-"sv3.n":"Sound","sv3.h":"Sounddesign & Mix","sv3.p":"Sounddesign, Dialogschnitt und Finalmix.","sv3.l1":"Sounddesign","sv3.l2":"Dialogschnitt","sv3.l3":"Finalmix",
-"sv4.n":"Musik","sv4.h":"Originalmusik","sv4.p":"Originalmusik für Film und Spiele — im Studio komponiert und produziert.","sv4.l1":"Filmmusik","sv4.l2":"Spielemusik","sv4.l3":"Sound Branding",
-"des.h2":"Plakatgestaltung.","des.sub":"Filmplakatdesign aus dem Bild heraus — Key Art, das die Welt eines Films vermittelt.","des.pd":"Plakatgestaltung",
-"stu.h2":"Ein kleines Team, nah am Detail.","stu.lead":"Slingshot Studios ist ein multidisziplinäres Produktionsstudio für Film, Musik und schauspielerische Inhalte.",
-"stu.p1":"Unabhängig aus Überzeugung. Weniger Projekte, mehr Aufmerksamkeit für Details — Bildaufbau, Rhythmus, Sound.","stu.p2":"Ansässig in Paris. Gegründet 2025. Wir nehmen jedes Jahr eine begrenzte Anzahl von Projekten an.","stu.p3":"Vier Säulen: Filmproduktion, Schauspieler-Services, Post & Sound und Design. Alles unter einem Dach.",
-"tm.1":"Regie · Performance","tm.2":"Post · Sound · Musik","tm.3":"Produktion · Casting","tm.4":"Bild · Design",
-"con.h2":"Lasst uns etwas machen.","con.sub":"Ein kurzes Briefing reicht zum Start.","con.p":"Wir antworten innerhalb weniger Werktage. Für dringende Anfragen direkt per E-Mail.",
-"con.based":"Ansässig","con.hl":"Erreichbarkeit","con.hv":"Jederzeit, nach Vereinbarung. Wir sind Filmemacher — was ist ein Wochenende?",
-"fm.name":"Name","fm.email":"E-Mail","fm.cat":"Ich frage nach","fm.msg":"Nachricht","fm.send":"Senden","fm.cs":"Wir geben Ihre Daten nicht weiter.","fm.c1":"Schauspieler-Services","fm.c2":"Produktion","fm.c3":"Post & Sound","fm.c4":"Design","fm.c5":"Anderes",
-"ft.tag":"Film · Musik · Schauspieler-Services · Design. Ansässig in Paris.","ft.work":"Arbeiten","ft.connect":"Kontakt","ft.legal":"Rechtliches","ft.priv":"Datenschutz","ft.ln":"Impressum","ft.ck":"Cookies","ft.made":"Made in Europe.",
-"ck.msg":"Minimale Cookies, kein websiteübergreifendes Tracking.","ck.ok":"OK"
-},
-fr:{
-"nav.prod":"Production","nav.act":"Acteurs","nav.post":"Post & Son","nav.des":"Design","nav.stu":"Studio","nav.con":"Contact",
-"hero.kick":"Un studio indépendant européen","hero.h1a":"Des histoires","hero.h1b":"lancées vers l'avant.","hero.lede":"Film · Musique · Services aux acteurs. Basés à Paris.","hero.c1":"Voir les projets","hero.c2":"Pour les acteurs","hero.c3":"Lancer un projet","hero.scroll":"Défiler",
-"sec.prod":"Production","sec.act":"Services aux acteurs","sec.post":"Post & Son","sec.des":"Design","sec.stu":"Studio","sec.con":"Contact",
-"prod.h2":"Les films qu'on a faits.","prod.sub":"Courts-métrages, clips et musique pour le cinéma et le jeu. Tout produit indépendamment en Europe.",
-"para.m":"Réalisation · Musique · Montage · Post · Entièrement autoproduit","para.b":"Court-métrage","pup.m":"DOP · 1er AC · Musique originale","pup.b":"Court-métrage","lr.m":"Réalisation · Musique · Post",
-"mus.head":"Musique pour le cinéma et le jeu","mus.sc":"Musique originale","mus.gm":"Musique de jeu",
-"act.h2":"Pour les acteurs émergents.","act.sub":"Portraits et scènes de demo reel — dirigés avec une sensibilité cinématographique.","act.hs":"Portraits","act.reel":"Scènes de demo reel","hs.v":"Voir en grand","hs.ig":"Plus de portraits sur Instagram",
-"post.h2":"Du premier assemblage au mix final.","post.sub":"Montage, étalonnage, sound design et musique originale. Une post-production qui protège l'intention du tournage.",
-"sv1.n":"Montage","sv1.h":"Assemblage & Montage","sv1.p":"Du premier cut à l'image verrouillée.","sv1.l1":"Premier assemblage","sv1.l2":"Montage narratif","sv1.l3":"Montage demo reel",
-"sv2.n":"Étalonnage","sv2.h":"Étalonnage","sv2.p":"Un étalonnage cinématographique qui complète l'image.","sv2.l1":"Étalonnage","sv2.l2":"Création de LUT","sv2.l3":"Livraison HDR",
-"sv3.n":"Son","sv3.h":"Sound Design & Mix","sv3.p":"Sound design, montage dialogue et mix final.","sv3.l1":"Sound design","sv3.l2":"Montage dialogue","sv3.l3":"Mix final",
-"sv4.n":"Musique","sv4.h":"Musique originale","sv4.p":"Musique pour le cinéma et le jeu — composée et produite en interne.","sv4.l1":"Musique de film","sv4.l2":"Audio jeu vidéo","sv4.l3":"Sound branding",
-"des.h2":"Design d'affiches.","des.sub":"Création d'affiches de film ancrée dans l'image — key art qui communique l'univers d'un film avant d'appuyer sur play.","des.pd":"Conception d'affiche",
-"stu.h2":"Une petite équipe, en attention proche.","stu.lead":"Slingshot Studios est un studio de production multidisciplinaire — film, musique et contenus pour acteurs.",
-"stu.p1":"Indépendants par choix. Moins de projets, plus d'attention aux détails qui comptent — cadre, rythme, son.","stu.p2":"Basés à Paris. Fondé en 2025. Nous acceptons un nombre limité de projets chaque année.","stu.p3":"Quatre axes : Production, Services aux acteurs, Post & Son et Design. Sous un même toit.",
-"tm.1":"Réalisation · Performance","tm.2":"Post · Son · Musique","tm.3":"Production · Casting","tm.4":"Image · Design",
-"con.h2":"Faisons quelque chose.","con.sub":"Un bref résumé suffit pour commencer.","con.p":"Nous répondons en quelques jours ouvrés. Pour une demande urgente, écrivez directement.",
-"con.based":"Basés","con.hl":"Horaires","con.hv":"N'importe quand, sur rendez-vous. On est cinéastes — c'est quoi un week-end?",
-"fm.name":"Nom","fm.email":"E-mail","fm.cat":"Je m'enquiers de","fm.msg":"Message","fm.send":"Envoyer","fm.cs":"Nous ne partageons pas vos données.","fm.c1":"Services aux acteurs","fm.c2":"Production","fm.c3":"Post & Son","fm.c4":"Design","fm.c5":"Autre chose",
-"ft.tag":"Film · Musique · Services aux acteurs · Design. Basés à Paris.","ft.work":"Projets","ft.connect":"Liens","ft.legal":"Mentions légales","ft.priv":"Confidentialité","ft.ln":"Mentions légales","ft.ck":"Cookies","ft.made":"Fait en Europe.",
-"ck.msg":"Cookies minimaux, pas de suivi intersites.","ck.ok":"OK"
-},
-it:{
-"nav.prod":"Produzione","nav.act":"Attori","nav.post":"Post & Sound","nav.des":"Design","nav.stu":"Studio","nav.con":"Contatti",
-"hero.kick":"Uno studio indipendente europeo","hero.h1a":"Storie","hero.h1b":"lanciate in avanti.","hero.lede":"Film · Musica · Servizi attori. Basati a Parigi.","hero.c1":"Vedi i lavori","hero.c2":"Per attori","hero.c3":"Avvia un progetto","hero.scroll":"Scorri",
-"sec.prod":"Produzione","sec.act":"Servizi attori","sec.post":"Post & Sound","sec.des":"Design","sec.stu":"Studio","sec.con":"Contatti",
-"prod.h2":"I film che abbiamo fatto.","prod.sub":"Cortometraggi, videoclip e musica per film e giochi. Tutto prodotto indipendentemente in Europa.",
-"para.m":"Regia · Musica · Montaggio · Post · Completamente autoprodotto","para.b":"Cortometraggio","pup.m":"DOP · 1st AC · Musica originale","pup.b":"Cortometraggio","lr.m":"Regia · Musica · Post",
-"mus.head":"Musica per film e giochi","mus.sc":"Musica originale","mus.gm":"Musica di gioco",
-"act.h2":"Per attori emergenti.","act.sub":"Headshot e scene di demo reel — diretti con sensibilità cinematografica.","act.hs":"Headshot","act.reel":"Scene di demo reel","hs.v":"Vedi intero","hs.ig":"Altri headshot su Instagram",
-"post.h2":"Dal primo assembly al mix finale.","post.sub":"Montaggio, color, sound design e musica originale. Post-produzione che protegge l'intento del set.",
-"sv1.n":"Montaggio","sv1.h":"Assembly & Montaggio","sv1.p":"Dal primo taglio all'immagine bloccata.","sv1.l1":"Primo assembly","sv1.l2":"Montaggio narrativo","sv1.l3":"Montaggio demo reel",
-"sv2.n":"Color","sv2.h":"Color Grading","sv2.p":"Grading cinematografico che esalta l'immagine.","sv2.l1":"Color grading","sv2.l2":"Creazione LUT","sv2.l3":"Consegna HDR",
-"sv3.n":"Suono","sv3.h":"Sound Design & Mix","sv3.p":"Sound design, montaggio dialogo e mix finale.","sv3.l1":"Sound design","sv3.l2":"Montaggio dialogo","sv3.l3":"Mix finale",
-"sv4.n":"Musica","sv4.h":"Musica originale","sv4.p":"Musica per film e giochi — composta e prodotta internamente.","sv4.l1":"Colonna sonora","sv4.l2":"Audio giochi","sv4.l3":"Sound branding",
-"des.h2":"Design di poster.","des.sub":"Progettazione di poster cinematografici radicata nell'immagine — key art che comunica il mondo di un film prima di premere play.","des.pd":"Design poster",
-"stu.h2":"Una squadra piccola, attenta al dettaglio.","stu.lead":"Slingshot Studios è uno studio di produzione multidisciplinare — film, musica e contenuti per attori.",
-"stu.p1":"Indipendenti per scelta. Meno progetti, più attenzione ai dettagli — inquadratura, ritmo, suono.","stu.p2":"Basati a Parigi. Fondato nel 2025. Accettiamo un numero limitato di progetti ogni anno.","stu.p3":"Quattro pilastri: produzione, servizi attori, post & sound e design. Sotto lo stesso tetto.",
-"tm.1":"Regia · Performance","tm.2":"Post · Suono · Musica","tm.3":"Produzione · Casting","tm.4":"Immagine · Design",
-"con.h2":"Facciamo qualcosa.","con.sub":"Un breve brief è sufficiente per iniziare.","con.p":"Rispondiamo entro pochi giorni lavorativi. Per richieste urgenti, scrivi direttamente.",
-"con.based":"Sede","con.hl":"Orari","con.hv":"Sempre, su appuntamento. Siamo filmmaker — cos'è un weekend?",
-"fm.name":"Nome","fm.email":"Email","fm.cat":"Sono interessato a","fm.msg":"Messaggio","fm.send":"Invia","fm.cs":"Non condividiamo i tuoi dati.","fm.c1":"Servizi attori","fm.c2":"Produzione","fm.c3":"Post & Sound","fm.c4":"Design","fm.c5":"Altro",
-"ft.tag":"Film · Musica · Servizi attori · Design. Basati a Parigi.","ft.work":"Lavori","ft.connect":"Collegamenti","ft.legal":"Note legali","ft.priv":"Privacy","ft.ln":"Note legali","ft.ck":"Cookie","ft.made":"Made in Europe.",
-"ck.msg":"Cookie minimi, nessun tracciamento intersiti.","ck.ok":"OK"
 }
-};
 
-function setLang(lang){
-  if(!I18N[lang]) lang='en';
-  document.documentElement.lang=lang;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const v=I18N[lang][el.dataset.i18n];
-    if(v!==undefined) el.textContent=v;
-  });
-  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
-  try{sessionStorage.setItem('ss.lang',lang);}catch(_){}
+/* ═══════════════════════════════════════════════════════════
+   POST-BUILD SETUP (called after DOM is ready)
+   ═══════════════════════════════════════════════════════════ */
+function boot(C) {
+  window._C = C;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  document.title = C.site.title + ' — Film · Music · Performance';
+  setupMeta(C);
+  setupDayNight();
+  setupNav(C);
+  setupHero(C);
+  buildSections(C);
+  setupFooter(C);
+  setupCookie(C);
+
+  // post-build: wire up interactive elements
+  setTimeout(() => {
+    setupReveal();
+    setupMusicPlayer(C);
+    setupFilmCards();
+    setupReels();
+    setupGradient();
+  }, 50);
 }
-document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
-try{const s=sessionStorage.getItem('ss.lang');if(s)setLang(s);}catch(_){}
+
+/* ── utils ────────────────────────────────────────────── */
+function el(tag, cls, id) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (id)  e.id = id;
+  return e;
+}
+function escHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 </script>
 </body>
 </html>
