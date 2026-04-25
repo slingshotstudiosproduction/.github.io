@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Slingshot Studios</title>
 <meta name="description" content="An independent film collective based in Paris."/>
+<!-- Satoshi from Fontshare -->
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+<!-- Plus Jakarta Sans from Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
 <style>
 /* ── tokens ───────────────────────────────────────────── */
 :root{
@@ -15,7 +18,10 @@
   --fg:#f0ede8; --fd:#9e9990; --fm:#5c5852;
   --ln:rgba(255,255,255,.07); --lh:rgba(255,255,255,.13);
   --g:clamp(20px,4vw,56px); --maxw:1440px;
-  --f:"DM Sans",-apple-system,BlinkMacSystemFont,sans-serif; --r:3px;
+  --f:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  --fh:"Satoshi",-apple-system,BlinkMacSystemFont,sans-serif;
+  --serif:"Fraunces",Georgia,serif;
+  --r:3px;
 }
 body.day{
   --bg:#f4f1ec; --bg2:#ece9e3; --bgc:#e5e2dc;
@@ -26,6 +32,7 @@ body.day{
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--fg);font-family:var(--f);font-weight:300;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .7s,color .7s}
+h1,h2,h3,h4,.brand,.fb-name{font-family:var(--fh)}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
@@ -36,7 +43,17 @@ body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:1;bac
 section{position:relative;z-index:2}
 .block{padding:96px 0}
 @media(max-width:720px){.block{padding:68px 0}}
-
+ 
+/* ── boot animation ───────────────────────────────────── */
+.boot-hidden{opacity:0;transform:translateY(10px)}
+.boot-in{animation:bootIn .7s cubic-bezier(.2,.6,.2,1) forwards}
+@keyframes bootIn{to{opacity:1;transform:none}}
+.boot-d1{animation-delay:.05s}
+.boot-d2{animation-delay:.18s}
+.boot-d3{animation-delay:.30s}
+.boot-d4{animation-delay:.42s}
+.boot-d5{animation-delay:.54s}
+ 
 /* ── nav ──────────────────────────────────────────────── */
 .nav{position:fixed;top:0;left:0;right:0;z-index:80;padding:15px 0;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--ln);transition:background .4s,border-color .4s}
 .nav.top{background:transparent;border-bottom-color:transparent}
@@ -62,7 +79,7 @@ section{position:relative;z-index:2}
   .tog span::before,.tog span::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--fg)}
   .tog span::before{top:-5px}.tog span::after{top:5px}
 }
-
+ 
 /* ── hero ─────────────────────────────────────────────── */
 .hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56px}
 /* desktop: video bg */
@@ -78,8 +95,10 @@ section{position:relative;z-index:2}
 .kicker{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
 /* push kicker below any letterbox bars — adds safe top offset */
 @media(max-width:760px){.hero-content{padding-top:110px}}
-.hero h1{font-weight:300;font-size:clamp(40px,7.5vw,112px);line-height:.97;letter-spacing:-.03em;margin:0 0 18px;max-width:13ch;color:#fff;white-space:pre-line}
-.hero h1 em{font-style:italic;opacity:.5}
+.hero h1{font-weight:400;font-size:clamp(40px,7.5vw,112px);line-height:.97;letter-spacing:-.02em;margin:0 0 18px;max-width:13ch;color:#fff;white-space:pre-line}
+/* "Stories" — serif italic contrast word */
+.hero h1 .serif-word{font-family:var(--serif);font-style:italic;font-weight:300;opacity:1;letter-spacing:-.03em}
+.hero h1 .plain-word{font-family:var(--fh);font-weight:300;opacity:.72}
 .hero .lede{max-width:44ch;font-size:clamp(14px,1.1vw,16px);color:rgba(255,255,255,.5);margin:0 0 32px;font-weight:300}
 .ctas{display:flex;gap:9px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 17px;border:1px solid rgba(255,255,255,.28);border-radius:var(--r);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:400;color:#fff;transition:background .3s,border-color .3s}
@@ -88,21 +107,21 @@ section{position:relative;z-index:2}
 .btn.fill:hover{background:rgba(255,255,255,.22)}
 .scroll-hint{position:absolute;bottom:24px;right:var(--g);z-index:4;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:8px}
 .scroll-hint::before{content:"";display:block;width:1px;height:26px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.3))}
-
+ 
 /* ── section head ─────────────────────────────────────── */
 .sh{margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--ln);display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .sh-l{flex:1 1 auto}
 .sn{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--fm);margin-bottom:9px}
 .sh h2{font-weight:300;font-size:clamp(24px,3.5vw,48px);line-height:1.05;letter-spacing:-.02em}
 .sh .lead{color:var(--fd);font-size:13px;max-width:36ch;flex:0 1 300px;padding-bottom:2px}
-
+ 
 /* ── reveal ───────────────────────────────────────────── */
 .rv{opacity:0;transform:translateY(14px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.6,.2,1)}
 .rv.in{opacity:1;transform:none}
-
+ 
 /* ── subsection label ─────────────────────────────────── */
 .sub-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin-bottom:16px}
-
+ 
 /* ── film grid ────────────────────────────────────────── */
 .films{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:680px){.films{grid-template-columns:1fr}}
@@ -123,11 +142,14 @@ section{position:relative;z-index:2}
 .play-over svg{width:52px;height:52px;opacity:.65;transition:opacity .2s}
 .fe.yt-hover:hover .play-over svg{opacity:.9}
 .fe.yt-hover.active .play-over{opacity:0;pointer-events:none}
-.fi{padding:16px 18px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.ft-name{font-size:15px;font-weight:400;margin-bottom:2px}
-.ft-meta{font-size:12px;color:var(--fd);letter-spacing:.03em}
-.badge{flex-shrink:0;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fm);border:1px solid var(--lh);padding:3px 9px;border-radius:20px;white-space:nowrap;margin-top:2px}
-
+.fi{padding:14px 16px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ft-name{font-size:15px;font-weight:500;margin-bottom:2px;font-family:var(--fh)}
+.ft-meta{font-size:11px;color:var(--fd);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:28ch}
+.ft-note{font-size:11px;color:var(--fm);font-style:italic;margin-top:4px}
+/* badges — support one or two pills */
+.badges{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0}
+.badge{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fm);border:1px solid var(--lh);padding:3px 8px;border-radius:20px;white-space:nowrap;text-align:center}
+ 
 /* ── music player ─────────────────────────────────────── */
 .music-player{margin-top:48px;border-top:1px solid var(--ln)}
 .track-row{display:flex;align-items:center;gap:12px;padding:11px 6px;border-bottom:1px solid var(--ln);transition:background .2s;border-radius:2px;cursor:pointer}
@@ -166,7 +188,7 @@ section{position:relative;z-index:2}
 }
 .player-title{font-size:13px;font-weight:400;color:var(--fg)}
 .player-sub{font-size:11px;color:var(--fd)}
-
+ 
 /* ── carousel ─────────────────────────────────────────── */
 .car-wrap{position:relative}
 .car{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
@@ -180,8 +202,8 @@ section{position:relative;z-index:2}
 .hov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.48) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:14px}
 .hc:hover .hov{opacity:1}
 .hov span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
-/* reel */
-.rc{aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer}
+/* reel — landscape 16:9 for proper scene clips */
+.rc{aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer}
 .rc video{width:100%;height:100%;object-fit:cover}
 .rth{position:absolute;inset:0;background:var(--bgc) center/cover no-repeat;transition:opacity .4s}
 .rc.playing .rth{opacity:0;pointer-events:none}
@@ -199,7 +221,7 @@ section{position:relative;z-index:2}
 .ig-row a{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--lh);padding:7px 12px;border-radius:20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s}
 .ig-row a:hover{background:var(--ln)}
 .ig-row svg{width:13px;height:13px;fill:var(--fd)}
-
+ 
 /* ── services ─────────────────────────────────────────── */
 .svcs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ln)}
 @media(max-width:980px){.svcs{grid-template-columns:repeat(2,1fr)}}
@@ -211,7 +233,7 @@ section{position:relative;z-index:2}
 .sv p{font-size:13px;color:var(--fd);margin-bottom:20px;max-width:30ch}
 .sv ul{list-style:none}
 .sv ul li{padding:8px 0;border-top:1px solid var(--ln);font-size:13px;letter-spacing:.03em}
-
+ 
 /* ── posters ──────────────────────────────────────────── */
 /* desktop: 3-up grid; mobile: carousel */
 .poster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -227,7 +249,7 @@ section{position:relative;z-index:2}
 .pc:hover .pc-cap{opacity:1}
 .pc-cap h4{font-size:14px;font-weight:400;color:#fff;text-align:center}
 .pc-cap span{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
-
+ 
 /* ── about ────────────────────────────────────────────── */
 .ag{display:grid;grid-template-columns:5fr 7fr;gap:56px}
 @media(max-width:840px){.ag{grid-template-columns:1fr;gap:24px}}
@@ -241,7 +263,7 @@ section{position:relative;z-index:2}
 .av.has-photo::after{display:none}
 .tm h4{font-size:15px;font-weight:400;margin-bottom:2px}
 .tm small{font-size:12px;color:var(--fd)}
-
+ 
 /* ── contact ──────────────────────────────────────────── */
 .cl{display:grid;grid-template-columns:5fr 7fr;gap:56px}
 @media(max-width:840px){.cl{grid-template-columns:1fr;gap:32px}}
@@ -262,38 +284,57 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .sub-row .cs{font-size:11px;color:var(--fm);max-width:34ch}
 form button[type=submit]{padding:10px 17px;border:1px solid var(--fg);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;transition:background .3s,color .3s}
 form button[type=submit]:hover{background:var(--fg);color:var(--bg)}
-
+ 
 /* ── marquee ──────────────────────────────────────────── */
 .mq{padding:48px 0;overflow:hidden;position:relative;z-index:2;border-top:1px solid var(--ln)}
 .mq-t{display:flex;gap:48px;white-space:nowrap;font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);animation:mq 32s linear infinite;will-change:transform}
 .mq-t span{display:inline-flex;align-items:center;gap:48px}
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;opacity:.35}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
+ 
 /* ── footer ───────────────────────────────────────────── */
 footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-top:1px solid var(--ln);color:var(--fm);font-size:13px}
 .fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
-@media(max-width:840px){.fg{grid-template-columns:1fr 1fr;gap:22px}.fb{grid-column:1/-1}}
+/* mobile: brand full width top row, three link cols below in one row */
+@media(max-width:840px){
+  .fg{grid-template-columns:1fr 1fr 1fr;gap:22px 16px}
+  .fb{grid-column:1/-1;margin-bottom:8px}
+}
 .fg h5{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fd);margin-bottom:11px;font-weight:400}
 .fg ul{list-style:none}.fg ul li{margin-bottom:8px}.fg ul li a:hover{color:var(--fg)}
 .fb p{color:var(--fd);margin-top:9px;font-size:13px;max-width:28ch}
 .fb-name{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
 .foot-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:20px;border-top:1px solid var(--ln);font-size:12px}
-
+ 
 /* ── cookie ───────────────────────────────────────────── */
 .ck{position:fixed;left:12px;right:12px;bottom:12px;z-index:100;background:var(--bg2);border:1px solid var(--lh);padding:13px 17px;border-radius:var(--r);display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:580px;margin:0 auto;font-size:12px;color:var(--fd);box-shadow:0 16px 52px rgba(0,0,0,.36)}
 .ck button{padding:7px 13px;border:1px solid var(--fg);font-size:10px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;transition:background .3s,color .3s}
 .ck button:hover{background:var(--fg);color:var(--bg)}
 .ck.gone{display:none}
-
+ 
+/* ── post single-para layout ──────────────────────────── */
+.post-desc{color:var(--fd);font-size:15px;line-height:1.7;max-width:64ch;margin-bottom:32px}
+.post-caps{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.post-cap{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fm);border:1px solid var(--lh);padding:4px 10px;border-radius:20px}
+ 
+/* ── BTS gallery ──────────────────────────────────────── */
+.bts-grid{columns:3;column-gap:12px}
+@media(max-width:700px){.bts-grid{columns:2}}
+.bts-item{break-inside:avoid;margin-bottom:12px;border-radius:var(--r);overflow:hidden;background:var(--bgc)}
+.bts-item img{width:100%;display:block;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.bts-item:hover img{transform:scale(1.03)}
+.bts-placeholder{aspect-ratio:4/5;background:var(--bgc);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fm)}
+.bts-placeholder:nth-child(3n+2){aspect-ratio:4/3}
+.bts-placeholder:nth-child(3n){aspect-ratio:3/4}
+ 
 /* ── util ─────────────────────────────────────────────── */
 .mt-section{margin-top:48px}
 </style>
 </head>
 <body>
-
+ 
 <canvas id="gc"></canvas>
-
+ 
 <!-- shells — JS fills everything from content.json -->
 <header class="nav top" id="nav">
   <div class="wrap">
@@ -318,17 +359,17 @@ footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-to
     </div>
   </div>
 </header>
-
+ 
 <!-- hero -->
 <section class="hero" id="top">
   <div class="hero-vid" id="heroVid"></div>
   <div class="hero-content wrap" id="heroContent"></div>
   <div class="scroll-hint" id="scrollHint">Scroll</div>
 </section>
-
+ 
 <!-- dynamic sections inserted here by JS -->
 <main id="main"></main>
-
+ 
 <footer>
   <div class="wrap">
     <div class="fg" id="footGrid"></div>
@@ -338,18 +379,18 @@ footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-to
     </div>
   </div>
 </footer>
-
+ 
 <div class="ck gone" id="ck">
   <span id="ckMsg"></span>
   <button id="ckOk"></button>
 </div>
-
+ 
 <!-- hidden audio element -->
 <audio id="audioEl" preload="none"></audio>
-
+ 
 <script>
 'use strict';
-
+ 
 /* ═══════════════════════════════════════════════════════════
    LOAD content.json THEN BOOT
    ═══════════════════════════════════════════════════════════ */
@@ -361,17 +402,17 @@ fetch('content.json')
     document.getElementById('main').innerHTML =
       '<div style="padding:60px;color:#f00;font-family:monospace">Error loading content.json — make sure it is in the same folder as index.html.<br><br>' + err + '</div>';
   });
-
+ 
 /* ═══════════════════════════════════════════════════════════
    BOOT
    ═══════════════════════════════════════════════════════════ */
 function boot(C) {
   // expose globally for gradient sampler
   window._C = C;
-
+ 
   document.getElementById('yr').textContent = new Date().getFullYear();
   document.title = C.site.title + ' — Film · Music · Performance';
-
+ 
   setupMeta(C);
   setupDayNight();
   setupNav(C);
@@ -382,7 +423,7 @@ function boot(C) {
   setupReveal();
   setupGradient();
 }
-
+ 
 /* ── meta ─────────────────────────────────────────────── */
 function setupMeta(C) {
   document.querySelector('meta[name="description"]').content = C.site.description;
@@ -392,7 +433,7 @@ function setupMeta(C) {
     mark.innerHTML = `<img src="assets/${C.logo.file}" alt="${C.site.title} logo">`;
   }
 }
-
+ 
 /* ── day/night ────────────────────────────────────────── */
 let isDay = false;
 function setupDayNight() {
@@ -410,13 +451,13 @@ function setupDayNight() {
   } catch(_) { apply(false); }
   btn.addEventListener('click', () => apply(!isDay));
 }
-
+ 
 /* ── nav ──────────────────────────────────────────────── */
 function setupNav(C) {
   const nav = C.nav;
   const sectionOrder = C.sectionOrder;
   const menuEl = document.getElementById('menu');
-
+ 
   // build nav links from section order
   const labels = {
     production: nav.production,
@@ -432,75 +473,95 @@ function setupNav(C) {
     a.textContent = labels[key] || key;
     menuEl.appendChild(a);
   });
-
+ 
   const navEl = document.getElementById('nav');
   function ons() { navEl.classList.toggle('top', window.scrollY < 40); }
   ons(); window.addEventListener('scroll', ons, {passive:true});
-
+ 
   document.getElementById('tog').addEventListener('click', () => menuEl.classList.toggle('open'));
   menuEl.addEventListener('click', e => { if (e.target.tagName === 'A') menuEl.classList.remove('open'); });
 }
-
+ 
 /* ── hero ─────────────────────────────────────────────── */
 function setupHero(C) {
   const h = C.hero;
-  const headline = h.headline_options[0].replace(/\n/g, '\n');
-
-  // video — desktop only (CSS hides on mobile)
+ 
+  // video — desktop only
   const vid = document.getElementById('heroVid');
   if (h.hero_video_youtube_id) {
     vid.innerHTML = `<iframe src="https://www.youtube.com/embed/${h.hero_video_youtube_id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${h.hero_video_youtube_id}&rel=0&playsinline=1&modestbranding=1" title="Hero" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
   }
-
+ 
+  // hero h1: "Stories," in serif italic, "made together." in sans
+  // slogan split: first word gets serif, rest gets plain
+  const slogan = h.headline_options[0];
+  const commaIdx = slogan.indexOf(',');
+  let h1HTML;
+  if (commaIdx > -1) {
+    const serifPart = slogan.slice(0, commaIdx + 1); // "Stories,"
+    const plainPart = slogan.slice(commaIdx + 1).trim(); // "made together."
+    h1HTML = `<span class="serif-word">${serifPart}</span><br><span class="plain-word">${plainPart}</span>`;
+  } else {
+    h1HTML = slogan;
+  }
+ 
   document.getElementById('heroContent').innerHTML = `
-    <div class="kicker">${h.kicker}</div>
-    <h1>${headline}</h1>
-    <p class="lede">${h.tagline}</p>
-    <div class="ctas">
-      <a class="btn fill" href="#production">${h.cta_work}</a>
-      <a class="btn" href="#actors">${h.cta_actors}</a>
-      <a class="btn" href="#contact">${h.cta_contact}</a>
+    <div class="kicker boot-hidden boot-in boot-d1">${escHtml(h.kicker)}</div>
+    <h1 class="boot-hidden boot-in boot-d2">${h1HTML}</h1>
+    <p class="lede boot-hidden boot-in boot-d3">${escHtml(h.tagline)}</p>
+    <div class="ctas boot-hidden boot-in boot-d4">
+      <a class="btn fill" href="#production">${escHtml(h.cta_work)}</a>
+      <a class="btn" href="#actors">${escHtml(h.cta_actors)}</a>
+      <a class="btn" href="#contact">${escHtml(h.cta_contact)}</a>
     </div>`;
-  document.getElementById('scrollHint').textContent = h.scroll_hint;
+ 
+  const sh = document.getElementById('scrollHint');
+  sh.textContent = h.scroll_hint;
+  sh.classList.add('boot-hidden','boot-in','boot-d5');
 }
-
+ 
 /* ═══════════════════════════════════════════════════════════
    BUILD ALL SECTIONS
    ═══════════════════════════════════════════════════════════ */
 function buildSections(C) {
   const main = document.getElementById('main');
   let num = 1;
-
+ 
   const builders = {
     production: () => buildProduction(C, num++),
     actors:     () => buildActors(C, num++),
     post:       () => buildPost(C, num++),
     design:     () => buildDesign(C, num++),
     about:      () => buildAbout(C, num++),
-    contact:    () => buildContact(C, num++)
+    contact:    () => buildContact(C, num++),
+    bts:        () => buildBts(C, num++)
   };
-
+ 
   C.sectionOrder.forEach(key => {
     if (builders[key]) {
       const node = builders[key]();
       if (node) main.appendChild(node);
-      // marquee after production
       if (key === 'production') main.appendChild(buildMarquee(C));
     }
   });
+ 
+  // always append BTS at end if not already in sectionOrder
+  if (!C.sectionOrder.includes('bts')) {
+    main.appendChild(buildBts(C, num++));
+  }
 }
-
+ 
 function secNum(n) {
   return String(n).padStart(2,'0');
 }
-
+ 
 /* ── production ───────────────────────────────────────── */
 function buildProduction(C, n) {
   const F = C.films;
   const M = C.music;
   const own   = F.items.filter(f => f.type === 'own');
   const collab = F.items.filter(f => f.type === 'collab');
-
+ 
   const sec = el('section', 'block rv', 'production');
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
@@ -510,41 +571,40 @@ function buildProduction(C, n) {
       </div>
       <p class="lead">${escHtml(F.section_sub)}</p>
     </div>
-
+ 
     <p class="sub-label rv">${escHtml(F.section_label_own)}</p>
     <div class="films rv" id="filmsOwn"></div>
-
+ 
     ${collab.length ? `<p class="collab-head rv">${escHtml(F.section_label_collab)}</p>
     <div class="films rv" id="filmsCollab"></div>` : ''}
-
+ 
     <div class="rv" id="musicSection"></div>
   </div>`;
-
+ 
   // own films
   const ownGrid = sec.querySelector('#filmsOwn');
   own.forEach((f, i) => ownGrid.appendChild(filmCard(f, i === 0 && own.length === 1)));
-
+ 
   // collab films
   const collabGrid = sec.querySelector('#filmsCollab');
   if (collabGrid) collab.forEach(f => collabGrid.appendChild(filmCard(f, false)));
-
+ 
   // music
   sec.querySelector('#musicSection').innerHTML = buildMusicHTML(M);
   return sec;
 }
-
+ 
 function filmCard(f, featured) {
   const card = el('div', 'fc' + (featured ? ' feat' : ''));
-  if (f['data-ch']) card.dataset.ch = f['data-ch'];
-
+ 
   let embedHTML = '';
   if (f.youtube_id) {
-    // hover preview: thumbnail shown, iframe behind; click to activate with sound
     const thumb = `https://img.youtube.com/vi/${f.youtube_id}/maxresdefault.jpg`;
+    // src loads immediately — thumbnail overlays on top, removed on click
     embedHTML = `
-      <div class="fe yt-hover" data-ytid="${f.youtube_id}" data-thumb="${thumb}">
+      <div class="fe yt-hover" data-ytid="${f.youtube_id}">
+        <iframe src="https://www.youtube.com/embed/${f.youtube_id}?rel=0&modestbranding=1&playsinline=1" title="${escHtml(f.title)}" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
         <div class="yt-thumb" style="background-image:url('${thumb}')"></div>
-        <iframe src="" data-src="https://www.youtube.com/embed/${f.youtube_id}?rel=0&modestbranding=1&enablejsapi=1" title="${escHtml(f.title)}" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
         <div class="play-over">
           <svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="25" stroke="white" stroke-opacity=".45"/><polygon points="21,16 41,26 21,36" fill="white" fill-opacity=".85"/></svg>
         </div>
@@ -554,18 +614,34 @@ function filmCard(f, featured) {
   } else {
     embedHTML = `<div class="fe" style="background:#0a0a0a"></div>`;
   }
-
+ 
+  // badge: support badge_type + badge_note, or fall back to single badge string
+  let badgeHTML = '';
+  if (f.badge_type || f.badge_note) {
+    badgeHTML = `<div class="badges">
+      ${f.badge_type ? `<span class="badge">${escHtml(f.badge_type)}</span>` : ''}
+      ${f.badge_note ? `<span class="badge">${escHtml(f.badge_note)}</span>` : ''}
+    </div>`;
+  } else if (f.badge) {
+    // legacy single badge — split on " · " if present
+    const parts = f.badge.split(' · ');
+    badgeHTML = `<div class="badges">${parts.map(p => `<span class="badge">${escHtml(p)}</span>`).join('')}</div>`;
+  }
+ 
+  const noteHTML = f.process_note ? `<div class="ft-note">${escHtml(f.process_note)}</div>` : '';
+ 
   card.innerHTML = `${embedHTML}
     <div class="fi">
-      <div>
+      <div style="min-width:0">
         <div class="ft-name">${escHtml(f.title)}</div>
         <div class="ft-meta">${escHtml(f.credits)}</div>
+        ${noteHTML}
       </div>
-      <span class="badge">${escHtml(f.badge)}</span>
+      ${badgeHTML}
     </div>`;
   return card;
 }
-
+ 
 /* ── music player ─────────────────────────────────────── */
 function buildMusicHTML(M) {
   const rows = M.items.map((t, i) => `
@@ -580,7 +656,7 @@ function buildMusicHTML(M) {
         <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
       </button>
     </div>`).join('');
-
+ 
   return `
     <p class="sub-label" style="margin-top:48px">${escHtml(M.section_label)}</p>
     <div class="music-player">
@@ -607,12 +683,12 @@ function buildMusicHTML(M) {
       ${rows}
     </div>`;
 }
-
+ 
 /* ── actors ───────────────────────────────────────────── */
 function buildActors(C, n) {
   const A = C.actors;
   const sec = el('section', 'block', 'actors');
-
+ 
   // headshots carousel
   const hsCIs = A.headshots.map(h => `
     <div class="ci">
@@ -621,7 +697,7 @@ function buildActors(C, n) {
         <div class="hov"><span>View full</span></div>
       </div>
     </div>`).join('');
-
+ 
   // reels carousel
   const reelCIs = A.reels.map(r => `
     <div class="ci">
@@ -632,7 +708,7 @@ function buildActors(C, n) {
         <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
       </div>
     </div>`).join('');
-
+ 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
@@ -641,7 +717,7 @@ function buildActors(C, n) {
       </div>
       <p class="lead">${escHtml(A.section_sub)}</p>
     </div>
-
+ 
     <div class="rv">
       <p class="sub-label">${escHtml(A.headshots_label)}</p>
       <div class="car-wrap">
@@ -659,7 +735,7 @@ function buildActors(C, n) {
         </a>
       </div>
     </div>
-
+ 
     <div class="rv mt-section">
       <p class="sub-label">${escHtml(A.reels_label)}</p>
       <div class="car-wrap">
@@ -673,32 +749,34 @@ function buildActors(C, n) {
   </div>`;
   return sec;
 }
-
+ 
 /* ── post ─────────────────────────────────────────────── */
 function buildPost(C, n) {
   const P = C.post;
   const sec = el('section', 'block', 'post');
-  const svcs = P.services.map(s => `
-    <div class="sv">
-      <div class="sv-n">${escHtml(s.label)}</div>
-      <h3>${escHtml(s.title)}</h3>
-      <p>${escHtml(s.body)}</p>
-      <ul>${s.list.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>
-    </div>`).join('');
-
+ 
+  // collect all service list items as capability pills
+  const allCaps = P.services.flatMap(s => s.list);
+  const capsHTML = allCaps.map(c => `<span class="post-cap">${escHtml(c)}</span>`).join('');
+ 
+  // one combined description from all service bodies
+  const combined = P.section_sub;
+ 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
         <div class="sn">${secNum(n)} / ${escHtml(C.nav.post)}</div>
         <h2>${escHtml(P.section_heading)}</h2>
       </div>
-      <p class="lead">${escHtml(P.section_sub)}</p>
     </div>
-    <div class="svcs rv">${svcs}</div>
+    <div class="rv">
+      <p class="post-desc">${escHtml(combined)}</p>
+      <div class="post-caps">${capsHTML}</div>
+    </div>
   </div>`;
   return sec;
 }
-
+ 
 /* ── design ───────────────────────────────────────────── */
 function buildDesign(C, n) {
   const D = C.design;
@@ -711,7 +789,7 @@ function buildDesign(C, n) {
         <span>${escHtml(p.credit)}</span>
       </div>
     </div>`).join('');
-
+ 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
@@ -724,7 +802,7 @@ function buildDesign(C, n) {
   </div>`;
   return sec;
 }
-
+ 
 /* ── about ────────────────────────────────────────────── */
 function buildAbout(C, n) {
   const A = C.about;
@@ -738,9 +816,9 @@ function buildAbout(C, n) {
       <small>${escHtml(m.role)}</small>
     </div>`;
   }).join('');
-
+ 
   const bodyHTML = A.body.map(p => `<p>${escHtml(p)}</p>`).join('');
-
+ 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
@@ -756,13 +834,13 @@ function buildAbout(C, n) {
   </div>`;
   return sec;
 }
-
+ 
 /* ── contact ──────────────────────────────────────────── */
 function buildContact(C, n) {
   const K = C.contact;
   const sec = el('section', 'block', 'contact');
   const catOpts = K.form_categories.map(c => `<option>${escHtml(c)}</option>`).join('');
-
+ 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
@@ -794,7 +872,7 @@ function buildContact(C, n) {
       </form>
     </div>
   </div>`;
-
+ 
   // form handler
   sec.querySelector('#cf').addEventListener('submit', ev => {
     ev.preventDefault();
@@ -805,7 +883,7 @@ function buildContact(C, n) {
   });
   return sec;
 }
-
+ 
 /* ── marquee ──────────────────────────────────────────── */
 function buildMarquee(C) {
   const words = ['Film', 'Music', 'Actor Services', 'Post & Sound', 'Design'];
@@ -816,7 +894,30 @@ function buildMarquee(C) {
   d.innerHTML = `<div class="mq-t"><span>${inner}</span><span>${inner}</span></div>`;
   return d;
 }
-
+ 
+/* ── bts ──────────────────────────────────────────────── */
+function buildBts(C, n) {
+  const B = C.bts;
+  const heading = (B && B.section_heading) || 'Behind the scenes.';
+  const sub = (B && B.section_sub) || 'Snapshots from on set. Phones out, nothing staged.';
+  const sec = el('section', 'block', 'bts');
+  const hasPhotos = B && B.photos && B.photos.length > 0;
+  const items = hasPhotos
+    ? B.photos.map(p => `<div class="bts-item"><img src="assets/${escHtml(p.file)}" alt="${escHtml(p.alt||'BTS')}" loading="lazy"></div>`).join('')
+    : Array(6).fill(0).map(() => `<div class="bts-item"><div class="bts-placeholder">Coming soon</div></div>`).join('');
+  sec.innerHTML = `<div class="wrap">
+    <div class="sh rv">
+      <div class="sh-l">
+        <div class="sn">${secNum(n)} / BTS</div>
+        <h2>${escHtml(heading)}</h2>
+      </div>
+      <p class="lead">${escHtml(sub)}</p>
+    </div>
+    <div class="bts-grid rv">${items}</div>
+  </div>`;
+  return sec;
+}
+ 
 /* ── footer ───────────────────────────────────────────── */
 function setupFooter(C) {
   const F = C.footer;
@@ -861,7 +962,7 @@ function setupFooter(C) {
       </ul>
     </div>`;
 }
-
+ 
 /* ── cookie ───────────────────────────────────────────── */
 function setupCookie(C) {
   const ck = C.cookie_banner;
@@ -872,7 +973,7 @@ function setupCookie(C) {
   try { if (sessionStorage.getItem('ss.ck') === 'ok') ckEl.classList.add('gone'); else ckEl.classList.remove('gone'); } catch(_) {}
   btn.addEventListener('click', () => { ckEl.classList.add('gone'); try { sessionStorage.setItem('ss.ck','ok'); } catch(_) {} });
 }
-
+ 
 /* ── reveal ───────────────────────────────────────────── */
 function setupReveal() {
   const io = new IntersectionObserver(es => {
@@ -881,7 +982,7 @@ function setupReveal() {
   // observe after DOM is built
   setTimeout(() => document.querySelectorAll('.rv').forEach(el => io.observe(el)), 100);
 }
-
+ 
 /* ═══════════════════════════════════════════════════════════
    MUSIC PLAYER
    ═══════════════════════════════════════════════════════════ */
@@ -890,10 +991,10 @@ function setupMusicPlayer(C) {
   const audio = document.getElementById('audioEl');
   const bar   = document.getElementById('playerBar');
   if (!bar) return;
-
+ 
   let currentIdx = -1;
   let isPlaying = false;
-
+ 
   const pbPlay = document.getElementById('pbPlay');
   const pbPrev = document.getElementById('pbPrev');
   const pbNext = document.getElementById('pbNext');
@@ -903,13 +1004,13 @@ function setupMusicPlayer(C) {
   const seekWrap  = document.getElementById('seekWrap');
   const playerTitle = document.getElementById('playerTitle');
   const playerSub   = document.getElementById('playerSub');
-
+ 
   function fmtTime(s) {
     if (!isFinite(s)) return '0:00';
     const m = Math.floor(s/60), ss = Math.floor(s%60);
     return m + ':' + String(ss).padStart(2,'0');
   }
-
+ 
   function loadTrack(idx) {
     const t = tracks[idx];
     currentIdx = idx;
@@ -928,12 +1029,12 @@ function setupMusicPlayer(C) {
     }
     return t;
   }
-
+ 
   function play(idx) {
     loadTrack(idx);
     audio.play().then(() => { isPlaying = true; updatePlayBtn(); }).catch(() => {});
   }
-
+ 
   function updatePlayBtn() {
     const icon = document.getElementById('playIcon');
     if (icon) {
@@ -941,7 +1042,7 @@ function setupMusicPlayer(C) {
       else icon.setAttribute('points','4,2 14,8 4,14');
     }
   }
-
+ 
   // track row click
   document.addEventListener('click', e => {
     const row = e.target.closest('.track-row');
@@ -953,7 +1054,7 @@ function setupMusicPlayer(C) {
       play(idx);
     }
   });
-
+ 
   pbPlay.addEventListener('click', () => {
     if (currentIdx < 0) { play(0); return; }
     if (isPlaying) { audio.pause(); isPlaying = false; }
@@ -962,7 +1063,7 @@ function setupMusicPlayer(C) {
   });
   pbPrev.addEventListener('click', () => play((currentIdx - 1 + tracks.length) % tracks.length));
   pbNext.addEventListener('click', () => play((currentIdx + 1) % tracks.length));
-
+ 
   audio.addEventListener('ended', () => play((currentIdx + 1) % tracks.length));
   audio.addEventListener('timeupdate', () => {
     const dur = audio.duration || 0;
@@ -972,7 +1073,7 @@ function setupMusicPlayer(C) {
     pbElapsed.textContent = fmtTime(cur);
     pbTotal.textContent   = fmtTime(dur);
   });
-
+ 
   // seek — click or drag
   function seekTo(e) {
     const rect = seekWrap.getBoundingClientRect();
@@ -986,28 +1087,25 @@ function setupMusicPlayer(C) {
   seekWrap.addEventListener('touchstart', e => seekTo(e.touches[0]), {passive:true});
   seekWrap.addEventListener('touchmove', e => seekTo(e.touches[0]), {passive:true});
 }
-
+ 
 /* ═══════════════════════════════════════════════════════════
-   FILM CARD INTERACTIONS (hover preview)
+   FILM CARD INTERACTIONS
+   Thumbnail overlay removed on click — iframe already loaded
    ═══════════════════════════════════════════════════════════ */
 function setupFilmCards() {
   document.querySelectorAll('.fe.yt-hover').forEach(fe => {
-    const iframe = fe.querySelector('iframe');
-    const ytid = fe.dataset.ytid;
-    let loaded = false;
-
-    function activate() {
-      if (!loaded) {
-        iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=0&rel=0&modestbranding=1`;
-        loaded = true;
-      }
+    fe.addEventListener('click', () => {
       fe.classList.add('active');
-    }
-
-    fe.addEventListener('click', activate);
+      // reload iframe with autoplay so clicking actually plays
+      const iframe = fe.querySelector('iframe');
+      const ytid = fe.dataset.ytid;
+      if (iframe && ytid) {
+        iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      }
+    });
   });
 }
-
+ 
 /* ═══════════════════════════════════════════════════════════
    REEL HOVER PLAY
    ═══════════════════════════════════════════════════════════ */
@@ -1022,7 +1120,7 @@ function setupReels() {
     card.addEventListener('touchstart', () => card.classList.contains('playing') ? pause() : play(), {passive:true});
   });
 }
-
+ 
 /* ═══════════════════════════════════════════════════════════
    CAROUSEL
    ═══════════════════════════════════════════════════════════ */
@@ -1040,7 +1138,7 @@ function scrollCar(id, dir) {
   car.scrollTo({left: next, behavior:'smooth'});
 }
 window.scrollCar = scrollCar; // expose for inline onclick
-
+ 
 /* ═══════════════════════════════════════════════════════════
    ADAPTIVE GRADIENT CANVAS
    Samples dominant hsl from images as they load/intersect.
@@ -1052,16 +1150,16 @@ function setupGradient() {
   let W, H;
   function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
   resize(); window.addEventListener('resize', resize, {passive:true});
-
+ 
   // mouse
   let mx=0.5, my=0.38;
   window.addEventListener('mousemove', e=>{mx=e.clientX/innerWidth;my=e.clientY/innerHeight;},{passive:true});
   window.addEventListener('touchmove', e=>{if(e.touches[0]){mx=e.touches[0].clientX/innerWidth;my=e.touches[0].clientY/innerHeight;}},{passive:true});
-
+ 
   // current cursor (slow lerp)
   let px=0.5, py=0.38;
   const PL=0.007;
-
+ 
   // color state — no defaults baked in, starts at neutral
   // will be overwritten as soon as first image is sampled
   let th1=0, ts1=0, tl1=20;
@@ -1070,7 +1168,7 @@ function setupGradient() {
   let ch2=0, cs2=0, cl2=20;
   const CL=0.003;
   let hasColor = false;
-
+ 
   function rgbToHsl(r,g,b){
     r/=255;g/=255;b/=255;
     const max=Math.max(r,g,b),min=Math.min(r,g,b);
@@ -1086,7 +1184,7 @@ function setupGradient() {
     }
     return[hh*360,ss*100,ll*100];
   }
-
+ 
   function sampleImg(img){
     try{
       const t=document.createElement('canvas');
@@ -1102,13 +1200,13 @@ function setupGradient() {
       hasColor=true;
     }catch(_){}
   }
-
+ 
   // watch all images with crossorigin for sampling
   function watchImage(img){
     if(img.complete&&img.naturalWidth>0){ sampleImg(img); return; }
     img.addEventListener('load',()=>sampleImg(img),{once:true});
   }
-
+ 
   // intersect: sample when image scrolls into view
   const cio=new IntersectionObserver(es=>{
     es.forEach(e=>{
@@ -1118,7 +1216,7 @@ function setupGradient() {
       }
     });
   },{threshold:0.2});
-
+ 
   // hook up after sections build
   setTimeout(()=>{
     document.querySelectorAll('img[crossorigin]').forEach(img=>{
@@ -1126,22 +1224,22 @@ function setupGradient() {
       cio.observe(img.closest('.hc,.pc,[data-file]')||img);
     });
   },200);
-
+ 
   function lerpH(a,b,f){const d=((b-a+540)%360)-180;return(a+d*f+360)%360;}
-
+ 
   let t=0;
   function draw(ts){
     t=ts*0.00007;
     px+=(mx-px)*PL; py+=(my-py)*PL;
     ch1=lerpH(ch1,th1,CL); cs1+=(ts1-cs1)*CL; cl1+=(tl1-cl1)*CL;
     ch2=lerpH(ch2,th2,CL); cs2+=(ts2-cs2)*CL; cl2+=(tl2-cl2)*CL;
-
+ 
     // day mode = more visible; no color = subtle neutral
     const dm=isDay?1.9:1.0;
     const base=hasColor?0.15:0.05;
-
+ 
     ctx.clearRect(0,0,W,H);
-
+ 
     // orb 1 — cursor zone
     const o1x=px+Math.sin(t*.6)*.07, o1y=py+Math.cos(t*.42)*.055;
     const g1=ctx.createRadialGradient(o1x*W,o1y*H,0,o1x*W,o1y*H,Math.max(W,H)*.62);
@@ -1149,7 +1247,7 @@ function setupGradient() {
     g1.addColorStop(.5, `hsla(${ch1},${cs1}%,${cl1}%,${(base*.3*dm).toFixed(3)})`);
     g1.addColorStop(1,  'hsla(0,0%,0%,0)');
     ctx.fillStyle=g1;ctx.fillRect(0,0,W,H);
-
+ 
     // orb 2 — opposite corner
     const o2x=1-px+Math.sin(t*.3)*.055, o2y=1-py+Math.cos(t*.5)*.045;
     const g2=ctx.createRadialGradient(o2x*W,o2y*H,0,o2x*W,o2y*H,Math.max(W,H)*.52);
@@ -1157,7 +1255,7 @@ function setupGradient() {
     g2.addColorStop(.5, `hsla(${ch2},${cs2}%,${cl2}%,${(base*.2*dm).toFixed(3)})`);
     g2.addColorStop(1,  'hsla(0,0%,0%,0)');
     ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
-
+ 
     // orb 3 — slow autonomous drift
     const o3x=.5+Math.sin(t*.22)*.28, o3y=.72+Math.cos(t*.16)*.12;
     const h3=(ch1+180)%360;
@@ -1165,12 +1263,12 @@ function setupGradient() {
     g3.addColorStop(0,  `hsla(${h3},20%,22%,${(.06*dm).toFixed(3)})`);
     g3.addColorStop(1,  'hsla(0,0%,0%,0)');
     ctx.fillStyle=g3;ctx.fillRect(0,0,W,H);
-
+ 
     requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);
 }
-
+ 
 /* ═══════════════════════════════════════════════════════════
    POST-BUILD SETUP (called after DOM is ready)
    ═══════════════════════════════════════════════════════════ */
@@ -1185,7 +1283,7 @@ function boot(C) {
   buildSections(C);
   setupFooter(C);
   setupCookie(C);
-
+ 
   // post-build: wire up interactive elements
   setTimeout(() => {
     setupReveal();
@@ -1195,7 +1293,7 @@ function boot(C) {
     setupGradient();
   }, 50);
 }
-
+ 
 /* ── utils ────────────────────────────────────────────── */
 function el(tag, cls, id) {
   const e = document.createElement(tag);
@@ -1210,3 +1308,4 @@ function escHtml(s) {
 </script>
 </body>
 </html>
+ 
