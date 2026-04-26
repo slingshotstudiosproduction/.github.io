@@ -239,10 +239,10 @@
     ],
     "_team_note": "Edit name and role. Set 'photo' to a filename in assets/ to show a photo, or null for initials.",
     "team": [
-      { "name": "Noée",   "role": "Direction · Performance",  "photo": null,                                "initial": "N" },
-      { "name": "Simeon", "role": "Post · Sound · Score",     "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg", "initial": "S" },
-      { "name": "Aylin",  "role": "Planning · Communication", "photo": null,                                "initial": "A" },
-      { "name": "Fleur",  "role": "Image · UK Branch",        "photo": null,                                "initial": "F" }
+      { "name": "Noée",   "role": null,     "photo": null,                                "initial": "N" },
+      { "name": "Simeon", "role": null,     "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg", "initial": "S" },
+      { "name": "Aylin",  "role": null,     "photo": null,                                "initial": "A" },
+      { "name": "Fleur",  "role": null,     "photo": null,                                "initial": "F" }
     ]
   },
 
