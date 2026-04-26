@@ -486,6 +486,7 @@ function boot(C) {
     setupMusicPlayer(C);
     setupFilmCards();
     setupReels();
+    setupYTPlayers();
     setupGradient();
   });
 }
@@ -804,13 +805,24 @@ function buildActors(C, n) {
   // reels carousel — supports file+thumb or youtube_id per item
   const reelCIs = A.reels.map(r => {
     if (r.youtube_id) {
-      const thumb = `https://img.youtube.com/vi/${r.youtube_id}/maxresdefault.jpg`;
+      const ytid  = r.youtube_id;
+      const thumb = `https://img.youtube.com/vi/${ytid}/maxresdefault.jpg`;
       return `
         <div class="ci">
-          <div class="rc yt-reel" data-ytid="${r.youtube_id}">
-            <div class="yt-thumb" style="background-image:url('${thumb}');position:absolute;inset:0;background-size:cover;background-position:center;z-index:2;transition:opacity .3s"></div>
-            <div class="rpi" style="z-index:3"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
-            <div class="rl" style="z-index:3">${escHtml(r.label)}</div>
+          <div class="rc yt-reel" data-ytid="${ytid}">
+            <iframe
+              src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&controls=0&showinfo=0&iv_load_policy=3"
+              title="${escHtml(r.label)}"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              style="position:absolute;inset:0;width:100%;height:100%;border:0"
+            ></iframe>
+            <div class="yt-thumb-layer" style="background-image:url('${thumb}')">
+              <div class="yt-big-play">
+                <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="white" stroke-width="1.5"/><polygon points="26,20 50,32 26,44" fill="white" fill-opacity=".9"/></svg>
+              </div>
+            </div>
+            <div class="rl">${escHtml(r.label)}</div>
           </div>
         </div>`;
     }
@@ -1244,41 +1256,33 @@ function setupFilmCards() {}
    - Clicking thumbnail starts playback
    ═══════════════════════════════════════════════════════════ */
 function setupYTPlayers() {
-  // load YouTube IFrame API if not already loaded
   if (!window.YT) {
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.head.appendChild(tag);
   }
 
-  // collect all player containers
-  const filmEls  = Array.from(document.querySelectorAll('.fe[data-ytid]'));
-  const reelEls  = Array.from(document.querySelectorAll('.rc.yt-reel[data-ytid]'));
-  const allEls   = [...filmEls, ...reelEls];
-
-  if (allEls.length === 0) return;
-
   function initPlayers() {
-    allEls.forEach(container => {
-      const ytid    = container.dataset.ytid;
-      const iframe  = container.querySelector('iframe');
-      if (!iframe) return;
+    // film embeds + yt reels
+    document.querySelectorAll('.fe[data-ytid], .rc.yt-reel[data-ytid]').forEach(container => {
+      const iframe = container.querySelector('iframe');
+      if (!iframe || container._ytPlayer) return;
 
       const player = new YT.Player(iframe, {
         events: {
-          onReady: e => setupPlayerControls(container, e.target),
-          onStateChange: e => onPlayerStateChange(container, e)
+          onReady:       ev => setupPlayerControls(container, ev.target),
+          onStateChange: ev => onPlayerStateChange(container, ev)
         }
       });
       container._ytPlayer = player;
     });
   }
 
-  // if API already ready
   if (window.YT && window.YT.Player) {
     initPlayers();
   } else {
-    window.onYouTubeIframeAPIReady = initPlayers;
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => { if (prev) prev(); initPlayers(); };
   }
 }
 
@@ -1408,10 +1412,9 @@ function onPlayerStateChange(container, e) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   REEL HOVER PLAY + YOUTUBE REEL CLICK
+   REEL HOVER PLAY (file-based only — yt-reels handled by IFrame API)
    ═══════════════════════════════════════════════════════════ */
 function setupReels() {
-  // file-based reels — hover to play
   document.querySelectorAll('.rc:not(.yt-reel)').forEach(card => {
     const vid = card.querySelector('video');
     if (!vid) return;
@@ -1420,28 +1423,6 @@ function setupReels() {
     card.addEventListener('mouseenter', play);
     card.addEventListener('mouseleave', pause);
     card.addEventListener('touchstart', () => card.classList.contains('playing') ? pause() : play(), {passive:true});
-  });
-
-  // youtube-based reels — click thumbnail to inject iframe with controls
-  document.querySelectorAll('.rc.yt-reel').forEach(card => {
-    card.addEventListener('click', () => {
-      if (card.classList.contains('playing')) return;
-      card.classList.add('playing');
-      const ytid = card.dataset.ytid;
-      // fade out thumbnail and play icon
-      const thumb = card.querySelector('.yt-thumb');
-      const rpi   = card.querySelector('.rpi');
-      const rl    = card.querySelector('.rl');
-      if (thumb) thumb.style.opacity = '0';
-      if (rpi)   rpi.style.opacity   = '0';
-      // inject iframe
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white`;
-      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-      iframe.allowFullscreen = true;
-      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1';
-      card.insertBefore(iframe, card.firstChild);
-    });
   });
 }
 
