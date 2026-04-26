@@ -153,8 +153,8 @@
         "title":     "Diver's Fortune",
         "subtitle":  "Game score",
         "file":      "Environment Showcase - Divers Fortune.mp3",
-        "duration":  "4:17",
-        "startAt":   10,
+        "duration":  "2:01",
+        "startAt":   0,
         "_note":     "startAt 96 = 1:36 into the track"
       },
       {
@@ -277,7 +277,7 @@
     "privacy":  "privacy.html",
     "legal":    "legal.html",
     "cookies":  "cookies.html",
-    "youtube":    "https://www.youtube.com/@Slingshot.Studios"
+    "youtube":  "https://www.youtube.com/@Slingshot.Studios"
   },
 
   "bts": {
@@ -290,11 +290,11 @@
   "impressum": {
     "_note": "Required for European sites. This content appears on your legal.html page (not on the main site). Fill in your details.",
     "company_name":    "Slingshot Studios",
-    "legal_form":      "Auto-entrepreneur / Sole trader",
+    "legal_form":      "",
     "address_line1":   "",
     "address_line2":   "Paris, France",
-    "email":           "hello@slingshot.studio",
-    "responsible_person": "Noée [Last name]",
+    "email":           "",
+    "responsible_person": "",
     "vat_number":      "",
     "registration":    ""
   },
