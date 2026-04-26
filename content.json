@@ -47,14 +47,14 @@
   },
 
   "hero": {
-    "_note": "headline_options: first item is used. The comma splits it — left side gets serif italic font, right side gets sans. Delete options you don't want.",
+    "_note": "headline_options: first item is used. The comma splits it — left side is bold, right side is italic. Delete options you don't want.",
     "headline_options": [
       "Stories, made together.",
       "Independent films, made together.",
       "Built together, launched forward."
     ],
-    "kicker":   "An independent film collective",
-    "tagline":  "Film · Music · Actor Services. Based in Paris.",
+    "kicker":      "An independent film collective",
+    "tagline":     "Film · Music · Actor Services. Based in Paris.",
     "cta_work":    "See the work",
     "cta_actors":  "For actors",
     "cta_contact": "Get in touch",
@@ -64,8 +64,8 @@
   },
 
   "films": {
-    "_note": "Each film has a 'type': 'own' = fully self-produced by Slingshot. 'collab' = project we contributed to. This controls which section heading it appears under.",
-    "section_label_own":   "Our films",
+    "_note": "type 'own' = fully self-produced. type 'collab' = project we contributed to. Controls which heading it appears under.",
+    "section_label_own":    "Our films",
     "section_label_collab": "Projects we contributed to",
     "section_heading": "Films & projects.",
     "section_sub": "Original work and collaborations — from development to distribution.",
@@ -118,53 +118,49 @@
   },
 
   "music": {
-    "_note": "Tracks appear in the order listed. Add new tracks by copying a block. 'file' must be in assets/. 'startAt' is seconds into the track where playback begins (0 = from the start). 'youtubeId' can replace file for streaming — if set, the audio is pulled from YouTube.",
+    "_note": "Tracks appear in the order listed. 'file' must be in assets/. 'startAt' is seconds into the track where playback begins (0 = from start). Files must be .mp3 — .mp4 files will not play as audio.",
     "section_label": "Music for Film & Games",
     "items": [
       {
-        "id":        "track_01",
-        "title":     "Parasomnia Main Theme",
-        "subtitle":  "Original score",
-        "file":      "Parasomnia Main Theme.mp3",
-        "duration":  "3:40",
-        "startAt":   0,
-        "youtubeId": null
+        "id":       "track_01",
+        "title":    "Parasomnia Main Theme",
+        "subtitle": "Original score",
+        "file":     "Parasomnia Main Theme.mp3",
+        "duration": "3:40",
+        "startAt":  0
       },
       {
-        "id":        "track_02",
-        "title":     "Parasomnia Suspense Track",
-        "subtitle":  "Original score",
-        "file":      "Parasomnia Suspense track.mp4",
-        "duration":  "1:51",
-        "startAt":   0,
-        "youtubeId": null
+        "id":       "track_02",
+        "title":    "Parasomnia Suspense Track",
+        "subtitle": "Original score",
+        "file":     "Parasomnia Suspense track.mp3",
+        "duration": "1:51",
+        "startAt":  0,
+        "_note":    "Renamed from .mp4 to .mp3 — make sure the file in assets/ is also named .mp3"
       },
       {
-        "id":        "track_03",
-        "title":     "Pupille",
-        "subtitle":  "Original score",
-        "file":      "Pupille_Theme_Shortened_Simeon.mp3",
-        "duration":  "0:52",
-        "startAt":   0,
-        "youtubeId": null
+        "id":       "track_03",
+        "title":    "Pupille",
+        "subtitle": "Original score",
+        "file":     "Pupille_Theme_Shortened_Simeon.mp3",
+        "duration": "0:52",
+        "startAt":  0
       },
       {
-        "id":        "track_04",
-        "title":     "Diver's Fortune",
-        "subtitle":  "Game score",
-        "file":      "Environment Showcase - Divers Fortune.mp3",
-        "duration":  "2:01",
-        "startAt":   0,
-        "_note":     "startAt 96 = 1:36 into the track"
+        "id":       "track_04",
+        "title":    "Diver's Fortune",
+        "subtitle": "Game score",
+        "file":     "Environment Showcase - Divers Fortune.mp3",
+        "duration": "2:01",
+        "startAt":  0
       },
       {
-        "id":        "track_05",
-        "title":     "The Love Ritual",
-        "subtitle":  "Original score",
-        "file":      "audio_05_loveritual.mp3",
-        "duration":  "2:41",
-        "startAt":   0,
-        "youtubeId": null
+        "id":       "track_05",
+        "title":    "The Love Ritual",
+        "subtitle": "Original score",
+        "file":     "audio_05_loveritual.mp3",
+        "duration": "2:41",
+        "startAt":  0
       }
     ]
   },
@@ -183,7 +179,7 @@
       { "file": "headshot_2.jpg", "alt": "Headshot 2" },
       { "file": "headshot_3.jpg", "alt": "Headshot 3" }
     ],
-    "_reels_note": "Add reel scenes by adding items to this array. Use 'youtube_id' for YouTube videos, or 'file'+'thumb' for local mp4 files. You can mix both in the same list.",
+    "_reels_note": "Add reel scenes by adding items. Use 'youtube_id' for YouTube, or 'file'+'thumb' for local mp4. Mix freely.",
     "reels": [
       { "youtube_id": "HJnbUgSVqgI", "label": "Liia + Masha" },
       { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },
@@ -226,7 +222,7 @@
     "section_heading": "Poster design.",
     "section_sub":     "Film poster design rooted in the image: key art that communicates the world of a project before you press play.",
     "poster_label":    "Poster design",
-    "_posters_note":   "Add posters by adding items to this array. File must be in assets/. They appear in carousel order (3 side by side on desktop, swipeable on mobile).",
+    "_posters_note":   "Add posters by adding items to this array. File must be in assets/. 3 side by side on desktop, swipeable on mobile.",
     "posters": [
       { "file": "poster_parasomnia.jpg",   "title": "Parasomnia",              "credit": "Poster design" },
       { "file": "poster_loveritual.jpg",   "title": "The Love Ritual",         "credit": "Poster design" },
@@ -236,19 +232,18 @@
 
   "about": {
     "section_heading": "Who we are.",
-    "lead": "We’re a European film collective based in Paris with ties to the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
+    "lead": "We're a European film collective based in Paris with ties to the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
     "body": [
-      "Independent by choice. We stay involved across the entire process. From the first conversation around a script to the final grade. That’s where the work matters.",
-      "Founded in 2025. We take on a limited number of outside projects each year. We get involved early, this is where we can contribute the most." 
-    ]
-  },
-    "_team_note": "Edit name, role, and optionally add a photo file. If 'photo' is null, initials are shown instead.",
+      "Independent by choice. We stay involved across the entire process — from the first conversation around a script to the final grade. That's where the work matters.",
+      "Founded in 2025. We take on a limited number of outside projects each year. We get involved early — this is where we can contribute the most."
+    ],
+    "_team_note": "Edit name and role. Set 'photo' to a filename in assets/ to show a photo, or null for initials.",
     "team": [
-      { "name": "Noée",   "role": null,         "photo": null, "initial": "N" },
-      { "name": "Simeon", "role": null,         "VON_AULOCK_Simeon_HEADSHOT_01.jpg": null, "initial": "S" },
-      { "name": "Aylin",  "role": null,         "photo": null, "initial": "A" },
-      { "name": "Fleur",  "role": null,         "photo": null, "initial": "F" }
-    ] 
+      { "name": "Noée",   "role": "Direction · Performance",  "photo": null,                                "initial": "N" },
+      { "name": "Simeon", "role": "Post · Sound · Score",     "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg", "initial": "S" },
+      { "name": "Aylin",  "role": "Planning · Communication", "photo": null,                                "initial": "A" },
+      { "name": "Fleur",  "role": "Image · UK Branch",        "photo": null,                                "initial": "F" }
+    ]
   },
 
   "contact": {
@@ -259,7 +254,7 @@
     "instagram":       "https://www.instagram.com/slingshot.studios.productions/",
     "instagram_handle": "@slingshot.studios.productions",
     "based":           "Paris",
-    "hours":           "Any day, by appointment. We're filmmakers, what's a weekend?",
+    "hours":           "Any day, by appointment. We're filmmakers — what's a weekend?",
     "form_categories": [
       "Actor services",
       "Production",
@@ -267,8 +262,8 @@
       "Design",
       "Something else"
     ],
-    "form_consent":    "We don't share your details.",
-    "form_submit":     "Send"
+    "form_consent": "We don't share your details.",
+    "form_submit":  "Send"
   },
 
   "footer": {
@@ -283,20 +278,20 @@
   "bts": {
     "section_heading": "Behind the scenes.",
     "section_sub":     "Phones out, nothing staged.",
-    "_photos_note":    "Add BTS photos by adding items here. Files go in assets/. Any aspect ratio works — the grid handles it.",
+    "_photos_note":    "Add BTS photos by adding items here. Files go in assets/. Any aspect ratio works — the grid handles it automatically.",
     "photos": []
   },
 
   "impressum": {
-    "_note": "Required for European sites. This content appears on your legal.html page (not on the main site). Fill in your details.",
-    "company_name":    "Slingshot Studios",
-    "legal_form":      "",
-    "address_line1":   "",
-    "address_line2":   "Paris, France",
-    "email":           "",
+    "_note": "Required for European sites. Fill in your details for the legal.html page.",
+    "company_name":       "Slingshot Studios",
+    "legal_form":         "",
+    "address_line1":      "",
+    "address_line2":      "Paris, France",
+    "email":              "",
     "responsible_person": "",
-    "vat_number":      "",
-    "registration":    ""
+    "vat_number":         "",
+    "registration":       ""
   },
 
   "cookie_banner": {
