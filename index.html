@@ -55,7 +55,7 @@ section{position:relative;z-index:2}
 .boot-d5{animation-delay:.54s}
 
 /* ── nav ──────────────────────────────────────────────── */
-.nav{position:fixed;top:0;left:0;right:0;z-index:80;padding:15px 0;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--ln);transition:background .4s,border-color .4s}
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;padding:15px 0;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:rgba(11,11,11,.75);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--ln);transition:background .4s,border-color .4s}
 .nav.top{background:transparent;border-bottom-color:transparent}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
@@ -73,7 +73,7 @@ section{position:relative;z-index:2}
 .tog{display:none}
 @media(max-width:860px){
   .menu{display:none}
-  .menu.open{display:flex;flex-direction:column;gap:14px;position:absolute;left:0;right:0;top:100%;padding:20px var(--g);background:color-mix(in srgb,var(--bg) 96%,transparent);border-bottom:1px solid var(--ln);backdrop-filter:blur(20px)}
+  .menu.open{display:flex;flex-direction:column;gap:14px;position:absolute;left:0;right:0;top:100%;padding:20px var(--g);background:rgba(11,11,11,.96);background:color-mix(in srgb,var(--bg) 96%,transparent);border-bottom:1px solid var(--ln);backdrop-filter:blur(20px)}
   .tog{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid var(--lh);border-radius:var(--r)}
   .tog span{display:block;width:14px;height:1px;background:var(--fg);position:relative}
   .tog span::before,.tog span::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--fg)}
@@ -204,7 +204,7 @@ section{position:relative;z-index:2}
 .hc:hover .hov{opacity:1}
 .hov span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 /* reel — landscape 16:9 for proper scene clips */
-.rc{aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer}
+.rc{aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer;background:var(--bgc)}
 .rc video{width:100%;height:100%;object-fit:cover}
 .rth{position:absolute;inset:0;background:var(--bgc) center/cover no-repeat;transition:opacity .4s}
 .rc.playing .rth{opacity:0;pointer-events:none}
@@ -408,9 +408,7 @@ fetch('content.json')
    BOOT
    ═══════════════════════════════════════════════════════════ */
 function boot(C) {
-  // expose globally for gradient sampler
   window._C = C;
-
   document.getElementById('yr').textContent = new Date().getFullYear();
   document.title = C.site.title + ' — Film · Music · Performance';
 
@@ -421,8 +419,15 @@ function boot(C) {
   buildSections(C);
   setupFooter(C);
   setupCookie(C);
-  setupReveal();
-  setupGradient();
+
+  // wire interactivity after DOM is fully built
+  requestAnimationFrame(() => {
+    setupReveal();
+    setupMusicPlayer(C);
+    setupFilmCards();
+    setupReels();
+    setupGradient();
+  });
 }
 
 /* ── meta ─────────────────────────────────────────────── */
@@ -456,22 +461,23 @@ function setupDayNight() {
 /* ── nav ──────────────────────────────────────────────── */
 function setupNav(C) {
   const nav = C.nav;
-  const sectionOrder = C.sectionOrder;
   const menuEl = document.getElementById('menu');
 
-  // build nav links from section order
+  // nav label map — bts intentionally excluded from nav
   const labels = {
-    production: nav.production,
-    actors:     nav.actors,
-    post:       nav.post,
-    design:     nav.design,
-    about:      nav.about,
-    contact:    nav.contact
+    production: nav.production || 'Production',
+    actors:     nav.actors     || 'Actors',
+    post:       nav.post       || 'Post & Sound',
+    design:     nav.design     || 'Design',
+    about:      nav.about      || 'Studio',
+    contact:    nav.contact    || 'Contact'
   };
-  sectionOrder.forEach(key => {
+
+  C.sectionOrder.forEach(key => {
+    if (!labels[key]) return; // skip bts and unknown keys from nav
     const a = document.createElement('a');
     a.href = '#' + key;
-    a.textContent = labels[key] || key;
+    a.textContent = labels[key];
     menuEl.appendChild(a);
   });
 
@@ -931,13 +937,19 @@ function buildMarquee(C) {
 /* ── bts ──────────────────────────────────────────────── */
 function buildBts(C, n) {
   const B = C.bts;
-  const heading = (B && B.section_heading) || 'Behind the scenes.';
-  const sub = (B && B.section_sub) || 'Snapshots from on set. Phones out, nothing staged.';
-  const sec = el('section', 'block', 'bts');
   const hasPhotos = B && B.photos && B.photos.length > 0;
-  const items = hasPhotos
-    ? B.photos.map(p => `<div class="bts-item"><img src="assets/${escHtml(p.file)}" alt="${escHtml(p.alt||'BTS')}" loading="lazy"></div>`).join('')
-    : Array(6).fill(0).map(() => `<div class="bts-item"><div class="bts-placeholder">Coming soon</div></div>`).join('');
+
+  // hide section entirely until there are photos
+  if (!hasPhotos) return null;
+
+  const heading = B.section_heading || 'Behind the scenes.';
+  const sub = B.section_sub || 'Phones out, nothing staged.';
+  const sec = el('section', 'block', 'bts');
+
+  const items = B.photos.map(p =>
+    `<div class="bts-item"><img src="assets/${escHtml(p.file)}" alt="${escHtml(p.alt||'BTS')}" loading="lazy"></div>`
+  ).join('');
+
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
@@ -1069,10 +1081,14 @@ function setupMusicPlayer(C) {
   }
 
   function updatePlayBtn() {
-    const icon = document.getElementById('playIcon');
-    if (icon) {
-      if (isPlaying) icon.setAttribute('points','4,2 7,2 7,14 4,14 M9,2 12,2 12,14 9,14');
-      else icon.setAttribute('points','4,2 14,8 4,14');
+    const icon = document.getElementById('pbIcon');
+    if (!icon) return;
+    if (isPlaying) {
+      // pause icon — two rectangles
+      icon.innerHTML = '<rect x="3" y="2" width="4" height="12" fill="currentColor"/><rect x="9" y="2" width="4" height="12" fill="currentColor"/>';
+    } else {
+      // play icon — triangle
+      icon.innerHTML = '<polygon points="4,2 14,8 4,14" fill="currentColor"/>';
     }
   }
 
@@ -1308,31 +1324,6 @@ function setupGradient() {
     requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   POST-BUILD SETUP (called after DOM is ready)
-   ═══════════════════════════════════════════════════════════ */
-function boot(C) {
-  window._C = C;
-  document.getElementById('yr').textContent = new Date().getFullYear();
-  document.title = C.site.title + ' — Film · Music · Performance';
-  setupMeta(C);
-  setupDayNight();
-  setupNav(C);
-  setupHero(C);
-  buildSections(C);
-  setupFooter(C);
-  setupCookie(C);
-
-  // post-build: wire up interactive elements
-  setTimeout(() => {
-    setupReveal();
-    setupMusicPlayer(C);
-    setupFilmCards();
-    setupReels();
-    setupGradient();
-  }, 50);
 }
 
 /* ── utils ────────────────────────────────────────────── */
