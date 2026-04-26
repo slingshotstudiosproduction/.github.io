@@ -186,7 +186,7 @@
     "_reels_note": "Add reel scenes by adding items to this array. 'file' = mp4 in assets/, 'thumb' = poster jpg in assets/, 'label' = text shown on the card.",
     "reels": [
       { "youtube_id": "HJnbUgSVqgI", "label": "Liia + Masha" },
-      { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },HJnbUgSVqgI
+      { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },
       { "file": "reel_3.mp4", "thumb": "reel_3_thumb.jpg", "label": "Sim + Noée"   }
     ]
   },
