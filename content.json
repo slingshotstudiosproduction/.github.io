@@ -51,7 +51,7 @@
     "headline_options": [
       "Stories, made together.",
       "Independent films, made together.",
-      "Stories, Built together."
+      "Built together, launched forward."
     ],
     "kicker":   "An independent film collective",
     "tagline":  "Film · Music · Actor Services. Based in Paris.",
@@ -183,11 +183,11 @@
       { "file": "headshot_2.jpg", "alt": "Headshot 2" },
       { "file": "headshot_3.jpg", "alt": "Headshot 3" }
     ],
-    "_reels_note": "Add reel scenes by adding items to this array. 'file' = mp4 in assets/, 'thumb' = poster jpg in assets/, 'label' = text shown on the card.",
+    "_reels_note": "Add reel scenes by adding items to this array. Use 'youtube_id' for YouTube videos, or 'file'+'thumb' for local mp4 files. You can mix both in the same list.",
     "reels": [
       { "youtube_id": "HJnbUgSVqgI", "label": "Liia + Masha" },
       { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },
-      { "file": "reel_3.mp4", "thumb": "reel_3_thumb.jpg", "label": "Sim + Noée"   }
+      { "file": "reel_3.mp4", "thumb": "reel_3_thumb.jpg", "label": "Sim + Noée" }
     ]
   },
 
