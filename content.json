@@ -76,10 +76,10 @@
         "type":        "own",
         "badge_type":  "Short film",
         "badge_note":  "Self-produced",
-        "credits":     "Direction · Score · Edit · DOP",
-        "process_note": "Shot over three weekends in Paris with a crew of four.",
+        "credits":     "Direction · VFX · Edit",
+        "process_note": "Shot on a micro budget in Paris with a crew of four.",
         "youtube_id":  "u2neuNec6wk",
-        "still":       null
+        "still":       "Parasomnia Still.jpg"
       },
       {
         "id":          "loveritual",
@@ -90,7 +90,7 @@
         "credits":     "Poster · Co-editing · Co-composition",
         "process_note": "We came in post-production and contributed poster design, editing and score.",
         "youtube_id":  null,
-        "still":       "film_loveritual_still.jpg"
+        "still":       "The Love Ritual Still.png"
       },
       {
         "id":          "pupille",
