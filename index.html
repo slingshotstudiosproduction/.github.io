@@ -96,9 +96,10 @@ section{position:relative;z-index:2}
 /* push kicker below any letterbox bars — adds safe top offset */
 @media(max-width:760px){.hero-content{padding-top:110px}}
 .hero h1{font-weight:400;font-size:clamp(40px,7.5vw,112px);line-height:.97;letter-spacing:-.02em;margin:0 0 18px;max-width:13ch;color:#fff;white-space:pre-line}
-/* "Stories" — serif italic contrast word */
-.hero h1 .serif-word{font-family:var(--serif);font-style:italic;font-weight:300;opacity:1;letter-spacing:-.03em}
-.hero h1 .plain-word{font-family:var(--fh);font-weight:300;opacity:.72}
+/* "Stories," — bold Satoshi, stable anchor */
+.hero h1 .serif-word{font-family:var(--fh);font-style:normal;font-weight:700;opacity:1;letter-spacing:-.03em}
+/* "made together." — Satoshi italic, clean not ornate */
+.hero h1 .plain-word{font-family:var(--fh);font-style:italic;font-weight:300;opacity:.75;letter-spacing:-.02em}
 .hero .lede{max-width:44ch;font-size:clamp(14px,1.1vw,16px);color:rgba(255,255,255,.5);margin:0 0 32px;font-weight:300}
 .ctas{display:flex;gap:9px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 17px;border:1px solid rgba(255,255,255,.28);border-radius:var(--r);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:400;color:#fff;transition:background .3s,border-color .3s}
@@ -486,10 +487,27 @@ function setupNav(C) {
 function setupHero(C) {
   const h = C.hero;
 
-  // video — desktop only
+  // desktop hero: show thumbnail, click to play with controls
   const vid = document.getElementById('heroVid');
   if (h.hero_video_youtube_id) {
-    vid.innerHTML = `<iframe src="https://www.youtube.com/embed/${h.hero_video_youtube_id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${h.hero_video_youtube_id}&rel=0&playsinline=1&modestbranding=1" title="Hero" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+    const ytid = h.hero_video_youtube_id;
+    const thumb = `https://img.youtube.com/vi/${ytid}/maxresdefault.jpg`;
+    vid.innerHTML = `
+      <div class="hero-thumb" style="position:absolute;inset:0;background:url('${thumb}') center/cover no-repeat;z-index:1;transition:opacity .4s;cursor:pointer" id="heroThumb">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+          <svg viewBox="0 0 64 64" fill="none" style="width:64px;height:64px;opacity:.55"><circle cx="32" cy="32" r="31" stroke="white" stroke-width="1.5"/><polygon points="26,20 50,32 26,44" fill="white" fill-opacity=".9"/></svg>
+        </div>
+      </div>
+      <iframe id="heroIframe" src="" data-ytid="${ytid}" title="Hero" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none"></iframe>`;
+
+    document.getElementById('heroThumb').addEventListener('click', () => {
+      const iframe = document.getElementById('heroIframe');
+      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&playsinline=1&modestbranding=1`;
+      iframe.style.opacity = '1';
+      iframe.style.pointerEvents = 'auto';
+      document.getElementById('heroThumb').style.opacity = '0';
+      document.getElementById('heroThumb').style.pointerEvents = 'none';
+    });
   }
 
   // hero h1: "Stories," in serif italic, "made together." in sans
@@ -599,13 +617,17 @@ function filmCard(f, featured) {
 
   let embedHTML = '';
   if (f.youtube_id) {
-    const thumb = `https://img.youtube.com/vi/${f.youtube_id}/maxresdefault.jpg`;
+    // Simple reliable embed: controls always on, no autoplay, no thumbnail swap
+    // ?rel=0 hides related videos, iv_load_policy=3 hides annotations, modestbranding=1 minimal UI
     embedHTML = `
-      <div class="fe yt-hover" data-ytid="${f.youtube_id}">
-        <div class="yt-thumb" style="background-image:url('${thumb}')"></div>
-        <div class="play-over">
-          <svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="25" stroke="white" stroke-opacity=".45"/><polygon points="21,16 41,26 21,36" fill="white" fill-opacity=".85"/></svg>
-        </div>
+      <div class="fe">
+        <iframe
+          src="https://www.youtube.com/embed/${f.youtube_id}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white"
+          title="${escHtml(f.title)}"
+          allow="fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
       </div>`;
   } else if (f.still) {
     embedHTML = `<div class="fe"><div class="ft" style="background-image:url('assets/${f.still}')"></div></div>`;
@@ -702,10 +724,10 @@ function buildActors(C, n) {
       const thumb = `https://img.youtube.com/vi/${r.youtube_id}/maxresdefault.jpg`;
       return `
         <div class="ci">
-          <div class="rc yt-reel" data-ytid="${r.youtube_id}" style="cursor:pointer">
-            <div class="rth" style="background-image:url('${thumb}')"></div>
-            <div class="rl">${escHtml(r.label)}</div>
-            <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
+          <div class="rc yt-reel" data-ytid="${r.youtube_id}">
+            <div class="yt-thumb" style="background-image:url('${thumb}');position:absolute;inset:0;background-size:cover;background-position:center;z-index:2;transition:opacity .3s"></div>
+            <div class="rpi" style="z-index:3"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
+            <div class="rl" style="z-index:3">${escHtml(r.label)}</div>
           </div>
         </div>`;
     }
@@ -1099,26 +1121,8 @@ function setupMusicPlayer(C) {
   seekWrap.addEventListener('touchmove', e => seekTo(e.touches[0]), {passive:true});
 }
 
-/* ═══════════════════════════════════════════════════════════
-   FILM CARD INTERACTIONS
-   Thumbnail overlay removed on click — iframe already loaded
-   ═══════════════════════════════════════════════════════════ */
-function setupFilmCards() {
-  document.querySelectorAll('.fe.yt-hover').forEach(fe => {
-    fe.addEventListener('click', () => {
-      if (fe.classList.contains('active')) return;
-      fe.classList.add('active');
-      const ytid = fe.dataset.ytid;
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1`;
-      iframe.title = 'Video';
-      iframe.allow = 'autoplay; fullscreen';
-      iframe.allowFullscreen = true;
-      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1';
-      fe.appendChild(iframe);
-    });
-  });
-}
+/* film cards load iframes directly with controls — no JS click handling needed */
+function setupFilmCards() {}
 
 /* ═══════════════════════════════════════════════════════════
    REEL HOVER PLAY + YOUTUBE REEL CLICK
@@ -1135,18 +1139,25 @@ function setupReels() {
     card.addEventListener('touchstart', () => card.classList.contains('playing') ? pause() : play(), {passive:true});
   });
 
-  // youtube-based reels — click to inject iframe
+  // youtube-based reels — click thumbnail to inject iframe with controls
   document.querySelectorAll('.rc.yt-reel').forEach(card => {
     card.addEventListener('click', () => {
       if (card.classList.contains('playing')) return;
       card.classList.add('playing');
       const ytid = card.dataset.ytid;
+      // fade out thumbnail and play icon
+      const thumb = card.querySelector('.yt-thumb');
+      const rpi   = card.querySelector('.rpi');
+      const rl    = card.querySelector('.rl');
+      if (thumb) thumb.style.opacity = '0';
+      if (rpi)   rpi.style.opacity   = '0';
+      // inject iframe
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1`;
-      iframe.allow = 'autoplay; fullscreen';
+      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white`;
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       iframe.allowFullscreen = true;
-      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2';
-      card.appendChild(iframe);
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1';
+      card.insertBefore(iframe, card.firstChild);
     });
   });
 }
