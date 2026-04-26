@@ -99,7 +99,7 @@
         "badge_type":  "Short film",
         "badge_note":  null,
         "credits":     "DOP · 1st AC · Original score",
-        "process_note": "Brought in as DOP and composer — collaborated closely with the director throughout.",
+        "process_note": "Brought in as DOP and composer, collaborated closely with the director throughout.",
         "youtube_id":  "p1dqCUHj17M",
         "still":       null
       },
@@ -198,25 +198,25 @@
       {
         "label": "Edit",
         "title": "Assembly & Edit",
-        "body":  "From first cut to locked picture — narrative, short-form, game trailers.",
+        "body":  "From first cut to locked picture: narrative, short-form, game trailers.",
         "list":  ["First assembly", "Narrative edit", "Demo reel edit"]
       },
       {
         "label": "Colour",
         "title": "Colour Grading",
         "body":  "Cinematic grading that serves the image rather than overwriting it.",
-        "list":  ["Colour grading", "LUT creation", "HDR delivery"]
+        "list":  ["Colour correction", "Colour grading", "Creative looks"]
       },
       {
         "label": "Sound",
         "title": "Sound Design & Mix",
-        "body":  "Sound design, dialogue edit, and final mix for film and game audio.",
-        "list":  ["Sound design", "Dialogue edit", "Final mix"]
+        "body":  "Sound design, dialogue edit, and sound effects for film and game audio.",
+        "list":  ["Sound design", "Dialogue edit", "Custom sound effects"]
       },
       {
         "label": "Music",
         "title": "Original Score",
-        "body":  "Music for film, short-form content, and games — composed and produced together.",
+        "body":  "Music for film, short-form content, and games: composed and produced together.",
         "list":  ["Film score", "Game audio", "Sound branding"]
       }
     ]
@@ -224,7 +224,7 @@
 
   "design": {
     "section_heading": "Poster design.",
-    "section_sub":     "Film poster design rooted in the image — key art that communicates the world of a project before you press play.",
+    "section_sub":     "Film poster design rooted in the image: key art that communicates the world of a project before you press play.",
     "poster_label":    "Poster design",
     "_posters_note":   "Add posters by adding items to this array. File must be in assets/. They appear in carousel order (3 side by side on desktop, swipeable on mobile).",
     "posters": [
@@ -236,16 +236,16 @@
 
   "about": {
     "section_heading": "Who we are.",
-    "lead": "We're a small film collective based in Paris — making our own work and collaborating with filmmakers, actors, and musicians who have projects worth building.",
+    "lead": "We’re a European film collective based in Paris with ties to the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
     "body": [
-      "Independent by choice. We stay involved across the whole process — from the first conversation about a script to the final grade. That's how we like to work.",
-      "Founded in 2025. We take on a handful of outside projects each year, always selectively. If you have something cooking, reach out early — the earlier we're involved the better.",
-      "Noée and Simeon lead the creative and technical work. Aylin keeps everything organised and connected. Fleur handles image, design, and our UK connections."
-    ],
+      "Independent by choice. We stay involved across the entire process. From the first conversation around a script to the final grade. That’s where the work matters.",
+      "Founded in 2025. We take on a limited number of outside projects each year. We get involved early, this is where we can contribute the most." 
+    ]
+  },
     "_team_note": "Edit name, role, and optionally add a photo file. If 'photo' is null, initials are shown instead.",
     "team": [
       { "name": "Noée",   "role": null,         "photo": null, "initial": "N" },
-      { "name": "Simeon", "role": null,         "photo": null, "initial": "S" },
+      { "name": "Simeon", "role": null,         "VON_AULOCK_Simeon_HEADSHOT_01.jpg": null, "initial": "S" },
       { "name": "Aylin",  "role": null,         "photo": null, "initial": "A" },
       { "name": "Fleur",  "role": null,         "photo": null, "initial": "F" }
     ]
