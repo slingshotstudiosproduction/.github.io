@@ -123,19 +123,19 @@
     "items": [
       {
         "id":        "track_01",
-        "title":     "Parasomnia",
+        "title":     "Parasomnia Main Theme",
         "subtitle":  "Original score",
-        "file":      "audio_01_parasomnia.mp3",
-        "duration":  "2:14",
+        "file":      "Parasomnia Main Theme.mp3",
+        "duration":  "3:40",
         "startAt":   0,
         "youtubeId": null
       },
       {
         "id":        "track_02",
-        "title":     "Parasomnia (suspense)",
+        "title":     "Parasomnia Suspense Track",
         "subtitle":  "Original score",
         "file":      "Parasomnia Suspense track.mp4",
-        "duration":  "3:02",
+        "duration":  "1:51",
         "startAt":   0,
         "youtubeId": null
       },
@@ -143,8 +143,8 @@
         "id":        "track_03",
         "title":     "Pupille",
         "subtitle":  "Original score",
-        "file":      "audio_03_pupille.mp3",
-        "duration":  "1:58",
+        "file":      "Pupille_Theme_Shortened_Simeon.mp3",
+        "duration":  "0:52",
         "startAt":   0,
         "youtubeId": null
       },
