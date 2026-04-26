@@ -50,8 +50,8 @@
     "_note": "headline_options: first item is used. The comma splits it — left side gets serif italic font, right side gets sans. Delete options you don't want.",
     "headline_options": [
       "Stories, made together.",
-
-     
+      "Independent films, made together.",
+      "Built together, launched forward."
     ],
     "kicker":   "An independent film collective",
     "tagline":  "Film · Music · Actor Services. Based in Paris.",
@@ -68,7 +68,7 @@
     "section_label_own":   "Our films",
     "section_label_collab": "Projects we contributed to",
     "section_heading": "Films & projects.",
-    "section_sub": "Original work and collaborations — from development to execution.",
+    "section_sub": "Original work and collaborations — from development to distribution.",
     "items": [
       {
         "id":          "parasomnia",
@@ -76,10 +76,10 @@
         "type":        "own",
         "badge_type":  "Short film",
         "badge_note":  "Self-produced",
-        "credits":     "Direction · VFX · Edit",
-        "process_note": "Shot on a micro budget in Paris with a crew of five.",
+        "credits":     "Direction · Score · Edit · DOP",
+        "process_note": "Shot over three weekends in Paris with a crew of four.",
         "youtube_id":  "u2neuNec6wk",
-        "still":       "Parasomnia Still.jpg"
+        "still":       null
       },
       {
         "id":          "loveritual",
@@ -90,7 +90,7 @@
         "credits":     "Poster · Co-editing · Co-composition",
         "process_note": "We came in post-production and contributed poster design, editing and score.",
         "youtube_id":  null,
-        "still":       "The Love Ritual Still.png"
+        "still":       "film_loveritual_still.jpg"
       },
       {
         "id":          "pupille",
