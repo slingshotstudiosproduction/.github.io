@@ -600,10 +600,8 @@ function filmCard(f, featured) {
   let embedHTML = '';
   if (f.youtube_id) {
     const thumb = `https://img.youtube.com/vi/${f.youtube_id}/maxresdefault.jpg`;
-    // src loads immediately — thumbnail overlays on top, removed on click
     embedHTML = `
       <div class="fe yt-hover" data-ytid="${f.youtube_id}">
-        <iframe src="https://www.youtube.com/embed/${f.youtube_id}?rel=0&modestbranding=1&playsinline=1" title="${escHtml(f.title)}" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
         <div class="yt-thumb" style="background-image:url('${thumb}')"></div>
         <div class="play-over">
           <svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="25" stroke="white" stroke-opacity=".45"/><polygon points="21,16 41,26 21,36" fill="white" fill-opacity=".85"/></svg>
@@ -698,16 +696,29 @@ function buildActors(C, n) {
       </div>
     </div>`).join('');
 
-  // reels carousel
-  const reelCIs = A.reels.map(r => `
-    <div class="ci">
-      <div class="rc">
-        <video src="assets/${r.file}" muted playsinline loop preload="none" poster="assets/${r.thumb}"></video>
-        <div class="rth" style="background-image:url('assets/${r.thumb}')"></div>
-        <div class="rl">${escHtml(r.label)}</div>
-        <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
-      </div>
-    </div>`).join('');
+  // reels carousel — supports file+thumb or youtube_id per item
+  const reelCIs = A.reels.map(r => {
+    if (r.youtube_id) {
+      const thumb = `https://img.youtube.com/vi/${r.youtube_id}/maxresdefault.jpg`;
+      return `
+        <div class="ci">
+          <div class="rc yt-reel" data-ytid="${r.youtube_id}" style="cursor:pointer">
+            <div class="rth" style="background-image:url('${thumb}')"></div>
+            <div class="rl">${escHtml(r.label)}</div>
+            <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
+          </div>
+        </div>`;
+    }
+    return `
+      <div class="ci">
+        <div class="rc">
+          <video src="assets/${r.file}" muted playsinline loop preload="none" poster="assets/${r.thumb}"></video>
+          <div class="rth" style="background-image:url('assets/${r.thumb}')"></div>
+          <div class="rl">${escHtml(r.label)}</div>
+          <div class="rpi"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="white" stroke-opacity=".4"/><polygon points="17,13 35,22 17,31" fill="white" fill-opacity=".8"/></svg></div>
+        </div>
+      </div>`;
+  }).join('');
 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
@@ -1095,22 +1106,26 @@ function setupMusicPlayer(C) {
 function setupFilmCards() {
   document.querySelectorAll('.fe.yt-hover').forEach(fe => {
     fe.addEventListener('click', () => {
+      if (fe.classList.contains('active')) return;
       fe.classList.add('active');
-      // reload iframe with autoplay so clicking actually plays
-      const iframe = fe.querySelector('iframe');
       const ytid = fe.dataset.ytid;
-      if (iframe && ytid) {
-        iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1`;
-      }
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1`;
+      iframe.title = 'Video';
+      iframe.allow = 'autoplay; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1';
+      fe.appendChild(iframe);
     });
   });
 }
 
 /* ═══════════════════════════════════════════════════════════
-   REEL HOVER PLAY
+   REEL HOVER PLAY + YOUTUBE REEL CLICK
    ═══════════════════════════════════════════════════════════ */
 function setupReels() {
-  document.querySelectorAll('.rc').forEach(card => {
+  // file-based reels — hover to play
+  document.querySelectorAll('.rc:not(.yt-reel)').forEach(card => {
     const vid = card.querySelector('video');
     if (!vid) return;
     const play  = () => { card.classList.add('playing');  vid.play().catch(()=>{}); };
@@ -1118,6 +1133,21 @@ function setupReels() {
     card.addEventListener('mouseenter', play);
     card.addEventListener('mouseleave', pause);
     card.addEventListener('touchstart', () => card.classList.contains('playing') ? pause() : play(), {passive:true});
+  });
+
+  // youtube-based reels — click to inject iframe
+  document.querySelectorAll('.rc.yt-reel').forEach(card => {
+    card.addEventListener('click', () => {
+      if (card.classList.contains('playing')) return;
+      card.classList.add('playing');
+      const ytid = card.dataset.ytid;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${ytid}?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1`;
+      iframe.allow = 'autoplay; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2';
+      card.appendChild(iframe);
+    });
   });
 }
 
