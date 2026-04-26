@@ -244,22 +244,22 @@
     ],
     "_team_note": "Edit name, role, and optionally add a photo file. If 'photo' is null, initials are shown instead.",
     "team": [
-      { "name": "Noée",   "role": "Direction · Performance",      "photo": null, "initial": "N" },
-      { "name": "Simeon", "role": "Post · Sound · Score",         "photo": null, "initial": "S" },
-      { "name": "Aylin",  "role": "Planning · Communication",     "photo": null, "initial": "A" },
-      { "name": "Fleur",  "role": "Image · UK Branch",            "photo": null, "initial": "F" }
+      { "name": "Noée",   "role": null,         "photo": null, "initial": "N" },
+      { "name": "Simeon", "role": null,         "photo": null, "initial": "S" },
+      { "name": "Aylin",  "role": null,         "photo": null, "initial": "A" },
+      { "name": "Fleur",  "role": null,         "photo": null, "initial": "F" }
     ]
   },
 
   "contact": {
     "section_heading": "Let's build something.",
-    "section_sub":     "Tell us what you're working on — even if it's early.",
-    "intro":           "Drop us a message. We read everything ourselves and get back within a few days.",
+    "section_sub":     "Tell us what you're working on, even if it's early.",
+    "intro":           "Drop us a message. We read everything and get back within a few days.",
     "email":           "hello@slingshot.studio",
     "instagram":       "https://www.instagram.com/slingshot.studios.productions/",
     "instagram_handle": "@slingshot.studios.productions",
     "based":           "Paris",
-    "hours":           "Any day, by appointment. We're filmmakers — what's a weekend?",
+    "hours":           "Any day, by appointment. We're filmmakers, what's a weekend?",
     "form_categories": [
       "Actor services",
       "Production",
@@ -277,7 +277,7 @@
     "privacy":  "privacy.html",
     "legal":    "legal.html",
     "cookies":  "cookies.html",
-    "vimeo":    "https://vimeo.com"
+    "youtube":    "https://www.youtube.com/@Slingshot.Studios"
   },
 
   "bts": {
