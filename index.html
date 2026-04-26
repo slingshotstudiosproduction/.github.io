@@ -83,7 +83,7 @@ section{position:relative;z-index:2}
 /* ── hero ─────────────────────────────────────────────── */
 .hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56px}
 /* desktop: video bg */
-.hero-vid{position:absolute;inset:0;z-index:0}
+.hero-vid{position:absolute;inset:0;z-index:0;background:#000}
 .hero-vid iframe{width:100%;height:100%;border:0;pointer-events:none}
 .hero-vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.28) 0%,rgba(0,0,0,.04) 35%,rgba(0,0,0,.7) 100%)}
 /* mobile: hide video entirely, show gradient bg */
@@ -409,12 +409,6 @@ footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-to
     </a>
     <nav class="menu" id="menu"></nav>
     <div class="nav-r">
-      <div class="lang" role="group" id="langSwitcher">
-        <button data-lang="en" class="on">EN</button><span class="sep">·</span>
-        <button data-lang="de">DE</button><span class="sep">·</span>
-        <button data-lang="fr">FR</button><span class="sep">·</span>
-        <button data-lang="it">IT</button>
-      </div>
       <button class="mode-btn" id="modeBtn" title="Toggle day/night">☽</button>
       <button class="tog" id="tog" aria-label="Menu"><span></span></button>
     </div>
@@ -938,10 +932,11 @@ function buildAbout(C, n) {
   const teamHTML = A.team.map(m => {
     const hasPhoto = m.photo ? ' has-photo' : '';
     const imgTag = m.photo ? `<img src="assets/${m.photo}" alt="${escHtml(m.name)}">` : '';
+    const roleText = m.role || '';
     return `<div class="tm">
       <div class="av${hasPhoto}" data-i="${escHtml(m.initial)}">${imgTag}</div>
       <h4>${escHtml(m.name)}</h4>
-      <small>${escHtml(m.role)}</small>
+      ${roleText ? `<small>${escHtml(roleText)}</small>` : ''}
     </div>`;
   }).join('');
 
@@ -1084,7 +1079,7 @@ function setupFooter(C) {
       <ul>
         <li><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></li>
         <li><a href="${escHtml(K.instagram)}" target="_blank" rel="noopener">Instagram</a></li>
-        <li><a href="${escHtml(F.vimeo)}" target="_blank" rel="noopener">Vimeo</a></li>
+        <li><a href="${escHtml(F.youtube || F.vimeo || 'https://youtube.com')}" target="_blank" rel="noopener">YouTube</a></li>
       </ul>
     </div>
     <div>
