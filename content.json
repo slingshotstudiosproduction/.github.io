@@ -185,8 +185,8 @@
     ],
     "_reels_note": "Add reel scenes by adding items to this array. 'file' = mp4 in assets/, 'thumb' = poster jpg in assets/, 'label' = text shown on the card.",
     "reels": [
-      { "file": "reel_1.mp4", "thumb": "reel_1_thumb.jpg", "label": "Liia + Masha" },
-      { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },
+      { "youtube_id": "HJnbUgSVqgI", "label": "Liia + Masha" },
+      { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },HJnbUgSVqgI
       { "file": "reel_3.mp4", "thumb": "reel_3_thumb.jpg", "label": "Sim + Noée"   }
     ]
   },
