@@ -64,10 +64,6 @@ section{position:relative;z-index:2}
 .menu{display:flex;gap:20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fd)}
 .menu a{transition:color .2s}.menu a:hover{color:var(--fg)}
 .nav-r{display:flex;align-items:center;gap:12px}
-.lang{display:flex;gap:2px;font-size:11px;letter-spacing:.12em;color:var(--fm)}
-.lang button{padding:5px 7px;border-radius:2px;transition:color .2s}
-.lang button.on{color:var(--fg)}.lang button:hover{color:var(--fg)}
-.lang .sep{padding:5px 0}
 .mode-btn{width:29px;height:29px;border-radius:50%;border:1px solid var(--lh);display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .2s}
 .mode-btn:hover{background:var(--ln)}
 .tog{display:none}
@@ -129,8 +125,9 @@ section{position:relative;z-index:2}
 .film-car::-webkit-scrollbar{display:none}
 /* desktop: 2 visible; tablet: 1.5 peek; mobile: 1 */
 .film-ci{flex:0 0 calc(50% - 8px);scroll-snap-align:start;border-radius:var(--r);overflow:hidden;background:var(--bgc);flex-shrink:0}
-@media(max-width:900px){.film-ci{flex:0 0 80%}}
-@media(max-width:560px){.film-ci{flex:0 0 92%}}
+.film-ci-full{flex:0 0 100%}
+@media(max-width:900px){.film-ci{flex:0 0 80%}.film-ci-full{flex:0 0 100%}}
+@media(max-width:560px){.film-ci{flex:0 0 92%}.film-ci-full{flex:0 0 100%}}
 .collab-head{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin:40px 0 14px}
 
 /* ── yt player — custom controls overlay ─────────────── */
@@ -661,9 +658,13 @@ function buildProduction(C, n) {
     <div class="rv" id="musicSection"></div>
   </div>`;
 
-  // populate carousels
+  // populate carousels — single own film goes full width
   const ownCar = sec.querySelector('#ownCar');
-  own.forEach(f => { const ci = el('div','film-ci'); ci.appendChild(filmCard(f)); ownCar.appendChild(ci); });
+  own.forEach(f => {
+    const ci = el('div', own.length === 1 ? 'film-ci film-ci-full' : 'film-ci');
+    ci.appendChild(filmCard(f));
+    ownCar.appendChild(ci);
+  });
 
   const collabCar = sec.querySelector('#collabCar');
   if (collabCar) collab.forEach(f => { const ci = el('div','film-ci'); ci.appendChild(filmCard(f)); collabCar.appendChild(ci); });
@@ -801,23 +802,17 @@ function buildActors(C, n) {
     if (r.youtube_id) {
       const ytid  = r.youtube_id;
       const thumb = `https://img.youtube.com/vi/${ytid}/maxresdefault.jpg`;
+      // reels: click thumbnail → open YouTube in new tab (best for landscape reel content)
       return `
         <div class="ci">
-          <div class="rc yt-reel" data-ytid="${ytid}">
-            <iframe
-              src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&controls=0&showinfo=0&iv_load_policy=3"
-              title="${escHtml(r.label)}"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowfullscreen
-              style="position:absolute;inset:0;width:100%;height:100%;border:0"
-            ></iframe>
+          <a class="rc yt-reel" href="https://www.youtube.com/watch?v=${ytid}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
             <div class="yt-thumb-layer" style="background-image:url('${thumb}')">
               <div class="yt-big-play">
                 <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="white" stroke-width="1.5"/><polygon points="26,20 50,32 26,44" fill="white" fill-opacity=".9"/></svg>
               </div>
             </div>
             <div class="rl">${escHtml(r.label)}</div>
-          </div>
+          </a>
         </div>`;
     }
     return `
