@@ -88,8 +88,8 @@
         "badge_type":  "Short film",
         "badge_note":  "Cannes Marché du Film",
         "credits":     "Poster · Co-editing · Co-composition",
-        "process_note": "We came in post-production, did the poster design and contributed to editing and score.",
-        "youtube_id":  "-DQhVvW9Y_Q",
+        "process_note": "We came in post-production and contributed poster design, editing and score.",
+        "youtube_id":  null,
         "still":       "The Love Ritual Still.png"
       },
       {
@@ -158,8 +158,8 @@
         "id":       "track_05",
         "title":    "The Love Ritual",
         "subtitle": "Original score",
-        "file":     "The_Love Ritual_Music_Simeon.mp3",
-        "duration": "0:37",
+        "file":     "audio_05_loveritual.mp3",
+        "duration": "2:41",
         "startAt":  0
       }
     ]
@@ -239,10 +239,10 @@
     ],
     "_team_note": "Edit name and role. Set 'photo' to a filename in assets/ to show a photo, or null for initials.",
     "team": [
-      { "name": "Noée",   "role": null,     "photo": null,                                "initial": "N" },
-      { "name": "Simeon", "role": null,     "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg", "initial": "S" },
-      { "name": "Aylin",  "role": null,     "photo": null,                                "initial": "A" },
-      { "name": "Fleur",  "role": null,     "photo": null,                                "initial": "F" }
+      { "name": "Noée",   "role": null, "photo": null,                                "initial": "N" },
+      { "name": "Simeon", "role": null, "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg", "initial": "S" },
+      { "name": "Aylin",  "role": null, "photo": null,                                "initial": "A" },
+      { "name": "Fleur",  "role": null, "photo": null,                                "initial": "F" }
     ]
   },
 
