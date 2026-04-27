@@ -571,15 +571,22 @@ function setupHero(C) {
   const heroYT   = h.hero_video_youtube_id;
 
   if (heroFile) {
-    // self-hosted: reliable autoplay on all devices when muted+playsinline
     vid.innerHTML = `
       <video
-        autoplay muted loop playsinline
+        id="heroVideo"
+        autoplay muted loop playsinline webkit-playsinline
         class="hero-vid-el"
         preload="auto"
       >
         <source src="assets/${heroFile}" type="video/mp4">
       </video>`;
+    // force play — needed on some iOS versions where autoplay attr alone doesn't trigger
+    const heroVidEl = document.getElementById('heroVideo');
+    if (heroVidEl) {
+      const tryPlay = () => heroVidEl.play().catch(() => {});
+      heroVidEl.addEventListener('canplay', tryPlay, { once: true });
+      tryPlay();
+    }
   } else if (heroYT) {
     // fallback YouTube iframe if no file provided
     vid.innerHTML = `
