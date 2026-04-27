@@ -84,13 +84,12 @@ section{position:relative;z-index:2}
 /* desktop: video bg */
 .hero-vid{position:absolute;inset:0;z-index:0;background:#000}
 .hero-vid iframe{width:100%;height:100%;border:0;pointer-events:none}
-.hero-vid video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.hero-vid-el{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .hero-vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.28) 0%,rgba(0,0,0,.04) 35%,rgba(0,0,0,.7) 100%)}
-/* portrait mobile: contain video so text/composition isn't cropped */
+/* portrait mobile: show full video, no crop */
 @media(max-width:760px) and (orientation:portrait){
-  .hero-vid video{object-fit:contain;object-position:center center}
+  .hero-vid-el{object-fit:contain;background:#000}
 }
-/* mobile: black fallback if video hasn't loaded */
 @media(max-width:760px){.hero{background:#000}}
 .hero-content{position:relative;z-index:3;padding-top:130px}
 .kicker{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
@@ -339,16 +338,15 @@ form button[type=submit]:hover{background:var(--fg);color:var(--bg)}
 /* ── marquee ──────────────────────────────────────────── */
 .mq{padding:48px 0;overflow:hidden;position:relative;z-index:2;border-top:1px solid var(--ln)}
 .mq-t{
-  display:flex;gap:48px;white-space:nowrap;
+  display:flex;gap:0;white-space:nowrap;
   font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);
   animation:mq 32s linear infinite;
   will-change:transform;
-  /* prevent browser from pausing animation when tab is backgrounded */
   animation-play-state:running;
 }
 /* pause only on explicit reduced-motion preference */
 @media(prefers-reduced-motion:reduce){.mq-t{animation:none}}
-.mq-t span{display:inline-flex;align-items:center;gap:48px;padding-right:48px}
+.mq-t span{display:inline-flex;align-items:center;gap:48px}
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;opacity:.35}
 @keyframes mq{
   0%{transform:translateX(0)}
@@ -577,7 +575,7 @@ function setupHero(C) {
     vid.innerHTML = `
       <video
         autoplay muted loop playsinline
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none"
+        class="hero-vid-el"
         preload="auto"
       >
         <source src="assets/${heroFile}" type="video/mp4">
@@ -1098,12 +1096,13 @@ function buildContact(C, n) {
 /* ── marquee ──────────────────────────────────────────── */
 function buildMarquee(C) {
   const words = ['Film', 'Music', 'Actor Services', 'Post & Sound', 'Design'];
-  const inner = words.map(w => `${w} <i class="dot"></i>`).join(' ');
-  // 4 copies: -50% translation always lands on a copy boundary
+  // trailing dot ensures the loop seam matches the gap between words
+  const inner = words.map(w => `${w} <i class="dot"></i>`).join(' ') + ' ';
   const d = document.createElement('div');
   d.className = 'mq';
   d.setAttribute('aria-hidden','true');
-  d.innerHTML = `<div class="mq-t"><span>${inner}</span><span>${inner}</span><span>${inner}</span><span>${inner}</span></div>`;
+  // exactly 2 spans: animation moves -50% so second span takes first's place perfectly
+  d.innerHTML = `<div class="mq-t"><span>${inner}</span><span>${inner}</span></div>`;
   return d;
 }
 
@@ -1459,18 +1458,21 @@ function setupPlayerControls(container, player) {
     seekWrap.addEventListener('touchmove',  e => seekTo(e), {passive:true});
   }
 
-  // fullscreen — toggle enter and exit, works on iOS Safari too
+  // fullscreen — desktop: proper fullscreen API. Mobile: open in YouTube (iOS limitation)
   if (fsBtn) {
     fsBtn.addEventListener('click', e => {
       e.stopPropagation();
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        // iOS Safari cannot fullscreen iframes — open in YouTube instead
+        const ytid = container.dataset.ytid;
+        if (ytid) window.open(`https://www.youtube.com/watch?v=${ytid}`, '_blank');
+        return;
+      }
       const target = container.closest('.fe, .rc') || container;
-      const iframe = container.querySelector('iframe');
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        // try container first, fall back to iframe (iOS Safari needs iframe)
         if (target.requestFullscreen) target.requestFullscreen();
         else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
-        else if (iframe && iframe.requestFullscreen) iframe.requestFullscreen();
-        else if (iframe && iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
       } else {
         if (document.exitFullscreen) document.exitFullscreen();
         else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
