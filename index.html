@@ -341,8 +341,10 @@ form button[type=submit]:hover{background:var(--fg);color:var(--bg)}
   display:flex;gap:0;white-space:nowrap;
   font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);
   animation:mq 32s linear infinite;
-  will-change:transform;
-  animation-play-state:running;
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
 }
 /* pause only on explicit reduced-motion preference */
 @media(prefers-reduced-motion:reduce){.mq-t{animation:none}}
