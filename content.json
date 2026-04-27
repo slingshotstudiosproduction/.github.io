@@ -61,14 +61,16 @@
     "cta_actors":  "For actors",
     "cta_contact": "Get in touch",
     "scroll_hint": "Scroll",
-    "hero_video_youtube_id": "u2neuNec6wk",
-    "_hero_video_note": "Plays silently in background on desktop. Hidden on mobile. Set to null to disable."
+    "hero_video_file": "Parasomnia Hero Video Slingshot Studios.mp4",
+    "_hero_video_note": "Self-hosted mp4 in assets/ folder. Autoplays muted on both desktop and mobile. Set to null to show black background.",
+    "hero_video_youtube_id": null,
+    "_hero_youtube_note": "YouTube ID for hero background - disabled, using self-hosted file instead."
   },
 
   "films": {
     "_note": "type 'own' = fully self-produced. type 'collab' = project we contributed to. Controls which heading it appears under.",
     "section_label_own":    "Our films",
-    "section_label_collab": "Projects we contributed to",
+    "section_label_collab": "Collaborations",
     "section_heading": "Films & projects.",
     "section_sub": "Original work and collaborations — from development to distribution.",
     "items": [
@@ -252,7 +254,7 @@
   "contact": {
     "section_heading": "Let's build something.",
     "section_sub":     "Tell us what you're working on, even if it's early.",
-    "intro":           "Drop us a message. We read everything and get back within a few days.",
+    "intro":           "Tell us what you're working on.",
     "email":           null,
     "_email_note":     "Email is hidden from the website for now to avoid spam. Set to your address to show it publicly once you have a dedicated contact address.",
     "instagram":       "https://www.instagram.com/slingshot.studios.productions/",
