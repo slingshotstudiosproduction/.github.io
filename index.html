@@ -84,8 +84,13 @@ section{position:relative;z-index:2}
 /* desktop: video bg */
 .hero-vid{position:absolute;inset:0;z-index:0;background:#000}
 .hero-vid iframe{width:100%;height:100%;border:0;pointer-events:none}
+.hero-vid video{width:100%;height:100%;object-fit:cover;pointer-events:none}
 .hero-vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.28) 0%,rgba(0,0,0,.04) 35%,rgba(0,0,0,.7) 100%)}
-/* mobile: hero background is black if video hasn't loaded yet */
+/* portrait mobile: contain video so text/composition isn't cropped */
+@media(max-width:760px) and (orientation:portrait){
+  .hero-vid video{object-fit:contain;object-position:center center}
+}
+/* mobile: black fallback if video hasn't loaded */
 @media(max-width:760px){.hero{background:#000}}
 .hero-content{position:relative;z-index:3;padding-top:130px}
 .kicker{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
@@ -724,7 +729,8 @@ function filmCard(f) {
   let embedHTML = '';
   if (f.youtube_id) {
     const ytid = f.youtube_id;
-    const thumb = ytThumb(ytid);
+    // use custom still if provided, otherwise fall back to YouTube thumbnail
+    const thumbSrc = f.still ? `assets/${f.still}` : ytThumb(ytid);
     embedHTML = `
       <div class="fe" data-ytid="${ytid}" data-player-state="unstarted">
         <iframe
@@ -734,7 +740,7 @@ function filmCard(f) {
           allowfullscreen
           loading="lazy"
         ></iframe>
-        <div class="yt-thumb-layer" style="background-image:url('${thumb}')">
+        <div class="yt-thumb-layer" style="background-image:url('${thumbSrc}')">
           <div class="yt-big-play">
             <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="white" stroke-width="1.5"/><polygon points="26,20 50,32 26,44" fill="white" fill-opacity=".9"/></svg>
           </div>
@@ -814,7 +820,7 @@ function buildMusicHTML(M) {
         </div>
         <div class="player-controls">
           <button class="pb-btn" id="pbPrev" title="Previous"><svg viewBox="0 0 16 16" width="14" height="14"><polygon points="14,2 4,8 14,14" fill="currentColor"/><rect x="1" y="2" width="2" height="12" fill="currentColor"/></svg></button>
-          <button class="pb-btn main" id="pbPlay" title="Play/Pause"><svg id="pbIcon" viewBox="0 0 16 16" width="16" height="16"><polygon id="playIcon" points="4,2 14,8 4,14"/></svg></button>
+          <button class="pb-btn main" id="pbPlay" title="Play/Pause"><svg id="pbIcon" viewBox="0 0 16 16" width="16" height="16" fill="var(--bg)"><polygon points="4,2 14,8 4,14"/></svg></button>
           <button class="pb-btn" id="pbNext" title="Next"><svg viewBox="0 0 16 16" width="14" height="14"><polygon points="2,2 12,8 2,14" fill="currentColor"/><rect x="13" y="2" width="2" height="12" fill="currentColor"/></svg></button>
           <span class="pb-time" id="pbElapsed">0:00</span>
           <div class="seek-wrap" id="seekWrap">
@@ -1244,18 +1250,16 @@ function setupMusicPlayer(C) {
 
   function play(idx) {
     loadTrack(idx);
-    audio.play().then(() => { isPlaying = true; updatePlayBtn(); }).catch(() => {});
+    audio.play().then(() => { isPlaying = true; updatePlayBtn(); updateTrackIcons(); }).catch(() => {});
   }
 
   function updatePlayBtn() {
     const icon = document.getElementById('pbIcon');
     if (!icon) return;
     if (isPlaying) {
-      // pause icon — two rectangles
-      icon.innerHTML = '<rect x="3" y="2" width="4" height="12" fill="currentColor"/><rect x="9" y="2" width="4" height="12" fill="currentColor"/>';
+      icon.innerHTML = '<rect x="3" y="2" width="4" height="12" fill="var(--bg)"/><rect x="9" y="2" width="4" height="12" fill="var(--bg)"/>';
     } else {
-      // play icon — triangle
-      icon.innerHTML = '<polygon points="4,2 14,8 4,14" fill="currentColor"/>';
+      icon.innerHTML = '<polygon points="4,2 14,8 4,14" fill="var(--bg)"/>';
     }
   }
 
@@ -1269,13 +1273,27 @@ function setupMusicPlayer(C) {
     } else {
       play(idx);
     }
+    updateTrackIcons();
   });
+
+  function updateTrackIcons() {
+    document.querySelectorAll('.track-row').forEach((r, i) => {
+      const btn = r.querySelector('.track-play svg');
+      if (!btn) return;
+      if (i === currentIdx && isPlaying) {
+        btn.innerHTML = '<rect x="2" y="1" width="3" height="10" fill="currentColor"/><rect x="7" y="1" width="3" height="10" fill="currentColor"/>';
+      } else {
+        btn.innerHTML = '<polygon points="2,1 11,6 2,11" fill="currentColor"/>';
+      }
+    });
+  }
 
   pbPlay.addEventListener('click', () => {
     if (currentIdx < 0) { play(0); return; }
     if (isPlaying) { audio.pause(); isPlaying = false; }
     else { audio.play().then(() => { isPlaying = true; }); }
     updatePlayBtn();
+    updateTrackIcons();
   });
   pbPrev.addEventListener('click', () => play((currentIdx - 1 + tracks.length) % tracks.length));
   pbNext.addEventListener('click', () => play((currentIdx + 1) % tracks.length));
@@ -1441,21 +1459,24 @@ function setupPlayerControls(container, player) {
     seekWrap.addEventListener('touchmove',  e => seekTo(e), {passive:true});
   }
 
-  // fullscreen — toggle enter and exit
+  // fullscreen — toggle enter and exit, works on iOS Safari too
   if (fsBtn) {
     fsBtn.addEventListener('click', e => {
       e.stopPropagation();
       const target = container.closest('.fe, .rc') || container;
+      const iframe = container.querySelector('iframe');
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        const req = target.requestFullscreen || target.webkitRequestFullscreen;
-        if (req) req.call(target);
+        // try container first, fall back to iframe (iOS Safari needs iframe)
+        if (target.requestFullscreen) target.requestFullscreen();
+        else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
+        else if (iframe && iframe.requestFullscreen) iframe.requestFullscreen();
+        else if (iframe && iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
       } else {
-        const exit = document.exitFullscreen || document.webkitExitFullscreen;
-        if (exit) exit.call(document);
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
       }
     });
-    // swap icon between expand and compress
-    const iconExpand  = `<path d="M1 1h4v2H3v2H1zm10 0h4v4h-2V3h-2zM1 11h2v2h2v2H1zm10 4v-2h2v-2h2v4z"/>`;
+    const iconExpand   = `<path d="M1 1h4v2H3v2H1zm10 0h4v4h-2V3h-2zM1 11h2v2h2v2H1zm10 4v-2h2v-2h2v4z"/>`;
     const iconCompress = `<path d="M5 1v4H1V3h2V1zm6 0h2v2h2v2h-4zm-10 8h4v4H3v-2H1zm10 2h4v2h-2v2h-2z"/>`;
     const updateFsIcon = () => {
       const inFS = !!(document.fullscreenElement || document.webkitFullscreenElement);

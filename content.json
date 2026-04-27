@@ -57,7 +57,7 @@
     ],
     "kicker":      "An independent film collective",
     "tagline":     "Film · Music · Actor Services. Based in Paris.",
-    "cta_work":    "See the work",
+    "cta_work":    "Explore Our Work",
     "cta_actors":  "For actors",
     "cta_contact": "Get in touch",
     "scroll_hint": "Scroll",
@@ -71,7 +71,7 @@
     "_note": "type 'own' = fully self-produced. type 'collab' = project we contributed to. Controls which heading it appears under.",
     "section_label_own":    "Our films",
     "section_label_collab": "Collaborations",
-    "section_heading": "Films & projects.",
+    "section_heading": "Films & Projects.",
     "section_sub": "Original work and collaborations — from development to distribution.",
     "items": [
       {
@@ -170,7 +170,7 @@
   },
 
   "actors": {
-    "section_heading": "For emerging actors.",
+    "section_heading": "For Emerging Actors.",
     "section_sub":     "Headshots and demo reel scenes — directed with a film eye, not a package mentality.",
     "headshots_label": "Headshots",
     "reels_label":     "Demo Reel Scenes",
@@ -223,7 +223,7 @@
   },
 
   "design": {
-    "section_heading": "Poster design.",
+    "section_heading": "Poster Design.",
     "section_sub":     "We design key art that gives a film its face before anyone sees a frame. Starting from the image, working outward.",
     "poster_label":    "Poster design",
     "_posters_note":   "Add posters by adding items to this array. File must be in assets/. 3 side by side on desktop, swipeable on mobile.",
@@ -237,7 +237,7 @@
 
   "about": {
     "section_heading": "Who we are.",
-    "lead": "We're a European film collective based in Paris with ties to the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
+    "lead": "We're a European film collective based in Paris, with a presence in the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
     "body": [
       "We stay involved across the entire process, from the first conversation around a script to the final grade. Small team, full attention.",
       "Founded in 2025. We take on a limited number of outside projects each year and get involved early. That's where we can contribute the most."
@@ -252,8 +252,8 @@
   },
 
   "contact": {
-    "section_heading": "Let's build something.",
-    "section_sub":     "Tell us what you're working on, even if it's early.",
+    "section_heading": "Let's Build Something Together.",
+    "section_sub":     "Tell us what you're working on.",
     "intro":           null,
     "email":           null,
     "_email_note":     "Email is hidden from the website for now to avoid spam. Set to your address to show it publicly once you have a dedicated contact address.",
