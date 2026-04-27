@@ -5,12 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Slingshot Studios</title>
 <meta name="description" content="An independent film collective based in Paris."/>
+<meta name="theme-color" content="#0b0b0b">
+<meta property="og:title" content="Slingshot Studios">
+<meta property="og:description" content="An independent film collective based in Paris.">
+<meta property="og:type" content="website">
 <!-- Satoshi from Fontshare -->
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
 <!-- Plus Jakarta Sans from Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 /* ── tokens ───────────────────────────────────────────── */
 :root{
@@ -20,7 +24,6 @@
   --g:clamp(20px,4vw,56px); --maxw:1440px;
   --f:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;
   --fh:"Satoshi",-apple-system,BlinkMacSystemFont,sans-serif;
-  --serif:"Fraunces",Georgia,serif;
   --r:3px;
 }
 body.day{
@@ -82,10 +85,10 @@ section{position:relative;z-index:2}
 .hero-vid{position:absolute;inset:0;z-index:0;background:#000}
 .hero-vid iframe{width:100%;height:100%;border:0;pointer-events:none}
 .hero-vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.28) 0%,rgba(0,0,0,.04) 35%,rgba(0,0,0,.7) 100%)}
-/* mobile: hide video entirely, show gradient bg */
+/* mobile: video stays but hero gets black fallback — if video fails, black shows */
 @media(max-width:760px){
-  .hero-vid{display:none}
-  .hero{background:linear-gradient(160deg,#0f0d0b 0%,#0b0b0b 100%)}
+  .hero{background:#000}
+  .hero-vid iframe{object-fit:cover}
 }
 .hero-content{position:relative;z-index:3;padding-top:130px}
 .kicker{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
@@ -260,7 +263,7 @@ section{position:relative;z-index:2}
 .hov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.48) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:14px}
 .hc:hover .hov{opacity:1}
 .hov span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
-/* reel — landscape 16:9 for proper scene clips */
+/* reel card */
 .rc{aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer;background:var(--bgc)}
 .rc video{width:100%;height:100%;object-fit:cover}
 .rth{position:absolute;inset:0;background:var(--bgc) center/cover no-repeat;transition:opacity .4s}
@@ -279,18 +282,6 @@ section{position:relative;z-index:2}
 .ig-row a{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--lh);padding:7px 12px;border-radius:20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s}
 .ig-row a:hover{background:var(--ln)}
 .ig-row svg{width:13px;height:13px;fill:var(--fd)}
-
-/* ── services ─────────────────────────────────────────── */
-.svcs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ln)}
-@media(max-width:980px){.svcs{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.svcs{grid-template-columns:1fr}}
-.sv{background:var(--bg);padding:38px 28px 36px;transition:background .4s}
-.sv:hover{background:var(--bg2)}
-.sv-n{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin-bottom:11px}
-.sv h3{font-size:20px;font-weight:400;margin-bottom:11px;line-height:1.15}
-.sv p{font-size:13px;color:var(--fd);margin-bottom:20px;max-width:30ch}
-.sv ul{list-style:none}
-.sv ul li{padding:8px 0;border-top:1px solid var(--ln);font-size:13px;letter-spacing:.03em}
 
 /* ── posters ──────────────────────────────────────────── */
 /* desktop: 3-up grid; mobile: carousel */
@@ -345,10 +336,22 @@ form button[type=submit]:hover{background:var(--fg);color:var(--bg)}
 
 /* ── marquee ──────────────────────────────────────────── */
 .mq{padding:48px 0;overflow:hidden;position:relative;z-index:2;border-top:1px solid var(--ln)}
-.mq-t{display:flex;gap:48px;white-space:nowrap;font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);animation:mq 32s linear infinite;will-change:transform}
-.mq-t span{display:inline-flex;align-items:center;gap:48px}
+.mq-t{
+  display:flex;gap:48px;white-space:nowrap;
+  font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);
+  animation:mq 32s linear infinite;
+  will-change:transform;
+  /* prevent browser from pausing animation when tab is backgrounded */
+  animation-play-state:running;
+}
+/* pause only on explicit reduced-motion preference */
+@media(prefers-reduced-motion:reduce){.mq-t{animation:none}}
+.mq-t span{display:inline-flex;align-items:center;gap:48px;padding-right:48px}
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;opacity:.35}
-@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes mq{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
 
 /* ── footer ───────────────────────────────────────────── */
 footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-top:1px solid var(--ln);color:var(--fm);font-size:13px}
@@ -370,10 +373,17 @@ footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-to
 .ck button:hover{background:var(--fg);color:var(--bg)}
 .ck.gone{display:none}
 
-/* ── post single-para layout ──────────────────────────── */
+/* ── post service groups ──────────────────────────────── */
+.post-svcs{display:grid;grid-template-columns:repeat(2,1fr);gap:32px 48px}
+@media(max-width:700px){.post-svcs{grid-template-columns:1fr;gap:24px}}
+.post-svc-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fm);margin-bottom:8px}
+.post-svc-body{font-size:14px;color:var(--fd);margin-bottom:12px;max-width:36ch}
+.post-svc-pills{display:flex;flex-wrap:wrap;gap:6px}
 .post-desc{color:var(--fd);font-size:15px;line-height:1.7;max-width:64ch;margin-bottom:32px}
 .post-caps{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .post-cap{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fm);border:1px solid var(--lh);padding:4px 10px;border-radius:20px}
+/* yt open button in controls */
+.yc-yt{display:flex;align-items:center;justify-content:center;text-decoration:none}
 
 /* ── BTS gallery ──────────────────────────────────────── */
 .bts-grid{columns:3;column-gap:12px}
@@ -446,7 +456,10 @@ footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-to
 /* ═══════════════════════════════════════════════════════════
    LOAD content.json THEN BOOT
    ═══════════════════════════════════════════════════════════ */
-fetch('content.json')
+/* ── content version — bump this number after any content.json update ── */
+const CONTENT_VERSION = '1';
+
+fetch('content.json?v=' + CONTENT_VERSION)
   .then(r => r.json())
   .then(boot)
   .catch(err => {
@@ -459,7 +472,6 @@ fetch('content.json')
    BOOT
    ═══════════════════════════════════════════════════════════ */
 function boot(C) {
-  window._C = C;
   document.getElementById('yr').textContent = new Date().getFullYear();
   document.title = C.site.title + ' — Film · Music · Performance';
 
@@ -471,11 +483,9 @@ function boot(C) {
   setupFooter(C);
   setupCookie(C);
 
-  // wire interactivity after DOM is fully built
   requestAnimationFrame(() => {
     setupReveal();
     setupMusicPlayer(C);
-    setupFilmCards();
     setupReels();
     setupYTPlayers();
     setupGradient();
@@ -549,12 +559,24 @@ function setupHero(C) {
   const vid = document.getElementById('heroVid');
   if (h.hero_video_youtube_id) {
     const ytid = h.hero_video_youtube_id;
-    vid.innerHTML = `<iframe
-      src="https://www.youtube.com/embed/${ytid}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytid}&rel=0&playsinline=1&modestbranding=1&showinfo=0&disablekb=1"
-      title="Background"
-      allow="autoplay; fullscreen"
-      allowfullscreen
-    ></iframe>`;
+    // black cover hides iframe until loaded — prevents gray YouTube placeholder
+    vid.innerHTML = `
+      <div id="heroCover" style="position:absolute;inset:0;background:#000;z-index:2;transition:opacity 1.2s ease;pointer-events:none"></div>
+      <iframe
+        id="heroFrame"
+        src="https://www.youtube.com/embed/${ytid}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytid}&rel=0&playsinline=1&modestbranding=1&showinfo=0&disablekb=1&iv_load_policy=3"
+        title="Background"
+        allow="autoplay; fullscreen"
+        allowfullscreen
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none"
+      ></iframe>`;
+    // fade out cover after iframe loads
+    vid.querySelector('#heroFrame').addEventListener('load', () => {
+      setTimeout(() => {
+        const c = document.getElementById('heroCover');
+        if (c) c.style.opacity = '0';
+      }, 1000);
+    });
   }
 
   // slogan split at comma
@@ -673,14 +695,18 @@ function buildProduction(C, n) {
   return sec;
 }
 
+function ytThumb(ytid) {
+  // maxresdefault sometimes missing; hqdefault always exists
+  return `https://img.youtube.com/vi/${ytid}/hqdefault.jpg`;
+}
+
 function filmCard(f) {
   const card = el('div', 'fc');
 
   let embedHTML = '';
   if (f.youtube_id) {
     const ytid = f.youtube_id;
-    const thumb = `https://img.youtube.com/vi/${ytid}/maxresdefault.jpg`;
-    // custom player: iframe loads with enablejsapi, our overlay handles UI
+    const thumb = ytThumb(ytid);
     embedHTML = `
       <div class="fe" data-ytid="${ytid}" data-player-state="unstarted">
         <iframe
@@ -689,7 +715,6 @@ function filmCard(f) {
           allow="autoplay; fullscreen; picture-in-picture"
           allowfullscreen
           loading="lazy"
-          id="yt-${ytid}"
         ></iframe>
         <div class="yt-thumb-layer" style="background-image:url('${thumb}')">
           <div class="yt-big-play">
@@ -699,12 +724,15 @@ function filmCard(f) {
         <div class="yt-overlay">
           <div class="yt-controls">
             <button class="yc-btn yc-play" title="Play/Pause">
-              <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14" class="yc-play-icon"/></svg>
+              <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14" fill="white"/></svg>
             </button>
             <div class="yc-seek">
               <div class="yc-track"><div class="yc-fill"><div class="yc-thumb"></div></div></div>
             </div>
             <span class="yc-time">0:00 / 0:00</span>
+            <a class="yc-btn yc-yt" href="https://www.youtube.com/watch?v=${ytid}" target="_blank" rel="noopener" title="Open on YouTube" onclick="event.stopPropagation()">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-2.75 12.38 12.38 0 00-8.19 5.82 12.08 12.08 0 00-1.63 6 12.24 12.24 0 006.77 2.05 12.36 12.36 0 0012-10.29 4.81 4.81 0 01-5.18-.83z"/><path d="M10 15l5-3-5-3v6z"/></svg>
+            </a>
             <button class="yc-btn yc-fs" title="Fullscreen">
               <svg viewBox="0 0 16 16"><path d="M2 2h4v2H4v2H2zm8 0h4v4h-2V4h-2zm-8 8h2v2h2v2H2zm10 2h-2v-2h2v-2h2v4z" fill="white"/></svg>
             </button>
@@ -797,22 +825,45 @@ function buildActors(C, n) {
       </div>
     </div>`).join('');
 
-  // reels carousel — supports file+thumb or youtube_id per item
+  // reels carousel — file or youtube_id, full inline player for both
   const reelCIs = A.reels.map(r => {
     if (r.youtube_id) {
       const ytid  = r.youtube_id;
-      const thumb = `https://img.youtube.com/vi/${ytid}/maxresdefault.jpg`;
-      // reels: click thumbnail → open YouTube in new tab (best for landscape reel content)
+      const thumb = ytThumb(ytid);
       return `
         <div class="ci">
-          <a class="rc yt-reel" href="https://www.youtube.com/watch?v=${ytid}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+          <div class="rc yt-reel" data-ytid="${ytid}">
+            <iframe
+              src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&controls=0&showinfo=0&iv_load_policy=3&color=white"
+              title="${escHtml(r.label)}"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              style="position:absolute;inset:0;width:100%;height:100%;border:0"
+            ></iframe>
             <div class="yt-thumb-layer" style="background-image:url('${thumb}')">
               <div class="yt-big-play">
                 <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="white" stroke-width="1.5"/><polygon points="26,20 50,32 26,44" fill="white" fill-opacity=".9"/></svg>
               </div>
             </div>
-            <div class="rl">${escHtml(r.label)}</div>
-          </a>
+            <div class="yt-overlay">
+              <div class="yt-controls">
+                <button class="yc-btn yc-play" title="Play/Pause">
+                  <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14" fill="white"/></svg>
+                </button>
+                <div class="yc-seek">
+                  <div class="yc-track"><div class="yc-fill"><div class="yc-thumb"></div></div></div>
+                </div>
+                <span class="yc-time">0:00 / 0:00</span>
+                <a class="yc-btn yc-yt" href="https://www.youtube.com/watch?v=${ytid}" target="_blank" rel="noopener" title="Open on YouTube" onclick="event.stopPropagation()">
+                  <svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-2.75 12.38 12.38 0 00-8.19 5.82 12.08 12.08 0 00-1.63 6 12.24 12.24 0 006.77 2.05 12.36 12.36 0 0012-10.29 4.81 4.81 0 01-5.18-.83z"/><path d="M10 15l5-3-5-3v6z"/></svg>
+                </a>
+                <button class="yc-btn yc-fs" title="Fullscreen">
+                  <svg viewBox="0 0 16 16"><path d="M2 2h4v2H4v2H2zm8 0h4v4h-2V4h-2zm-8 8h2v2h2v2H2zm10 2h-2v-2h2v-2h2v4z" fill="white"/></svg>
+                </button>
+              </div>
+            </div>
+            <a class="rl" href="https://www.youtube.com/watch?v=${ytid}" target="_blank" rel="noopener" style="text-decoration:none">${escHtml(r.label)} ↗</a>
+          </div>
         </div>`;
     }
     return `
@@ -872,12 +923,12 @@ function buildPost(C, n) {
   const P = C.post;
   const sec = el('section', 'block', 'post');
 
-  // collect all service list items as capability pills
-  const allCaps = P.services.flatMap(s => s.list);
-  const capsHTML = allCaps.map(c => `<span class="post-cap">${escHtml(c)}</span>`).join('');
-
-  // one combined description from all service bodies
-  const combined = P.section_sub;
+  const servicesHTML = P.services.map(s => `
+    <div class="post-svc">
+      <div class="post-svc-label">${escHtml(s.label)}</div>
+      <div class="post-svc-body">${escHtml(s.body)}</div>
+      <div class="post-svc-pills">${s.list.map(i => `<span class="post-cap">${escHtml(i)}</span>`).join('')}</div>
+    </div>`).join('');
 
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
@@ -885,11 +936,9 @@ function buildPost(C, n) {
         <div class="sn">${secNum(n)} / ${escHtml(C.nav.post)}</div>
         <h2>${escHtml(P.section_heading)}</h2>
       </div>
+      <p class="lead">${escHtml(P.section_sub)}</p>
     </div>
-    <div class="rv">
-      <p class="post-desc">${escHtml(combined)}</p>
-      <div class="post-caps">${capsHTML}</div>
-    </div>
+    <div class="post-svcs rv">${servicesHTML}</div>
   </div>`;
   return sec;
 }
@@ -959,6 +1008,10 @@ function buildContact(C, n) {
   const sec = el('section', 'block', 'contact');
   const catOpts = K.form_categories.map(c => `<option>${escHtml(c)}</option>`).join('');
 
+  // only show email line if not null
+  const emailLine = K.email ? `
+    <div class="cline"><span class="clabel">Email</span><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></div>` : '';
+
   sec.innerHTML = `<div class="wrap">
     <div class="sh rv">
       <div class="sh-l">
@@ -970,12 +1023,14 @@ function buildContact(C, n) {
     <div class="cl">
       <div class="rv">
         <p class="ci-info">${escHtml(K.intro)}</p>
-        <div class="cline"><span class="clabel">Email</span><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></div>
+        ${emailLine}
         <div class="cline"><span class="clabel">Instagram</span><a href="${escHtml(K.instagram)}" target="_blank" rel="noopener">${escHtml(K.instagram_handle)}</a></div>
         <div class="cline"><span class="clabel">Based</span><span>${escHtml(K.based)}</span></div>
         <div class="cline"><span class="clabel">Hours</span><span>${escHtml(K.hours)}</span></div>
       </div>
       <form class="rv" id="cf" novalidate>
+        <!-- honeypot: bots fill this, humans don't, we ignore if filled -->
+        <input name="website" type="text" style="display:none" tabindex="-1" autocomplete="off">
         <div class="row">
           <div><label for="fn">Name</label><input id="fn" name="name" type="text" autocomplete="name" required></div>
           <div><label for="fe">Email</label><input id="fe" name="email" type="email" autocomplete="email" required></div>
@@ -991,13 +1046,23 @@ function buildContact(C, n) {
     </div>
   </div>`;
 
-  // form handler
+  // form: mailto with honeypot check and basic sanitisation
+  const dest = K.form_email_destination || K.email || '';
   sec.querySelector('#cf').addEventListener('submit', ev => {
     ev.preventDefault();
     const f = ev.currentTarget;
-    const n=f.name.value.trim(), em=f.email.value.trim(), cat=f.category.value, msg=f.message.value.trim();
-    if (!n||!em||!msg) return;
-    window.location.href = `mailto:${K.email}?subject=${encodeURIComponent('['+cat+'] from '+n)}&body=${encodeURIComponent(msg+'\n\nFrom: '+n+' <'+em+'>\nCategory: '+cat)}`;
+    // honeypot check
+    if (f.website && f.website.value) return;
+    const name = f.name.value.trim().slice(0, 200);
+    const email = f.email.value.trim().slice(0, 200);
+    const cat  = f.category.value;
+    const msg  = f.message.value.trim().slice(0, 2000);
+    if (!name || !email || !msg) return;
+    // strip any HTML/script tags from inputs before sending
+    const clean = s => s.replace(/<[^>]*>/g,'').replace(/[<>]/g,'');
+    const sub  = encodeURIComponent('[' + clean(cat) + '] from ' + clean(name));
+    const body = encodeURIComponent(clean(msg) + '\n\nFrom: ' + clean(name) + ' <' + clean(email) + '>\nCategory: ' + clean(cat));
+    window.location.href = `mailto:${dest}?subject=${sub}&body=${body}`;
   });
   return sec;
 }
@@ -1006,10 +1071,11 @@ function buildContact(C, n) {
 function buildMarquee(C) {
   const words = ['Film', 'Music', 'Actor Services', 'Post & Sound', 'Design'];
   const inner = words.map(w => `${w} <i class="dot"></i>`).join(' ');
+  // 4 copies: -50% translation always lands on a copy boundary
   const d = document.createElement('div');
   d.className = 'mq';
   d.setAttribute('aria-hidden','true');
-  d.innerHTML = `<div class="mq-t"><span>${inner}</span><span>${inner}</span></div>`;
+  d.innerHTML = `<div class="mq-t"><span>${inner}</span><span>${inner}</span><span>${inner}</span><span>${inner}</span></div>`;
   return d;
 }
 
@@ -1072,7 +1138,7 @@ function setupFooter(C) {
     <div>
       <h5>Connect</h5>
       <ul>
-        <li><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></li>
+        ${K.email ? `<li><a href="mailto:${escHtml(K.email)}">${escHtml(K.email)}</a></li>` : ''}
         <li><a href="${escHtml(K.instagram)}" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="${escHtml(F.youtube || F.vimeo || 'https://youtube.com')}" target="_blank" rel="noopener">YouTube</a></li>
       </ul>
@@ -1216,23 +1282,19 @@ function setupMusicPlayer(C) {
   seekWrap.addEventListener('touchmove', e => seekTo(e.touches[0]), {passive:true});
 }
 
-/* film carousel scroll */
+/* film carousel scroll — index based */
 function scrollFilmCar(id, dir) {
   const car = document.getElementById(id);
   if (!car) return;
-  const item = car.querySelector('.film-ci');
-  if (!item) return;
-  const w = item.offsetWidth + 16;
-  const max = car.scrollWidth - car.clientWidth;
-  let next = car.scrollLeft + dir * w;
-  if (next > max + 10) next = 0;
-  if (next < -10) next = max;
-  car.scrollTo({left: next, behavior:'smooth'});
+  const items = car.querySelectorAll('.film-ci');
+  if (!items.length) return;
+  const total = items.length;
+  let idx = parseInt(car.dataset.idx || '0');
+  idx = ((idx + dir) % total + total) % total;
+  car.dataset.idx = idx;
+  items[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 }
 window.scrollFilmCar = scrollFilmCar;
-
-/* film cards load iframes directly with controls — no JS click handling needed */
-function setupFilmCards() {}
 
 /* ═══════════════════════════════════════════════════════════
    YOUTUBE IFRAME API — custom controls for all .fe[data-ytid]
@@ -1364,17 +1426,21 @@ function setupPlayerControls(container, player) {
     });
   }
 
-  // progress ticker
-  setInterval(() => {
-    if (!isPlaying) return;
-    try {
-      const cur = player.getCurrentTime() || 0;
-      const dur = player.getDuration()    || 0;
-      const pct = dur > 0 ? (cur/dur)*100 : 0;
-      if (fill)   fill.style.width = pct + '%';
-      if (timeEl) timeEl.textContent = fmtT(cur) + ' / ' + fmtT(dur);
-    } catch(_) {}
-  }, 500);
+  // progress ticker using rAF — no interval running when paused
+  let rafId = null;
+  function tick() {
+    if (isPlaying) {
+      try {
+        const cur = player.getCurrentTime() || 0;
+        const dur = player.getDuration()    || 0;
+        const pct = dur > 0 ? (cur/dur)*100 : 0;
+        if (fill)   fill.style.width = pct + '%';
+        if (timeEl) timeEl.textContent = fmtT(cur) + ' / ' + fmtT(dur);
+      } catch(_) {}
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+  rafId = requestAnimationFrame(tick);
 
   // update play icon
   function setIcon(playing) {
@@ -1417,22 +1483,21 @@ function setupReels() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CAROUSEL
+   CAROUSEL — index-based so loop works reliably on mobile
    ═══════════════════════════════════════════════════════════ */
 function scrollCar(id, dir) {
   const car = document.getElementById(id);
   if (!car) return;
-  const item = car.querySelector('.ci');
-  if (!item) return;
-  const w = item.offsetWidth + 14;
-  const maxScroll = car.scrollWidth - car.clientWidth;
-  let next = car.scrollLeft + dir * w;
-  // loop
-  if (next > maxScroll + 10) next = 0;
-  if (next < -10) next = maxScroll;
-  car.scrollTo({left: next, behavior:'smooth'});
+  const items = car.querySelectorAll('.ci');
+  if (!items.length) return;
+  const total = items.length;
+  // read current index from data attribute
+  let idx = parseInt(car.dataset.idx || '0');
+  idx = ((idx + dir) % total + total) % total; // loop
+  car.dataset.idx = idx;
+  items[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 }
-window.scrollCar = scrollCar; // expose for inline onclick
+window.scrollCar = scrollCar;
 
 /* ═══════════════════════════════════════════════════════════
    ADAPTIVE GRADIENT CANVAS

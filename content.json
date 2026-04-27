@@ -1,19 +1,21 @@
 {
   "_readme": {
     "what_is_this": "This is the single content file for the Slingshot Studios website. Edit this file to update any text, add media, or reorder sections. You do NOT need to touch index.html for any content change.",
-    "how_to_edit": "Open this file in any text editor (TextEdit on Mac works, but use 'Plain Text' mode, or use VS Code / Notepad). Change any value between quotes. Save the file. Refresh the browser.",
+    "how_to_edit": "Open this file in any text editor (TextEdit on Mac works, but use Plain Text mode, or use VS Code). Change any value between quotes. Save the file. Refresh the browser.",
+    "writing_rules": "Never use the em dash symbol in any text field. Use a comma, colon, or a new sentence instead. Tone: friendly, direct, collaborative. Not corporate.",
+    "labels_note": "All field labels are descriptive, not project-specific. When you replace a project, just update the values inside the quotes, not the keys.",
     "rules": [
       "Always keep the commas at the end of lines (except the last item in a group).",
-      "Text goes between double quotes. Example: \"My new title\"",
-      "To add a new headshot: add a new line like { \"file\": \"headshot_4.jpg\", \"alt\": \"Name\" } inside the headshots array.",
-      "To add a new poster: same pattern inside the posters array.",
-      "To add a new music track: copy an existing music block and change the values.",
-      "To add a new film: copy an existing film block and change the values.",
+      "Text goes between double quotes. Example: My new title",
+      "To add a headshot: copy an existing headshot line and change the filename.",
+      "To add a poster: same pattern inside the posters array.",
+      "To add a music track: copy an existing track block and change the values.",
+      "To add a film: copy an existing film block and change the values.",
       "File names must match exactly what you put in the assets/ folder (case-sensitive).",
-      "YouTube IDs are just the part after v= in the URL. Example: https://www.youtube.com/watch?v=ABC123 → id is ABC123"
+      "YouTube IDs are just the part after v= in the URL. Example: https://www.youtube.com/watch?v=ABC123 means the ID is ABC123"
     ],
-    "section_order": "Change the order of items in sectionOrder to reorder sections on the page. Use the exact keys shown.",
-    "logo": "Put your logo file in the assets/ folder and set logo.file below. SVG preferred. Set to null to use the built-in icon mark."
+    "section_order": "Change the order of items in sectionOrder to reorder sections on the page.",
+    "logo": "Put your logo file in assets/ and set logo.file below. SVG preferred. Set to null to use the built-in icon."
   },
 
   "sectionOrder": [
@@ -220,9 +222,10 @@
 
   "design": {
     "section_heading": "Poster design.",
-    "section_sub":     "Film poster design rooted in the image: key art that communicates the world of a project before you press play.",
+    "section_sub":     "We design key art that gives a film its face before anyone sees a frame. Starting from the image, working outward.",
     "poster_label":    "Poster design",
     "_posters_note":   "Add posters by adding items to this array. File must be in assets/. 3 side by side on desktop, swipeable on mobile.",
+    "_item_note":      "Each poster: 'file' is the image filename in assets/, 'title' is the film name shown on hover, 'credit' is the small label shown below the title.",
     "posters": [
       { "file": "poster_parasomnia.jpg",   "title": "Parasomnia",              "credit": "Poster design" },
       { "file": "poster_loveritual.jpg",   "title": "The Love Ritual",         "credit": "Poster design" },
@@ -234,15 +237,15 @@
     "section_heading": "Who we are.",
     "lead": "We're a European film collective based in Paris with ties to the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
     "body": [
-      "Independent by choice. We stay involved across the entire process — from the first conversation around a script to the final grade. That's where the work matters.",
-      "Founded in 2025. We take on a limited number of outside projects each year. We get involved early — this is where we can contribute the most."
+      "We stay involved across the entire process, from the first conversation around a script to the final grade. Small team, full attention.",
+      "Founded in 2025. We take on a limited number of outside projects each year and get involved early. That's where we can contribute the most."
     ],
     "_team_note": "Edit name and role. Set 'photo' to a filename in assets/ to show a photo, or null for initials.",
     "team": [
-      { "name": "Noée",   "role": null, "photo": null,                                  "initial": "N" },
-      { "name": "Simeon", "role": null, "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg",   "initial": "S" },
-      { "name": "Aylin",  "role": null, "photo": null,                                  "initial": "A" },
-      { "name": "Fleur",  "role": null, "photo": "Fleur_headshot_Slingshot_Studios.png","initial": "F" }
+      { "name": "Noée",   "role": null, "photo": null,                                "initial": "N" },
+      { "name": "Simeon", "role": null, "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg", "initial": "S" },
+      { "name": "Aylin",  "role": null, "photo": null,                                "initial": "A" },
+      { "name": "Fleur",  "role": null, "photo": null,                                "initial": "F" }
     ]
   },
 
@@ -250,11 +253,14 @@
     "section_heading": "Let's build something.",
     "section_sub":     "Tell us what you're working on, even if it's early.",
     "intro":           "Drop us a message. We read everything and get back within a few days.",
-    "email":           "hello@slingshot.studio",
+    "email":           null,
+    "_email_note":     "Email is hidden from the website for now to avoid spam. Set to your address to show it publicly once you have a dedicated contact address.",
     "instagram":       "https://www.instagram.com/slingshot.studios.productions/",
     "instagram_handle": "@slingshot.studios.productions",
     "based":           "Paris",
-    "hours":           "Any day, by appointment. We're filmmakers — what's a weekend?",
+    "hours":           "Any day, by appointment. We're filmmakers. What's a weekend?",
+    "form_email_destination": "slingshotstudios@protonmail.com",
+    "_form_note":      "form_email_destination is where the contact form sends to. It is NOT shown publicly.",
     "form_categories": [
       "Actor services",
       "Production",
