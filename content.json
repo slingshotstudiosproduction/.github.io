@@ -254,7 +254,7 @@
   "contact": {
     "section_heading": "Let's build something.",
     "section_sub":     "Tell us what you're working on, even if it's early.",
-    "intro":           "Tell us what you're working on.",
+    "intro":           null,
     "email":           null,
     "_email_note":     "Email is hidden from the website for now to avoid spam. Set to your address to show it publicly once you have a dedicated contact address.",
     "instagram":       "https://www.instagram.com/slingshot.studios.productions/",
