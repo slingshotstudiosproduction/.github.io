@@ -1,0 +1,309 @@
+{
+  "_readme": {
+    "what_is_this": "This is the single content file for the Slingshot Studios website. Edit this file to update any text, add media, or reorder sections. You do NOT need to touch index.html for any content change.",
+    "how_to_edit": "Open this file in any text editor (TextEdit on Mac works, but use Plain Text mode, or use VS Code). Change any value between quotes. Save the file. Refresh the browser.",
+    "writing_rules": "Never use the em dash symbol in any text field. Use a comma, colon, or a new sentence instead. Tone: friendly, direct, collaborative. Not corporate.",
+    "labels_note": "All field labels are descriptive, not project-specific. When you replace a project, just update the values inside the quotes, not the keys.",
+    "rules": [
+      "Always keep the commas at the end of lines (except the last item in a group).",
+      "Text goes between double quotes. Example: My new title",
+      "To add a headshot: copy an existing headshot line and change the filename.",
+      "To add a poster: same pattern inside the posters array.",
+      "To add a music track: copy an existing track block and change the values.",
+      "To add a film: copy an existing film block and change the values.",
+      "File names must match exactly what you put in the assets/ folder (case-sensitive).",
+      "YouTube IDs are just the part after v= in the URL. Example: https://www.youtube.com/watch?v=ABC123 means the ID is ABC123"
+    ],
+    "section_order": "Change the order of items in sectionOrder to reorder sections on the page.",
+    "logo": "Put your logo file in assets/ and set logo.file below. SVG preferred. Set to null to use the built-in icon."
+  },
+
+  "sectionOrder": [
+    "production",
+    "actors",
+    "post",
+    "design",
+    "about",
+    "contact",
+    "bts"
+  ],
+
+  "site": {
+    "title": "Slingshot Studios",
+    "description": "An independent film collective based in Paris, developing and producing original projects.",
+    "language": "en"
+  },
+
+  "logo": {
+    "file": null,
+    "_note": "Set to a filename like 'logo.svg' to use your own logo from the assets/ folder. null uses the built-in icon."
+  },
+
+  "nav": {
+    "production": "Production",
+    "actors":     "Actors",
+    "post":       "Post & Sound",
+    "design":     "Design",
+    "about":      "Studio",
+    "contact":    "Contact"
+  },
+
+  "hero": {
+    "_note": "headline_options: first item is used. The comma splits it — left side is bold, right side is italic. Delete options you don't want.",
+    "headline_options": [
+      "Stories, made together.",
+      "Independent films, made together.",
+      "Built together, launched forward."
+    ],
+    "kicker":      "An independent film collective",
+    "tagline":     "Film · Music · Actor Services. Based in Paris.",
+    "cta_work":    "Explore Our Work",
+    "cta_actors":  "For actors",
+    "cta_contact": "Get in touch",
+    "scroll_hint": "Scroll",
+    "hero_video_file": "Parasomnia Hero Video Slingshot Studios.mp4",
+    "_hero_video_note": "Self-hosted mp4 in assets/ folder. Autoplays muted on both desktop and mobile. Set to null to show black background.",
+    "hero_video_youtube_id": null,
+    "_hero_youtube_note": "YouTube ID for hero background - disabled, using self-hosted file instead."
+  },
+
+  "films": {
+    "_note": "type 'own' = fully self-produced. type 'collab' = project we contributed to. Controls which heading it appears under.",
+    "section_label_own":    "Our films",
+    "section_label_collab": "Collaborations",
+    "section_heading": "Films & Projects.",
+    "section_sub": "Original work and collaborations — from development to distribution.",
+    "items": [
+      {
+        "id":          "parasomnia",
+        "title":       "Parasomnia",
+        "type":        "own",
+        "badge_type":  "Short film",
+        "badge_note":  "Self-produced",
+        "credits":     "Direction · VFX · Edit",
+        "process_note": "Shot on a micro budget in Paris with a crew of four.",
+        "youtube_id":  "u2neuNec6wk",
+        "still":       "Parasomnia Still.jpg"
+      },
+      {
+        "id":          "loveritual",
+        "title":       "The Love Ritual",
+        "type":        "collab",
+        "badge_type":  "Short film",
+        "badge_note":  "Cannes Marché du Film",
+        "credits":     "Poster · Co-editing · Co-composition",
+        "process_note": "We came in post-production and contributed poster design, editing and score.",
+        "youtube_id":  "-DQhVvW9Y_Q",
+        "still":       "The Love Ritual Still.png"
+      },
+      {
+        "id":          "pupille",
+        "title":       "Pupille",
+        "type":        "collab",
+        "badge_type":  "Short film",
+        "badge_note":  null,
+        "credits":     "DOP · 1st AC · Original score",
+        "process_note": "Brought in as DOP and composer, collaborated closely with the director throughout.",
+        "youtube_id":  "p1dqCUHj17M",
+        "still":       null
+      },
+      {
+        "id":          "diversfortune",
+        "title":       "Diver's Fortune",
+        "type":        "collab",
+        "badge_type":  "Game",
+        "badge_note":  null,
+        "credits":     "Editing · Music · Sound design",
+        "process_note": "Score, sound effects and trailer editing for an independent game project.",
+        "youtube_id":  "ockPjQFuX5o",
+        "still":       null
+      }
+    ]
+  },
+
+  "music": {
+    "_note": "Tracks appear in the order listed. 'file' must be in assets/. 'startAt' is seconds into the track where playback begins (0 = from start). Files must be .mp3 — .mp4 files will not play as audio.",
+    "section_label": "Music for Film & Games",
+    "items": [
+      {
+        "id":       "track_01",
+        "title":    "Parasomnia Main Theme",
+        "subtitle": "Original score",
+        "file":     "Parasomnia Main Theme.mp3",
+        "duration": "3:40",
+        "startAt":  0
+      },
+      {
+        "id":       "track_02",
+        "title":    "Parasomnia Suspense Track",
+        "subtitle": "Original score",
+        "file":     "Parasomnia Suspense track.mp3",
+        "duration": "1:51",
+        "startAt":  0,
+        "_note":    "Renamed from .mp4 to .mp3 — make sure the file in assets/ is also named .mp3"
+      },
+      {
+        "id":       "track_03",
+        "title":    "Pupille",
+        "subtitle": "Original score",
+        "file":     "Pupille_Theme_Shortened_Simeon.mp3",
+        "duration": "0:52",
+        "startAt":  0
+      },
+      {
+        "id":       "track_04",
+        "title":    "Diver's Fortune",
+        "subtitle": "Game score",
+        "file":     "Environment Showcase - Divers Fortune.mp3",
+        "duration": "2:01",
+        "startAt":  0
+      },
+      {
+        "id":       "track_05",
+        "title":    "The Love Ritual",
+        "subtitle": "Original score",
+        "file":     "The_Love Ritual_Music_Simeon.mp3",
+        "duration": "0:37",
+        "startAt":  0
+      }
+    ]
+  },
+
+  "actors": {
+    "section_heading": "For Emerging Actors.",
+    "section_sub":     "Headshots and demo reel scenes — directed with a film eye, not a package mentality.",
+    "headshots_label": "Headshots",
+    "reels_label":     "Demo Reel Scenes",
+    "ig_label":        "More on Instagram",
+    "ig_handle":       "@sling.shot.photos",
+    "ig_url":          "https://www.instagram.com/sling.shot.photos/",
+    "_headshots_note": "Add headshots by adding items to this array. File must be in assets/. They appear in carousel order.",
+    "headshots": [
+      { "file": "headshot_1.jpg", "alt": "Headshot 1" },
+      { "file": "headshot_2.jpg", "alt": "Headshot 2" },
+      { "file": "headshot_3.jpg", "alt": "Headshot 3" }
+    ],
+    "_reels_note": "Add reel scenes by adding items. Use 'youtube_id' for YouTube, or 'file'+'thumb' for local mp4. Mix freely.",
+    "reels": [
+      { "youtube_id": "HJnbUgSVqgI", "label": "Liia + Masha" },
+      { "youtube_id": "rLdLOFau-tI", "label": "Simeon + Masha" },
+      { "file": "reel_3.mp4", "thumb": "reel_3_thumb.jpg", "label": "Sim + Noée" }
+    ]
+  },
+
+  "post": {
+    "section_heading": "From assembly to final mix.",
+    "section_sub":     "We handle editing, colour grading, sound design, and original music — everything that happens after the shoot. We work from first assembly through to final mix, all in-house.",
+    "services": [
+      {
+        "label": "Edit",
+        "title": "Assembly & Edit",
+        "body":  "From first cut to locked picture: narrative, short-form, game trailers.",
+        "list":  ["First assembly", "Narrative edit", "Demo reel edit"]
+      },
+      {
+        "label": "Colour",
+        "title": "Colour Grading",
+        "body":  "Cinematic grading that serves the image rather than overwriting it.",
+        "list":  ["Colour correction", "Colour grading", "Creative looks"]
+      },
+      {
+        "label": "Sound",
+        "title": "Sound Design & Mix",
+        "body":  "Sound design, dialogue edit, and sound effects for film and game audio.",
+        "list":  ["Sound design", "Dialogue edit", "Custom sound effects"]
+      },
+      {
+        "label": "Music",
+        "title": "Original Score",
+        "body":  "Music for film, short-form content, and games: composed and produced together.",
+        "list":  ["Film score", "Game audio", "Sound branding"]
+      }
+    ]
+  },
+
+  "design": {
+    "section_heading": "Poster Design.",
+    "section_sub":     "We design key art that gives a film its face before anyone sees a frame. Starting from the image, working outward.",
+    "poster_label":    "Poster design",
+    "_posters_note":   "Add posters by adding items to this array. File must be in assets/. 3 side by side on desktop, swipeable on mobile.",
+    "_item_note":      "Each poster: 'file' is the image filename in assets/, 'title' is the film name shown on hover, 'credit' is the small label shown below the title.",
+    "posters": [
+      { "file": "poster_parasomnia.jpg",   "title": "Parasomnia",              "credit": "Poster design" },
+      { "file": "poster_loveritual.jpg",   "title": "The Love Ritual",         "credit": "Poster design" },
+      { "file": "poster_peopleplaces.jpg", "title": "People, Places & Things", "credit": "Poster design" }
+    ]
+  },
+
+  "about": {
+    "section_heading": "Who we are.",
+    "lead": "We're a European film collective based in Paris, with a presence in the UK. We develop our own projects and collaborate with filmmakers, actors, and musicians to bring ideas into production.",
+    "body": [
+      "We stay involved across the entire process, from the first conversation around a script to the final grade. Small team, full attention.",
+      "Founded in 2025. We take on a limited number of outside projects each year and get involved early. That's where we can contribute the most."
+    ],
+    "_team_note": "Edit name and role. Set 'photo' to a filename in assets/ to show a photo, or null for initials.",
+    "team": [
+      { "name": "Noée",   "role": null, "photo": null,                                   "initial": "N" },
+      { "name": "Simeon", "role": null, "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg",    "initial": "S" },
+      { "name": "Aylin",  "role": null, "photo": null,                                   "initial": "A" },
+      { "name": "Fleur",  "role": null, "photo": "Fleur_headshot_Slingshot_Studios.png", "initial": "F" }
+    ]
+  },
+
+  "contact": {
+    "section_heading": "Let's Build Something Together.",
+    "section_sub":     "Tell us what you're working on.",
+    "intro":           null,
+    "email":           null,
+    "_email_note":     "Email is hidden from the website for now to avoid spam. Set to your address to show it publicly once you have a dedicated contact address.",
+    "instagram":       "https://www.instagram.com/slingshot.studios.productions/",
+    "instagram_handle": "@slingshot.studios.productions",
+    "based":           "Paris",
+    "hours":           "Any day, by appointment. We're filmmakers. What's a weekend?",
+    "form_email_destination": "slingshotstudios@protonmail.com",
+    "_form_note":      "form_email_destination is where the contact form sends to. It is NOT shown publicly.",
+    "form_categories": [
+      "Actor services",
+      "Production",
+      "Post & Sound",
+      "Design",
+      "Something else"
+    ],
+    "form_consent": "We don't share your details.",
+    "form_submit":  "Send"
+  },
+
+  "footer": {
+    "tagline":  "An independent film collective. Based in Paris.",
+    "made":     "Made in Europe.",
+    "privacy":  "privacy.html",
+    "legal":    "legal.html",
+    "cookies":  "cookies.html",
+    "youtube":  "https://www.youtube.com/@Slingshot.Studios"
+  },
+
+  "bts": {
+    "section_heading": "Behind the scenes.",
+    "section_sub":     "Phones out, nothing staged.",
+    "_photos_note":    "Add BTS photos by adding items here. Files go in assets/. Any aspect ratio works — the grid handles it automatically.",
+    "photos": []
+  },
+
+  "impressum": {
+    "_note": "Required for European sites. Fill in your details for the legal.html page.",
+    "company_name":       "Slingshot Studios",
+    "legal_form":         "",
+    "address_line1":      "",
+    "address_line2":      "Paris, France",
+    "email":              "",
+    "responsible_person": "",
+    "vat_number":         "",
+    "registration":       ""
+  },
+
+  "cookie_banner": {
+    "message": "Minimal cookies, no cross-site tracking.",
+    "button":  "OK"
+  }
+}
