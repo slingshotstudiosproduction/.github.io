@@ -341,18 +341,13 @@ form button[type=submit]:hover{background:var(--fg);color:var(--bg)}
   display:flex;gap:0;white-space:nowrap;
   font-size:clamp(28px,5vw,72px);font-weight:300;letter-spacing:-.02em;color:var(--fm);
   animation:mq 32s linear infinite;
-  transform:translateZ(0);
-  -webkit-transform:translateZ(0);
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
 }
-/* pause only on explicit reduced-motion preference */
 @media(prefers-reduced-motion:reduce){.mq-t{animation:none}}
 .mq-t span{display:inline-flex;align-items:center;gap:48px}
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;opacity:.35}
 @keyframes mq{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-50%)}
+  0%  {transform:translate3d(0,0,0)}
+  100%{transform:translate3d(-50%,0,0)}
 }
 
 /* ── footer ───────────────────────────────────────────── */
@@ -573,22 +568,38 @@ function setupHero(C) {
   const heroYT   = h.hero_video_youtube_id;
 
   if (heroFile) {
-    vid.innerHTML = `
-      <video
-        id="heroVideo"
-        autoplay muted loop playsinline webkit-playsinline
-        class="hero-vid-el"
-        preload="auto"
-      >
-        <source src="assets/${heroFile}" type="video/mp4">
-      </video>`;
-    // force play — needed on some iOS versions where autoplay attr alone doesn't trigger
-    const heroVidEl = document.getElementById('heroVideo');
-    if (heroVidEl) {
-      const tryPlay = () => heroVidEl.play().catch(() => {});
-      heroVidEl.addEventListener('canplay', tryPlay, { once: true });
-      tryPlay();
-    }
+    // use createElement so element is fully controlled before DOM insertion
+    const v = document.createElement('video');
+    v.id = 'heroVideo';
+    v.className = 'hero-vid-el';
+    v.muted = true;
+    v.loop = true;
+    v.autoplay = true;
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('preload', 'auto');
+
+    // pick mobile or desktop source based on screen width
+    const mobileFile = h.hero_video_file_mobile;
+    const useMobile = mobileFile && window.innerWidth <= 760;
+    const src = useMobile ? `assets/${mobileFile}` : `assets/${heroFile}`;
+
+    const s = document.createElement('source');
+    s.src = src;
+    s.type = 'video/mp4';
+    v.appendChild(s);
+    vid.appendChild(v);
+
+    // attempt 1: immediate play
+    v.play().catch(() => {});
+
+    // attempt 2: play once enough data is buffered
+    v.addEventListener('canplaythrough', () => v.play().catch(() => {}), { once: true });
+
+    // attempt 3: iOS sometimes needs a user gesture — play on first scroll or touch
+    const unlockPlay = () => { v.play().catch(() => {}); };
+    document.addEventListener('touchstart', unlockPlay, { once: true, passive: true });
+    document.addEventListener('scroll',     unlockPlay, { once: true, passive: true });
   } else if (heroYT) {
     // fallback YouTube iframe if no file provided
     vid.innerHTML = `

@@ -62,7 +62,8 @@
     "cta_contact": "Get in touch",
     "scroll_hint": "Scroll",
     "hero_video_file": "Parasomnia Hero Video Slingshot Studios.mp4",
-    "_hero_video_note": "Self-hosted mp4 in assets/ folder. Autoplays muted on both desktop and mobile. Set to null to show black background.",
+    "hero_video_file_mobile": "Parasomnia Hero Video Mobile.mp4",
+    "_hero_video_note": "hero_video_file = full quality for desktop. hero_video_file_mobile = compressed version for mobile (under 8mb). Set hero_video_file_mobile to null to use the same file on both.",
     "hero_video_youtube_id": null,
     "_hero_youtube_note": "YouTube ID for hero background - disabled, using self-hosted file instead."
   },
