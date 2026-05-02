@@ -9,7 +9,7 @@
 <meta property="og:title" content="Slingshot Studios">
 <meta property="og:description" content="An independent film collective based in Paris.">
 <meta property="og:type" content="website">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <!-- Satoshi from Fontshare -->
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
 <!-- Plus Jakarta Sans from Google Fonts -->
@@ -427,8 +427,8 @@ footer{position:relative;z-index:2;margin-top:64px;padding:48px 0 28px;border-to
   <div class="wrap">
     <a class="brand" href="#top" id="brand-link">
       <span class="bm" id="logo-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
-          <path d="M3 21L21 3"/><path d="M15 3L21 3L21 9"/><circle cx="7" cy="17" r="2"/>
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+          <path fill="currentColor" d="M293.1,112.9C279.8,61.5,238,19.9,186.6,6.8C146.1-3.3,103.1,4,68.2,27c13.9,7.1,24.5,19.7,31.7,33.5s11.7,22.2,15.2,37.5c9.2-2.5,11.2-3,16.3-3.8c5.3-0.8,10.1-1.2,12.2-1.5c0,0-0.6-2.1-1.1-4.2c-6.5-24.9-17.2-44.1-31.7-65.3c-0.5-0.7-4.6-6.2-4.6-6.3c0-0.4,4.5-1.8,5.6-2.2c50.8-15.7,94.4,1.5,126,27.6c46.4,38.5,56.2,114.2,38.1,152.6c0.7-2.8-5.4-24-6.2-26.2c-7.2-18.8-13.2-27-30.8-40.7c-16.4-12.7-36.5-19.9-56.9-22.7c-16-2.2-32.3-1.8-48.2,1c-6,1.1-12,2.4-17.9,4.1c-3.3,0.9-6.5,1.7-9.8,2.4c-24.2,4.9-47.7,2.2-66.3-6.6L39,106c-8.9-4.2-16.8-10.1-23.4-17.4c-33.9,74.2-1.1,161.9,73.1,195.7c46.8,21.3,101.3,16.8,143.9-11.9C284,237.8,308.6,172.8,293.1,112.9z M217.5,242.1c-10.8,10.9-22.7,17.9-36.8,24.1c-14.8,6.6-31.3,7.4-47.2,7.1c-31.6-0.6-64.4-11.9-86.8-34.1c-26.4-26-43.6-73.9-33.9-111.2c0.7,0.2,1.3,0.6,2,0.8c20,7.9,40.3,13.6,61.3,13.7c29.3,0.2,56.9-12.8,86.4-11.1c25,1.4,51,11.3,65.3,32.9c3.3,5,5.9,10.5,7.6,16.3C242.2,203.5,233.4,226.1,217.5,242.1z"/>
         </svg>
       </span>
       <span id="brand-name">Slingshot Studios</span>
@@ -515,29 +515,21 @@ function boot(C) {
 function setupMeta(C) {
   document.querySelector('meta[name="description"]').content = C.site.description;
   // logo
+  // The logo SVG is already inlined in the HTML — it renders instantly and switches
+  // colour via currentColor with no flash and no file dependency.
+  // Set logo.file in content.json to fetch and replace it with a new logo SVG.
+  // On failure the inline version stays — no broken state.
   const mark = document.getElementById('logo-mark');
   if (C.logo && C.logo.file) {
-    // Hide and clear the default icon immediately — before the async fetch —
-    // so the fallback arrow never flashes while the custom logo loads
-    mark.style.opacity = '0';
-    mark.innerHTML = '';
     fetch('assets/' + C.logo.file)
-      .then(r => r.text())
+      .then(r => { if (!r.ok) throw new Error('not found'); return r.text(); })
       .then(svgText => {
         const clean = svgText.replace(/<\?xml[^>]*\?>/gi, '').trim();
         mark.innerHTML = clean;
         const s = mark.querySelector('svg');
-        if (s) {
-          s.removeAttribute('width');
-          s.removeAttribute('height');
-          s.style.cssText = 'width:100%;height:100%;display:block';
-        }
-        mark.style.opacity = '1';
+        if (s) { s.removeAttribute('width'); s.removeAttribute('height'); s.style.cssText = 'width:100%;height:100%;display:block'; }
       })
-      .catch(() => {
-        mark.innerHTML = `<img src="assets/${C.logo.file}" alt="${C.site.title} logo">`;
-        mark.style.opacity = '1';
-      });
+      .catch(() => { /* file not found — inline logo stays, nothing breaks */ });
   }
 }
 
