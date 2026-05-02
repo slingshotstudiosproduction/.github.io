@@ -56,7 +56,7 @@
       "Built together, launched forward."
     ],
     "kicker":      "An independent film collective",
-    "tagline":     "Film · Music · Actor Services. Based in Paris.",
+    "tagline":     "Film · Music · Actor Services  |  Paris-based · UK represented.",
     "cta_work":    "Explore Our Work",
     "cta_actors":  "For actors",
     "cta_contact": "Get in touch",
@@ -194,38 +194,38 @@
 
   "post": {
     "section_heading": "From assembly to final mix.",
-    "section_sub":     "We handle editing, colour grading, sound design, and original music — everything that happens after the shoot. We work from first assembly through to final mix, all in-house.",
+    "section_sub":     "Post-production handled in-house. From first assembly to final mix.",
     "services": [
       {
         "label": "Edit",
         "title": "Assembly & Edit",
-        "body":  "From first cut to locked picture: narrative, short-form, game trailers.",
-        "list":  ["First assembly", "Narrative edit", "Demo reel edit"]
+        "body":  "First cut through to locked picture, for short films, trailers, and reels.",
+        "list":  ["First assembly", "Narrative edit", "Reel edit"]
       },
       {
         "label": "Colour",
         "title": "Colour Grading",
-        "body":  "Cinematic grading that serves the image rather than overwriting it.",
-        "list":  ["Colour correction", "Colour grading", "Creative looks"]
+        "body":  "Grading that serves the image, not a preset.",
+        "list":  ["Colour correction", "Creative look"]
       },
       {
         "label": "Sound",
-        "title": "Sound Design & Mix",
-        "body":  "Sound design, dialogue edit, and sound effects for film and game audio.",
-        "list":  ["Sound design", "Dialogue edit", "Custom sound effects"]
+        "title": "Sound & Mix",
+        "body":  "Sound design and dialogue, cut and mixed to picture.",
+        "list":  ["Sound design", "Dialogue edit"]
       },
       {
         "label": "Music",
         "title": "Original Score",
-        "body":  "Music for film, short-form content, and games: composed and produced together.",
-        "list":  ["Film score", "Game audio", "Sound branding"]
+        "body":  "Music composed and built around the project, in-house.",
+        "list":  ["Film score", "Game audio"]
       }
     ]
   },
 
   "design": {
     "section_heading": "Poster Design.",
-    "section_sub":     "We design key art that gives a film its face before anyone sees a frame. Starting from the image, working outward.",
+    "section_sub":     "We design key art that gives a film its face before anyone sees a frame.",
     "poster_label":    "Poster design",
     "_posters_note":   "Add posters by adding items to this array. File must be in assets/. 3 side by side on desktop, swipeable on mobile.",
     "_item_note":      "Each poster: 'file' is the image filename in assets/, 'title' is the film name shown on hover, 'credit' is the small label shown below the title.",
@@ -245,10 +245,10 @@
     ],
     "_team_note": "Edit name and role. Set 'photo' to a filename in assets/ to show a photo, or null for initials.",
     "team": [
-      { "name": "Noée",   "role": null, "photo": null,                                   "initial": "N" },
-      { "name": "Simeon", "role": "https://www.instagram.com/see.me.on.insta/", "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg",    "initial": "S" },
-      { "name": "Aylin",  "role": null, "photo": null,                                   "initial": "A" },
-      { "name": "Fleur",  "role": null, "photo": "Fleur_headshot_Slingshot_Studios.png", "initial": "F" }
+      { "name": "Noée",   "role": null, "ig_handle": "@noeeandraos",     "ig_url": "https://www.instagram.com/noeeandraos/",     "photo": null,                                   "initial": "N" },
+      { "name": "Simeon", "role": null, "ig_handle": "@see.me.on.insta", "ig_url": "https://www.instagram.com/see.me.on.insta/", "photo": "VON_AULOCK_Simeon_HEADSHOT_01.jpg",    "initial": "S" },
+      { "name": "Aylin",  "role": null, "ig_handle": "@aysaralin",       "ig_url": "https://www.instagram.com/aysaralin/",       "photo": null,                                   "initial": "A" },
+      { "name": "Fleur",  "role": null, "ig_handle": "@fleur_elisee",    "ig_url": "https://www.instagram.com/fleur_elisee/",    "photo": "Fleur_headshot_Slingshot_Studios.png", "initial": "F" }
     ]
   },
 
@@ -276,7 +276,7 @@
   },
 
   "footer": {
-    "tagline":  "An independent film collective. Based in Paris.",
+    "tagline":  "An independent film collective. Paris-based · UK represented.",
     "made":     "Made in Europe.",
     "privacy":  "privacy.html",
     "legal":    "legal.html",
