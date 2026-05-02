@@ -9,6 +9,7 @@
 <meta property="og:title" content="Slingshot Studios">
 <meta property="og:description" content="An independent film collective based in Paris.">
 <meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <!-- Satoshi from Fontshare -->
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
 <!-- Plus Jakarta Sans from Google Fonts -->
@@ -58,8 +59,15 @@ section{position:relative;z-index:2}
 .boot-d5{animation-delay:.54s}
 
 /* ── nav ──────────────────────────────────────────────── */
-.nav{position:fixed;top:0;left:0;right:0;z-index:80;padding:15px 0;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:rgba(11,11,11,.75);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--ln);transition:background .4s,border-color .4s}
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;padding:15px 0;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:rgba(11,11,11,.75);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--ln);transition:background .4s,border-color .4s,color .4s}
 .nav.top{background:transparent;border-bottom-color:transparent}
+/* hero overlay: nav always reads white over the dark hero video, regardless of day/night mode */
+.nav.top{color:rgba(255,255,255,.9)}
+.nav.top .menu{color:rgba(255,255,255,.5)}
+.nav.top .menu a:hover{color:#fff}
+.nav.top .mode-btn{border-color:rgba(255,255,255,.22)}
+.nav.top .tog{border-color:rgba(255,255,255,.22)}
+.nav.top .tog span,.nav.top .tog span::before,.nav.top .tog span::after{background:#fff}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
 .bm{width:22px;height:22px;flex-shrink:0}
