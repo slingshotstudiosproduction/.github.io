@@ -35,7 +35,7 @@
   },
 
   "logo": {
-    "file": null,
+    "file": "SLINGSHOT_STUDIOS_LOGO_WHITE.svg",
     "_note": "Set to a filename like 'logo.svg' to use your own logo from the assets/ folder. null uses the built-in icon."
   },
 
